@@ -1,0 +1,39 @@
+{
+  "name": "vue-webpack",
+  "description": "A Vue.js project",
+  "version": "1.0.0",
+  "author": "Aries <aries@lay-bare.com>",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=development webpack --progress --hide-modules"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "croppie": "^2.6.1",
+    "vue": "^2.5.13",
+    "vue-form-wizard": "^0.6.6",
+    "vue-good-table": "^1.19.2",
+    "vue-good-wizard": "^1.1.2",
+    "vue-location-picker": "^1.0.1",
+    "vue-router": "^2.8.1",
+    "vue-select": "^2.4.0",
+    "vue2-google-maps": "^0.8.3",
+    "vuejs-datepicker": "^0.9.25",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
+    "babel-preset-env": "^1.5.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "cross-env": "^3.0.0",
+    "css-loader": "^0.25.0",
+    "file-loader": "^0.9.0",
+    "vue-loader": "^12.1.0",
+    "vue-template-compiler": "^2.5.13",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.11.1"
+  }
+}
