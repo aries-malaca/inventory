@@ -182,14 +182,12 @@
             return{
                 categoryTable:{
                     columns: [
-                        { label: 'ID', field: 'id' },
                         { label: 'Category Name', field: 'category_name', filterable:true },
                     ],
                     rowClicked: this.viewCategory,
                 },
                 priceTable:{
                     columns: [
-                        { label: 'ID', field: 'id' },
                         { label: 'Price Name', field: 'price_category_name', filterable:true  },
                         { label: 'Default Markup', field: 'default_markup_percent', filterable:true  },
                         { label: 'Min. Purchase', field: 'minimum_purchase_fixed', filterable:true  },
@@ -198,7 +196,6 @@
                 },
                 unitTable:{
                     columns: [
-                        { label: 'ID', field: 'id' },
                         { label: 'Unit Name', field: 'unit_name', filterable:true },
                     ],
                     rowClicked: this.viewUnit,

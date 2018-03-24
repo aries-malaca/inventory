@@ -165,28 +165,34 @@
                                                                     <table class="table table-condensed table-bordered table-hover" style="margin-bottom:0px">
                                                                         <thead>
                                                                             <tr>                                                                           
-                                                                                <th style="width:120px;"></th>
-                                                                                <th>%</th>
-                                                                                <th>Markup</th>
-                                                                                <th>Price w/o VAT</th>
-                                                                                <th>Price w/ VAT</th>
+                                                                                <th rowspan="2" style="width:120px;"></th>
+                                                                                <th colspan="2" style="text-align:center">Markup</th>
+                                                                                <th colspan="2" style="text-align:center">Selling</th>
+                                                                            </tr>
+                                                                            <tr>          
+                                                                                <th>Percentage</th>
+                                                                                <th>Markup Amount</th>
+                                                                                <th>W/O Vat</th>
+                                                                                <th>W/ Vat</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
                                                                             <tr v-for="(s,x) in p.selling" :style="s.selling_price <= 0 || (((s.selling_price - p.purchase_price) / p.purchase_price) * 100) <= 0 ?'background-color:#FF8888':''">
                                                                                 <td>{{ s.name }}</td>
                                                                                 <td>
-                                                                                    <input type="number" class="form-control" :value="(((s.selling_price - p.purchase_price) / p.purchase_price) * 100).toFixed(2)" />
+                                                                                    <input type="number" @change="mutateSellingPrice($event, key,index,x, 'percentage')"
+                                                                                        class="form-control" :value="(((s.selling_price - p.purchase_price) / p.purchase_price) * 100).toFixed(2)" />
                                                                                 </td>
                                                                                 <td>
-                                                                                    <input type="number" class="form-control" :value="(s.selling_price - p.purchase_price).toFixed(2)"/>
+                                                                                    <input type="number" @change="mutateSellingPrice($event, key,index,x, 'amount')"
+                                                                                        class="form-control" :value="(s.selling_price - p.purchase_price).toFixed(2)"/>
                                                                                 </td>
                                                                                 <td>
                                                                                     <input type="number" class="form-control" v-model.number="newProduct.product_units[key].pricing[index].selling[x].selling_price"/>
                                                                                 </td>
                                                                                 <td>
                                                                                     <input type="number" disabled class="form-control" 
-                                                                                    v-bind:value="s + (s*settings.default_vat_percentage) "/>
+                                                                                    v-bind:value="(s.selling_price + ((s.selling_price*settings.default_vat_percentage)/100)).toFixed(2) "/>
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
@@ -406,6 +412,16 @@
                         XHRCatcher(error);
                     });
             },
+            mutateSellingPrice(event,key,index,x,type){
+                if(type==='percentage'){
+                    this.newProduct.product_units[key].pricing[index].selling[x].selling_price = 
+                       this.newProduct.product_units[key].pricing[index].purchase_price + ((this.newProduct.product_units[key].pricing[index].purchase_price*Number(event.target.value))/100)  
+                }
+                else{
+                    this.newProduct.product_units[key].pricing[index].selling[x].selling_price = 
+                       Number(event.target.value) + this.newProduct.product_units[key].pricing[index].purchase_price;
+                }
+            }
         },
         computed:{
             products(){
