@@ -82,6 +82,45 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <h4>Pictures</h4>
+                                    <div class="row">
+                                        <div class="col-md-3" v-for="(pic,key) in newProduct.pictures_data">
+                                            <ul class="list-unstyled profile-nav" style="margin-top:5px">
+                                                <li>
+                                                    <img v-bind:src="'images/products/'+ pic" class="img-responsive pic-bordered" alt="" />
+                                                    <div>
+                                                        <a @click="showUploadModal(key)" class="profile-edit"> <i class="fa fa-pencil"></i> </a>
+                                                        <a @click="removePicture(key,pic)" style="margin-top:30px" class="profile-edit"> <i class="fa fa-close"></i> </a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn btn-success" @click="showUploadModal(newProduct.pictures_data.length)">Add Photo</button>
+                                        </div>
+                                    </div>
+                                    <div v-for="(pic, key) in newProduct.pictures_data">
+                                        <uploader
+                                            @refresh_host="viewProduct(newProduct)"
+                                            category="product"
+                                            :param_url="'product_id='+newProduct.id+'&key='+key"
+                                            :placeholder_image="'images/products/'+newProduct.pictures_data[key]"
+                                            :modal_id="'upload-picture-modal-'+key"
+                                            :form_id="'upload-user-picture-form-'+key"
+                                            :input_id="'file-'+key">
+                                        </uploader>
+                                    </div>
+                                    <div v-if="newProduct.pictures_data !== undefined">
+                                        <uploader
+                                            @refresh_host="viewProduct(newProduct)"
+                                            category="product"
+                                            :param_url="'product_id='+newProduct.id+'&key='+(newProduct.pictures_data.length)"
+                                            :placeholder_image="'images/products/'+newProduct.pictures_data[(newProduct.pictures_data.length)]"
+                                            :modal_id="'upload-picture-modal-'+(newProduct.pictures_data.length)"
+                                            :form_id="'upload-user-picture-form-'+(newProduct.pictures_data.length)"
+                                            :input_id="'file-'+(newProduct.pictures_data.length)">
+                                        </uploader>
+                                    </div>
                                 </div>
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="units">
@@ -230,11 +269,12 @@
 </template>
 <script>
     import DataTable from '../components/DataTable.vue';
+    import Uploader from "../modals/UploadPictureModalSmall.vue";
     import VueSelect from 'vue-select';
 
     export default {
         name: 'ProductsList',
-        components:{ DataTable, VueSelect },
+        components:{ DataTable, VueSelect, Uploader },
         data(){
             return{
                 barcode:'',
@@ -328,6 +368,7 @@
                             product_description:response.data.product_description,
                             category:cat===undefined?null:cat,
                             product_units:[],
+                            pictures_data:response.data.pictures_data,
                             is_active:response.data.is_active
                         };
 
@@ -421,7 +462,31 @@
                     this.newProduct.product_units[key].pricing[index].selling[x].selling_price = 
                        Number(event.target.value) + this.newProduct.product_units[key].pricing[index].purchase_price;
                 }
-            }
+            },
+            removePicture(key, name){
+                if(name === 'no photo.jpg'){
+                    this.newProduct.pictures_data.splice(key, 1);
+                    return false;
+                }
+                if(confirm("Are you sure you want to delete this?")){
+                    let u = this;
+                    axios.post('/api/product/removePicture?token=' + this.token, {product_id:this.newProduct.id, key: key})
+                    .then(function (response) {
+                        toastr.success(response.data.message);
+                        u.viewProduct(u.newProduct);
+                    })
+                    .catch(function (error) {
+                        XHRCatcher(error);
+                    });
+                }
+            },
+            showUploadModal:function (key) {
+                $("#upload-picture-modal-"+key).modal("show");
+                try{
+                    $("form")[key].reset();
+                }
+                catch(error){}
+            },
         },
         computed:{
             products(){

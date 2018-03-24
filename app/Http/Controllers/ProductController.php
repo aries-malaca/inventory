@@ -29,6 +29,7 @@ class ProductController extends Controller{
         $product = Product::find($request->segment(4));
         if($product->id !== null){
             $product['product_units'] = $product->units()->get();
+            $product['pictures_data'] = json_decode($product->pictures_data);
             foreach($product['product_units'] as $key=>$value){
                 $product['product_units'][$key]['pricing'] = $value->prices()->get();
 
@@ -38,29 +39,6 @@ class ProductController extends Controller{
             return response()->json($product);
         }
         return response()->json(["result"=>"failed"], 404);
-    }
-
-    //disconnected from get products
-    function hasWrongPrice($product_units){
-        foreach($product_units as $key=>$value){
-            if($key!=0){
-                if($value['purchase_price'] != ($product_units[$key-1]['purchase_price'] / $value['quantity']) )
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    //disconnected from get products
-    function getRecentPurchases($product){
-        $get = PurchaseItem::leftJoin('purchases','purchase_items.purchase_id','=','purchases.id')
-                            ->leftJoin('suppliers','purchases.supplier_id','suppliers.id')
-                            ->where('product_id', $product)
-                            ->where('purchase_status','approved')
-                            ->orderBy('date_transaction','DESC')
-                            ->take(5)
-                            ->get()->toArray();
-        return $get;
     }
 
     function addProduct(Request $request){
@@ -81,7 +59,7 @@ class ProductController extends Controller{
         $product->sub_category_id = 0;
         $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
         $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
-        $product->is_active = 1;
+        $product->is_active = $request->input('is_active');
         $product->pictures_data = '[]';
 
         if($this->checkDuplicateName($product->product_name))
@@ -116,7 +94,7 @@ class ProductController extends Controller{
             }
         }
 
-        return response()->json(['result'=>'success']);
+        return response()->json(['result'=>'success','message'=>'Product has been added.']);
     }
 
     function updateProduct(Request $request){
@@ -139,7 +117,7 @@ class ProductController extends Controller{
         $product->sub_category_id = 0;
         $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
         $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
-        $product->is_active = 1;
+        $product->is_active = $request->input('is_active');
         $product->pictures_data = '[]';
 
         if($this->checkDuplicateName($product->product_name, $request->input('id')))
@@ -174,7 +152,50 @@ class ProductController extends Controller{
             }
         }
 
-        return response()->json(['result'=>'success']);
+        return response()->json(['result'=>'success','message'=>'Product has been updated.']);
+    }
+
+    public function uploadPicture(Request $request){
+        $api = $this->authenticateAPI();
+        if($api['result'] === 'success') {
+            //valid extensions
+            $valid_ext = array('jpeg', 'gif', 'png', 'jpg');
+            //check if the file is submitted
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $ext = $file->getClientOriginalExtension();
+                //check if extension is valid
+                if (in_array($ext, $valid_ext)) {
+                    $timestamp = time().'.'.$ext ;
+                    $file->move('images/products/', $request->input('product_id') . '_' . $timestamp);
+                    $product = Product::find($request->input('product_id'));
+                    $pics = json_decode($product->pictures_data,true);
+                    $pics[$request->input('key')] = $request->input('product_id') . '_' . $timestamp;
+                    $product->pictures_data = json_encode($pics);
+                    $product->save();
+                    return response()->json(["result"=>"success",'message'=>'Picture has been uploaded.'],200);
+                }
+                return response()->json(["result"=>"failed","error"=>"Invalid File Format."],400);
+            }
+            return response()->json(["result"=>"failed","error"=>"No File to be uploaded."], 400);
+        }
+        return response()->json($api, $api["status_code"]);
+    }
+
+    function removePicture(Request $request){
+        $api = $this->authenticateAPI();
+        if($api['result'] === 'success') {
+            $product = Product::find($request->input('product_id'));
+            $pics = json_decode($product->pictures_data,true);
+            $file_name = $pics[$request->input('key')];
+            unset($pics[$request->input('key')]);
+            $product->pictures_data = json_encode($pics);
+            if(file_exists(public_path('/images/products/'.$file_name)))
+                unlink(public_path('/images/products/'.$file_name));
+            $product->save();
+            return response()->json(["result"=>"success","message"=>"Picture has been deleted"],200);
+        }
+        return response()->json($api, $api["status_code"]);
     }
 
     function clearProductUnits($product_id){

@@ -17,6 +17,8 @@ Route::get('/product/getCategories', 'ProductMiscController@getCategories');
 Route::post('/product/addCategory', 'ProductMiscController@addCategory');
 Route::post('/product/updateCategory', 'ProductMiscController@updateCategory');
 Route::get('/product/getTempID', 'ProductController@getTempID');
+Route::post('/product/uploadPicture', 'ProductController@uploadPicture');
+Route::post('/product/removePicture', 'ProductController@removePicture');
 //Route::get('/product/mergeProductName', 'ProductController@mergeProductName');
 
 Route::get('/product/getUnits', 'ProductMiscController@getUnits');

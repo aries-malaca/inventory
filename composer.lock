@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "20d83819e480c2a713a123206814f82b",
+    "content-hash": "0e0a07748cf1e201c9cbe76fc64f638e",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1056,6 +1056,89 @@
                 "php"
             ],
             "time": "2018-01-25T21:31:33+00:00"
+        },
+        {
+            "name": "owen-it/laravel-auditing",
+            "version": "v6.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/owen-it/laravel-auditing.git",
+                "reference": "953f175307532cfd61d447229fd3fbb95d5a5e0d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/owen-it/laravel-auditing/zipball/953f175307532cfd61d447229fd3fbb95d5a5e0d",
+                "reference": "953f175307532cfd61d447229fd3fbb95d5a5e0d",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.*",
+                "illuminate/database": "5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.*",
+                "illuminate/filesystem": "5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.*",
+                "php": ">=7.0.13"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/database": "^3.5",
+                "orchestra/testbench": "^3.5",
+                "phpunit/phpunit": "^6.0"
+            },
+            "suggest": {
+                "laravelista/lumen-vendor-publish": "Needed to publish the package configuration in Lumen"
+            },
+            "type": "package",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "OwenIt\\Auditing\\AuditingServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OwenIt\\Auditing\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Quetzy Garcia",
+                    "email": "quetzyg@altek.org"
+                },
+                {
+                    "name": "Antério Vieira",
+                    "email": "anteriovieira@gmail.com"
+                },
+                {
+                    "name": "Raphael França",
+                    "email": "raphaelfrancabsb@gmail.com"
+                }
+            ],
+            "description": "Audit changes of your Eloquent models in Laravel/Lumen",
+            "homepage": "http://laravel-auditing.com",
+            "keywords": [
+                "Accountability",
+                "Audit",
+                "auditing",
+                "changes",
+                "eloquent",
+                "history",
+                "laravel",
+                "log",
+                "logging",
+                "lumen",
+                "observer",
+                "record",
+                "revision",
+                "tracking"
+            ],
+            "time": "2018-02-15T16:23:28+00:00"
         },
         {
             "name": "paragonie/random_compat",

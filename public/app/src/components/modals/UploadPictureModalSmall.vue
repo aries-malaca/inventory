@@ -8,7 +8,6 @@
                 </div>
                 <div class="modal-body">
                     <upload-form
-                            :token="token"
                             :input_id="input_id"
                             :form_id="form_id"
                             :category="category"
@@ -19,7 +18,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn" @click="closeMe">Close</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -32,12 +31,15 @@
     import UploadForm from '../components/UploadForm.vue';
     export default {
         name: 'UploadPictureModal',
-        props:['token','category','param_url','placeholder_image','modal_id','form_id','input_id'],
+        props:['category','param_url','placeholder_image','modal_id','form_id','input_id'],
         components: { UploadForm },
         methods:{
             refreshHost:function(){
                 this.$emit('refresh_host');
                 $("#"+this.modal_id).modal("hide");
+            },
+            closeMe(){
+                 $("#"+this.modal_id).modal("hide");
             }
         }
     }
