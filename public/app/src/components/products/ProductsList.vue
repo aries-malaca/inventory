@@ -82,44 +82,46 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <h4>Pictures</h4>
-                                    <div class="row">
-                                        <div class="col-md-3" v-for="(pic,key) in newProduct.pictures_data">
-                                            <ul class="list-unstyled profile-nav" style="margin-top:5px">
-                                                <li>
-                                                    <img v-bind:src="'images/products/'+ pic" class="img-responsive pic-bordered" alt="" />
-                                                    <div>
-                                                        <a @click="showUploadModal(key)" class="profile-edit"> <i class="fa fa-pencil"></i> </a>
-                                                        <a @click="removePicture(key,pic)" style="margin-top:30px" class="profile-edit"> <i class="fa fa-close"></i> </a>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                    <div v-if="newProduct.id !== 0">
+                                        <h4>Pictures</h4>
+                                        <div class="row">
+                                            <div class="col-md-3" v-for="(pic,key) in newProduct.pictures_data">
+                                                <ul class="list-unstyled profile-nav" style="margin-top:5px">
+                                                    <li>
+                                                        <img v-bind:src="'images/products/'+ pic" class="img-responsive pic-bordered" alt="" />
+                                                        <div>
+                                                            <a @click="showUploadModal(key)" class="profile-edit"> <i class="fa fa-pencil"></i> </a>
+                                                            <a @click="removePicture(key,pic)" style="margin-top:30px" class="profile-edit"> <i class="fa fa-close"></i> </a>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-success" @click="showUploadModal(newProduct.pictures_data.length)">Add Photo</button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <button class="btn btn-success" @click="showUploadModal(newProduct.pictures_data.length)">Add Photo</button>
+                                        <div v-for="(pic, key) in newProduct.pictures_data">
+                                            <uploader
+                                                @refresh_host="viewProduct(newProduct)"
+                                                category="product"
+                                                :param_url="'product_id='+newProduct.id+'&key='+key"
+                                                :placeholder_image="'images/products/'+newProduct.pictures_data[key]"
+                                                :modal_id="'upload-picture-modal-'+key"
+                                                :form_id="'upload-user-picture-form-'+key"
+                                                :input_id="'file-'+key">
+                                            </uploader>
                                         </div>
-                                    </div>
-                                    <div v-for="(pic, key) in newProduct.pictures_data">
-                                        <uploader
-                                            @refresh_host="viewProduct(newProduct)"
-                                            category="product"
-                                            :param_url="'product_id='+newProduct.id+'&key='+key"
-                                            :placeholder_image="'images/products/'+newProduct.pictures_data[key]"
-                                            :modal_id="'upload-picture-modal-'+key"
-                                            :form_id="'upload-user-picture-form-'+key"
-                                            :input_id="'file-'+key">
-                                        </uploader>
-                                    </div>
-                                    <div v-if="newProduct.pictures_data !== undefined">
-                                        <uploader
-                                            @refresh_host="viewProduct(newProduct)"
-                                            category="product"
-                                            :param_url="'product_id='+newProduct.id+'&key='+(newProduct.pictures_data.length)"
-                                            :placeholder_image="'images/products/'+newProduct.pictures_data[(newProduct.pictures_data.length)]"
-                                            :modal_id="'upload-picture-modal-'+(newProduct.pictures_data.length)"
-                                            :form_id="'upload-user-picture-form-'+(newProduct.pictures_data.length)"
-                                            :input_id="'file-'+(newProduct.pictures_data.length)">
-                                        </uploader>
+                                        <div v-if="newProduct.pictures_data !== undefined">
+                                            <uploader
+                                                @refresh_host="viewProduct(newProduct)"
+                                                category="product"
+                                                :param_url="'product_id='+newProduct.id+'&key='+(newProduct.pictures_data.length)"
+                                                :placeholder_image="'images/products/'+newProduct.pictures_data[(newProduct.pictures_data.length)]"
+                                                :modal_id="'upload-picture-modal-'+(newProduct.pictures_data.length)"
+                                                :form_id="'upload-user-picture-form-'+(newProduct.pictures_data.length)"
+                                                :input_id="'file-'+(newProduct.pictures_data.length)">
+                                            </uploader>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- /.tab-pane -->
