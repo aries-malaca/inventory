@@ -42,117 +42,125 @@ class ProductController extends Controller{
     }
 
     function addProduct(Request $request){
-        $validator = Validator::make($request->all(), [
-            'product_code' => 'required|unique:products,product_code|max:255',
-        ]);
+        $api = $this->authenticateAPI();
+        if($api['result'] === 'success') {
+            $validator = Validator::make($request->all(), [
+                'product_code' => 'required|unique:products,product_code|max:255',
+            ]);
 
-        if ($validator->fails())
-            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
-        
-        if($errors = $this->evaluateUnits($request->input('product_units')))
-            return response()->json(['result'=>'failed', 'errors'=>$errors], 400);
-        
-        $product = new Product;
-        $product->product_code = $request->input('product_code');
-        $product->brand_name = ($request->input('brand_name')!==null?$request->input('brand_name'):'');
-        $product->category_id = $request->input('category')['value'];
-        $product->sub_category_id = 0;
-        $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
-        $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
-        $product->is_active = $request->input('is_active');
-        $product->pictures_data = '[]';
+            if ($validator->fails())
+                return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
+            
+            if($errors = $this->evaluateUnits($request->input('product_units')))
+                return response()->json(['result'=>'failed', 'errors'=>$errors], 400);
+            
+            $product = new Product;
+            $product->product_code = $request->input('product_code');
+            $product->brand_name = ($request->input('brand_name')!==null?$request->input('brand_name'):'');
+            $product->category_id = $request->input('category')['value'];
+            $product->sub_category_id = 0;
+            $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
+            $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
+            $product->is_active = $request->input('is_active');
+            $product->pictures_data = '[]';
 
-        if($this->checkDuplicateName($product->product_name))
-            return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.'], 400);
+            if($this->checkDuplicateName($product->product_name))
+                return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.'], 400);
 
-        $product->save();
+            $product->save();
 
-        foreach($request->input('product_units') as $key=>$value){
-            $unit = new ProductUnit;
-            $unit->product_id = $product->id;
-            $unit->unit_id = $value['unit']['id'];
-            $unit->parent_unit_id = $key===0?0:$value['parent_unit_id'];
-            $unit->info = $value['info'];
-            $unit->quantity_per_parent = $value['quantity_per_parent'];
-            $unit->barcode = $value['barcode'];
-            $unit->save();
+            foreach($request->input('product_units') as $key=>$value){
+                $unit = new ProductUnit;
+                $unit->product_id = $product->id;
+                $unit->unit_id = $value['unit']['id'];
+                $unit->parent_unit_id = $key===0?0:$value['parent_unit_id'];
+                $unit->info = $value['info'];
+                $unit->quantity_per_parent = $value['quantity_per_parent'];
+                $unit->barcode = $value['barcode'];
+                $unit->save();
 
-            foreach($value['pricing'] as $k=>$v){
-                $price = new ProductPrice;
-                $price->purchase_price = $v['purchase_price'];
-                $price->remarks= $v['remarks'];
-                $price->product_unit_id = $unit->id;
-                $price->save();
+                foreach($value['pricing'] as $k=>$v){
+                    $price = new ProductPrice;
+                    $price->purchase_price = $v['purchase_price'];
+                    $price->remarks= $v['remarks'];
+                    $price->product_unit_id = $unit->id;
+                    $price->save();
 
-                foreach($v['selling'] as $e=>$f){
-                    $selling = new ProductSellingPrice;
-                    $selling->price_category_id = $f['price_category_id'];
-                    $selling->selling_price = $f['selling_price'];
-                    $selling->product_price_id = $price->id;
-                    $selling->save();
-                }   
+                    foreach($v['selling'] as $e=>$f){
+                        $selling = new ProductSellingPrice;
+                        $selling->price_category_id = $f['price_category_id'];
+                        $selling->selling_price = $f['selling_price'];
+                        $selling->product_price_id = $price->id;
+                        $selling->save();
+                    }   
+                }
             }
-        }
 
-        return response()->json(['result'=>'success','message'=>'Product has been added.']);
+            return response()->json(['result'=>'success','message'=>'Product has been added.']);
+        }
+        return response()->json($api, $api["status_code"]);
     }
 
     function updateProduct(Request $request){
-        $validator = Validator::make($request->all(), [
-            'product_code' => 'required|unique:products,product_code,'.$request->input('id').'|max:255',
-          ]);
+        $api = $this->authenticateAPI();
+        if($api['result'] === 'success') {
+            $validator = Validator::make($request->all(), [
+                'product_code' => 'required|unique:products,product_code,'.$request->input('id').'|max:255',
+            ]);
 
-        if ($validator->fails())
-            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
-        
-        if($errors = $this->evaluateUnits($request->input('product_units')))
-            return response()->json(['result'=>'failed', 'errors'=>$errors], 400);
+            if ($validator->fails())
+                return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
+            
+            if($errors = $this->evaluateUnits($request->input('product_units')))
+                return response()->json(['result'=>'failed', 'errors'=>$errors], 400);
 
-        $product = Product::find($request->input('id'));
-        $this->clearProductUnits($request->input('id'));
+            $product = Product::find($request->input('id'));
+            $this->clearProductUnits($request->input('id'));
 
-        $product->product_code = $request->input('product_code');
-        $product->brand_name = ($request->input('brand_name')!==null?$request->input('brand_name'):'');
-        $product->category_id = $request->input('category')['value'];
-        $product->sub_category_id = 0;
-        $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
-        $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
-        $product->is_active = $request->input('is_active');
-        $product->pictures_data = '[]';
+            $product->product_code = $request->input('product_code');
+            $product->brand_name = ($request->input('brand_name')!==null?$request->input('brand_name'):'');
+            $product->category_id = $request->input('category')['value'];
+            $product->sub_category_id = 0;
+            $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
+            $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
+            $product->is_active = $request->input('is_active');
+            $product->pictures_data = json_encode($request->input('pictures_data'));
 
-        if($this->checkDuplicateName($product->product_name, $request->input('id')))
-            return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.'], 400);
+            if($this->checkDuplicateName($product->product_name, $request->input('id')))
+                return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.'], 400);
 
-        $product->save();
+            $product->save();
 
-        foreach($request->input('product_units') as $key=>$value){
-            $unit = new ProductUnit;
-            $unit->product_id = $product->id;
-            $unit->unit_id = $value['unit']['id'];
-            $unit->parent_unit_id = $key===0?0:$value['parent_unit_id'];
-            $unit->info = $value['info'];
-            $unit->quantity_per_parent = $value['quantity_per_parent'];
-            $unit->barcode = $value['barcode'];
-            $unit->save();
+            foreach($request->input('product_units') as $key=>$value){
+                $unit = new ProductUnit;
+                $unit->product_id = $product->id;
+                $unit->unit_id = $value['unit']['id'];
+                $unit->parent_unit_id = $key===0?0:$value['parent_unit_id'];
+                $unit->info = $value['info'];
+                $unit->quantity_per_parent = $value['quantity_per_parent'];
+                $unit->barcode = $value['barcode'];
+                $unit->save();
 
-            foreach($value['pricing'] as $k=>$v){
-                $price = new ProductPrice;
-                $price->purchase_price = $v['purchase_price'];
-                $price->remarks= $v['remarks'];
-                $price->product_unit_id = $unit->id;
-                $price->save();
+                foreach($value['pricing'] as $k=>$v){
+                    $price = new ProductPrice;
+                    $price->purchase_price = $v['purchase_price'];
+                    $price->remarks= $v['remarks'];
+                    $price->product_unit_id = $unit->id;
+                    $price->save();
 
-                foreach($v['selling'] as $e=>$f){
-                    $selling = new ProductSellingPrice;
-                    $selling->price_category_id = $f['price_category_id'];
-                    $selling->selling_price = $f['selling_price'];
-                    $selling->product_price_id = $price->id;
-                    $selling->save();
-                }   
+                    foreach($v['selling'] as $e=>$f){
+                        $selling = new ProductSellingPrice;
+                        $selling->price_category_id = $f['price_category_id'];
+                        $selling->selling_price = $f['selling_price'];
+                        $selling->product_price_id = $price->id;
+                        $selling->save();
+                    }   
+                }
             }
-        }
 
-        return response()->json(['result'=>'success','message'=>'Product has been updated.']);
+            return response()->json(['result'=>'success','message'=>'Product has been updated.']);
+        }
+        return response()->json($api, $api["status_code"]);
     }
 
     public function uploadPicture(Request $request){
