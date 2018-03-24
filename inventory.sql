@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2018 at 05:38 PM
+-- Generation Time: Mar 24, 2018 at 04:52 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -21,6 +21,40 @@ SET time_zone = "+00:00";
 --
 -- Database: `inventory`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `audits`
+--
+
+CREATE TABLE `audits` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
+  `event` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `auditable_id` int(10) UNSIGNED NOT NULL,
+  `auditable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `old_values` text COLLATE utf8mb4_unicode_ci,
+  `new_values` text COLLATE utf8mb4_unicode_ci,
+  `url` text COLLATE utf8mb4_unicode_ci,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `audits`
+--
+
+INSERT INTO `audits` (`id`, `user_id`, `event`, `auditable_id`, `auditable_type`, `old_values`, `new_values`, `url`, `ip_address`, `user_agent`, `tags`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'updated', 8, 'App\\Product', '{\"pictures_data\":\"{\\\"1\\\":\\\"8_1521894969.jpg\\\"}\"}', '{\"pictures_data\":\"[]\"}', 'http://localhost:8000/api/product/updateProduct?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 04:52:01', '2018-03-24 04:52:01'),
+(2, 1, 'updated', 8, 'App\\Product', '{\"pictures_data\":\"[]\"}', '{\"pictures_data\":\"[\\\"8_1521895999.jpg\\\"]\"}', 'http://localhost:8000/api/product/uploadPicture?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE&product_id=8&key=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 04:53:19', '2018-03-24 04:53:19'),
+(3, NULL, 'updated', 8, 'App\\Product', '{\"pictures_data\":\"[\\\"8_1521895999.jpg\\\"]\"}', '{\"pictures_data\":\"[]\"}', 'http://localhost:8000/api/product/updateProduct?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 04:53:44', '2018-03-24 04:53:44'),
+(4, 1, 'updated', 8, 'App\\Product', '{\"pictures_data\":\"[]\"}', '{\"pictures_data\":\"[\\\"8_1521896105.jpg\\\"]\"}', 'http://localhost:8000/api/product/uploadPicture?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE&product_id=8&key=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 04:55:06', '2018-03-24 04:55:06'),
+(5, 1, 'updated', 7, 'App\\Product', '{\"pictures_data\":\"[]\"}', '{\"pictures_data\":\"[\\\"7_1521896742.jpg\\\"]\"}', 'http://localhost:8000/api/product/uploadPicture?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE&product_id=7&key=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 05:05:43', '2018-03-24 05:05:43'),
+(6, 1, 'created', 9, 'App\\Product', '[]', '{\"product_code\":\"test\",\"brand_name\":\"test\",\"category_id\":2,\"sub_category_id\":0,\"product_name\":\"test test\",\"product_description\":\"test\",\"is_active\":1,\"pictures_data\":\"[]\",\"id\":9}', 'http://localhost:8000/api/product/addProduct?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 07:39:56', '2018-03-24 07:39:56');
 
 -- --------------------------------------------------------
 
@@ -59,6 +93,14 @@ CREATE TABLE `categories` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `category_name`, `created_at`, `updated_at`) VALUES
+(1, 'Test', '2018-03-23 10:12:26', '2018-03-23 10:12:26'),
+(2, 'r', '2018-03-24 00:25:44', '2018-03-24 00:25:44');
 
 -- --------------------------------------------------------
 
@@ -189,8 +231,9 @@ INSERT INTO `menus` (`id`, `parent_id`, `menu_url`, `menu_title`, `menu_descript
 (3, 0, 'clients', 'Clients', '', 'fa-users', 3, 0, NULL, NULL),
 (4, 0, 'suppliers', 'Suppliers', '', 'fa-truck', 4, 0, NULL, NULL),
 (5, 0, 'branches', 'Branches', '', 'fa-building', 5, 1, NULL, NULL),
-(6, 0, 'reports', 'Reports', '', 'fa-folder-open', 6, 1, NULL, NULL),
-(7, 0, 'settings', 'Settings', '', 'fa-cog', 7, 1, NULL, NULL);
+(6, 0, 'reports', 'Reports', '', 'fa-folder-open', 7, 1, NULL, NULL),
+(7, 0, 'settings', 'Settings', '', 'fa-cog', 8, 1, NULL, NULL),
+(8, 0, 'accounting', 'Accounting', '', 'fa-money', 6, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -236,7 +279,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (25, '2017_05_30_221732_create_reconciliations_table', 5),
 (26, '2017_05_30_221752_create_reconciliation_items_table', 5),
 (27, '2018_02_16_122745_create_product_prices_table', 6),
-(28, '2018_02_16_123357_create_product_units_table', 6);
+(28, '2018_02_16_123357_create_product_units_table', 6),
+(29, '2018_03_24_040641_create_product_selling_prices_table', 7);
 
 -- --------------------------------------------------------
 
@@ -313,8 +357,18 @@ CREATE TABLE `products` (
   `product_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_active` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `pictures_data` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `brand_name`, `product_code`, `category_id`, `sub_category_id`, `product_description`, `product_name`, `is_active`, `created_at`, `updated_at`, `pictures_data`) VALUES
+(7, 'kkkjhjkg', '13313', 1, 0, 'k', 'kkkjhjkg k', 1, '2018-03-23 20:27:37', '2018-03-24 05:05:42', '[\"7_1521896742.jpg\"]'),
+(8, '', 'ahkasl;hashklshak', 1, 0, '', ' ', 1, '2018-03-24 03:53:18', '2018-03-24 04:55:05', '[\"8_1521896105.jpg\"]'),
+(9, 'test', 'test', 2, 0, 'test', 'test test', 1, '2018-03-24 07:39:55', '2018-03-24 07:39:55', '[]');
 
 -- --------------------------------------------------------
 
@@ -324,14 +378,51 @@ CREATE TABLE `products` (
 
 CREATE TABLE `product_prices` (
   `id` int(10) UNSIGNED NOT NULL,
-  `price_category_id` int(11) NOT NULL,
   `purchase_price` double(8,2) NOT NULL,
-  `selling_price` double(8,2) NOT NULL,
   `product_unit_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_prices`
+--
+
+INSERT INTO `product_prices` (`id`, `purchase_price`, `product_unit_id`, `created_at`, `updated_at`, `remarks`) VALUES
+(12, 10.00, 13, '2018-03-24 04:36:36', '2018-03-24 04:36:36', NULL),
+(16, 1.00, 17, '2018-03-24 04:58:44', '2018-03-24 04:58:44', NULL),
+(19, 4.00, 20, '2018-03-24 07:43:46', '2018-03-24 07:43:46', 'test'),
+(20, 2.00, 21, '2018-03-24 07:43:47', '2018-03-24 07:43:47', 'test');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_selling_prices`
+--
+
+CREATE TABLE `product_selling_prices` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `product_price_id` int(11) NOT NULL,
+  `price_category_id` int(11) NOT NULL,
+  `selling_price` double NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_selling_prices`
+--
+
+INSERT INTO `product_selling_prices` (`id`, `product_price_id`, `price_category_id`, `selling_price`, `created_at`, `updated_at`) VALUES
+(21, 12, 15, 12, '2018-03-24 04:36:37', '2018-03-24 04:36:37'),
+(22, 12, 4, 10.3, '2018-03-24 04:36:37', '2018-03-24 04:36:37'),
+(29, 16, 15, 1.15, '2018-03-24 04:58:44', '2018-03-24 04:58:44'),
+(30, 16, 4, 1.02, '2018-03-24 04:58:44', '2018-03-24 04:58:44'),
+(35, 19, 15, 4.6, '2018-03-24 07:43:46', '2018-03-24 07:43:46'),
+(36, 19, 4, 4.08, '2018-03-24 07:43:46', '2018-03-24 07:43:46'),
+(37, 20, 15, 2.3, '2018-03-24 07:43:47', '2018-03-24 07:43:47'),
+(38, 20, 4, 2.04, '2018-03-24 07:43:47', '2018-03-24 07:43:47');
 
 -- --------------------------------------------------------
 
@@ -350,6 +441,16 @@ CREATE TABLE `product_units` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `product_units`
+--
+
+INSERT INTO `product_units` (`id`, `product_id`, `unit_id`, `parent_unit_id`, `quantity_per_parent`, `info`, `barcode`, `created_at`, `updated_at`) VALUES
+(13, 7, 11, 0, 1, NULL, NULL, '2018-03-24 04:36:36', '2018-03-24 04:36:36'),
+(17, 8, 6, 0, 1, NULL, NULL, '2018-03-24 04:58:43', '2018-03-24 04:58:43'),
+(20, 9, 11, 0, 1, NULL, NULL, '2018-03-24 07:43:45', '2018-03-24 07:43:45'),
+(21, 9, 12, 0, 2, NULL, NULL, '2018-03-24 07:43:46', '2018-03-24 07:43:46');
 
 -- --------------------------------------------------------
 
@@ -678,13 +779,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `address`, `mobile`, `photo`, `level`, `branch_id`, `is_active`, `remember_token`, `created_at`, `updated_at`, `last_login`, `device_data`, `user_data`, `last_activity`) VALUES
-(1, 'Admin', 'admin@test.com', '$2y$10$BSQJpZCvU0Zah01NmNXv8.FDtovfYwj3KTOuySbS2AWL9zwayQaNC', 'Philippines', '090911111', 'default.jpg', 1, 1, 1, 'RZ4XEzNjeWKXCgfjpAuage6eLGpfnrnvCYSHRuAgK4LLrwuBlA5MUp9aiLhb', '2017-04-27 00:00:00', '2018-03-23 07:04:23', '2018-02-10 05:56:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODI0MjE2NSwiZXhwIjoxNTIxODQyMTY1LCJuYmYiOjE1MTgyNDIxNjUsImp0aSI6IkNMN0pkY1JyMkdSZmthdWkifQ.tvYOoCJfxIK4zIhwVvpTBwWRyTaly5qYVIwWwvo04m0\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-10 05:56\",\"last_activity\":\"2018-03-23 15:04\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODIzNzUxNywiZXhwIjoxNTE4MjQxMTE3LCJuYmYiOjE1MTgyMzc1MTcsImp0aSI6IjR0TnZ5dHl0QUVSSE9McHgifQ.m1gt20Y17Z297n2K1-c8cBE73dbzX7ax0k7O70XZG7o\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-10 04:38\",\"last_activity\":\"2018-02-10 05:38\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODE5NDg4NiwiZXhwIjoxNTE4MTk4NDg2LCJuYmYiOjE1MTgxOTQ4ODYsImp0aSI6ImlWVWtGaTVUTnRZYXNBUTMifQ.e-69iLYswnHBiSXXzAktZb8d-_9Ks951OdXXXf45ay0\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-09 16:48\",\"last_activity\":\"2018-02-09 16:48\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODE5NDcwMywiZXhwIjoxNTE4MTk4MzAzLCJuYmYiOjE1MTgxOTQ3MDMsImp0aSI6IjY0YnAwT1d2cUE1MDZNSVoifQ.-Ij7hFJX5IvsDgJnSmRtnNoCVVwMek3E-xcrQs_MYDA\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-09 16:45\",\"last_activity\":\"2018-02-09 16:45\"}]', '{}', '2018-03-23 15:04:00'),
+(1, 'Admin', 'admin@test.com', '$2y$10$BSQJpZCvU0Zah01NmNXv8.FDtovfYwj3KTOuySbS2AWL9zwayQaNC', 'Philippines', '090911111', 'default.jpg', 1, 1, 1, 'RZ4XEzNjeWKXCgfjpAuage6eLGpfnrnvCYSHRuAgK4LLrwuBlA5MUp9aiLhb', '2017-04-27 00:00:00', '2018-03-24 07:43:43', '2018-03-24 10:06:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-24 10:06\",\"last_activity\":\"2018-03-24 15:43\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1NzEyLCJleHAiOjE1MjU0ODU3MTIsIm5iZiI6MTUyMTg4NTcxMiwianRpIjoiTTYxQkRHODV2WkMzU1hTaSJ9.Q2nzVInKNz7qJaxD6A2CHJsQX1k5kBfxD1-OLxKqMeo\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-24 10:01\",\"last_activity\":\"2018-03-24 10:04\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODY2NjU4LCJleHAiOjE1MjU0NjY2NTgsIm5iZiI6MTUyMTg2NjY1OCwianRpIjoiVjVRYnpHQkw0dlpqbHptViJ9.8SIfQcCVxGc8n-HfhHF1t-ZBP_wgUFukh7cpSNC1zgs\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-24 04:44\",\"last_activity\":\"2018-03-24 09:49\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODI0MjE2NSwiZXhwIjoxNTIxODQyMTY1LCJuYmYiOjE1MTgyNDIxNjUsImp0aSI6IkNMN0pkY1JyMkdSZmthdWkifQ.tvYOoCJfxIK4zIhwVvpTBwWRyTaly5qYVIwWwvo04m0\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-10 05:56\",\"last_activity\":\"2018-03-23 18:19\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODIzNzUxNywiZXhwIjoxNTE4MjQxMTE3LCJuYmYiOjE1MTgyMzc1MTcsImp0aSI6IjR0TnZ5dHl0QUVSSE9McHgifQ.m1gt20Y17Z297n2K1-c8cBE73dbzX7ax0k7O70XZG7o\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-10 04:38\",\"last_activity\":\"2018-02-10 05:38\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODE5NDg4NiwiZXhwIjoxNTE4MTk4NDg2LCJuYmYiOjE1MTgxOTQ4ODYsImp0aSI6ImlWVWtGaTVUTnRZYXNBUTMifQ.e-69iLYswnHBiSXXzAktZb8d-_9Ks951OdXXXf45ay0\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-09 16:48\",\"last_activity\":\"2018-02-09 16:48\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODE5NDcwMywiZXhwIjoxNTE4MTk4MzAzLCJuYmYiOjE1MTgxOTQ3MDMsImp0aSI6IjY0YnAwT1d2cUE1MDZNSVoifQ.-Ij7hFJX5IvsDgJnSmRtnNoCVVwMek3E-xcrQs_MYDA\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-09 16:45\",\"last_activity\":\"2018-02-09 16:45\"}]', '{}', '2018-03-24 15:43:00'),
 (2, 'Cashier', 'test@test1.com', '$2y$10$IFoB29Z.TLfUDDlx1o6ddOtsGDi/f8lThEhLtVMjGbmEHtFAB2rNe', 'Test', '12345', 'default.jpg', 2, 1, 1, NULL, '2017-05-07 14:38:43', '2017-05-20 12:26:08', '0000-00-00 00:00:00', '[]', '{}', '0000-00-00 00:00:00'),
 (3, 'Inventory', 'test@test.com', '$2y$10$EeZ0uedDpuucIcQCmSSmLumoU7jnbBZOA0heProLU4tZvoY651vAW', 'test', 'test', 'default.jpg', 3, 1, 1, 'w8LlVd4Y3dTbXqqZCl5L8N3xQtk6L3SoNVMvHREkZAQOpG7RyI7RM7YkamNh', '2017-05-19 13:30:21', '2017-05-19 13:30:21', '0000-00-00 00:00:00', '[]', '{}', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `audits`
+--
+ALTER TABLE `audits`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `branches`
@@ -762,6 +869,12 @@ ALTER TABLE `products`
 -- Indexes for table `product_prices`
 --
 ALTER TABLE `product_prices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `product_selling_prices`
+--
+ALTER TABLE `product_selling_prices`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -865,6 +978,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `audits`
+--
+ALTER TABLE `audits`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
@@ -874,7 +993,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `clients`
@@ -910,13 +1029,13 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -934,19 +1053,25 @@ ALTER TABLE `price_categories`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product_prices`
 --
 ALTER TABLE `product_prices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `product_selling_prices`
+--
+ALTER TABLE `product_selling_prices`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `product_units`
 --
 ALTER TABLE `product_units`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `purchases`

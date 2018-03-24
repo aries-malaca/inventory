@@ -46,6 +46,7 @@ class ProductController extends Controller{
         if($api['result'] === 'success') {
             $validator = Validator::make($request->all(), [
                 'product_code' => 'required|unique:products,product_code|max:255',
+                'category.value' => 'required',
             ]);
 
             if ($validator->fails())
@@ -106,6 +107,7 @@ class ProductController extends Controller{
         if($api['result'] === 'success') {
             $validator = Validator::make($request->all(), [
                 'product_code' => 'required|unique:products,product_code,'.$request->input('id').'|max:255',
+                'category.value' => 'required',
             ]);
 
             if ($validator->fails())
