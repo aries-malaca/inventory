@@ -168,7 +168,8 @@
                                                                                 <th style="width:120px;"></th>
                                                                                 <th>%</th>
                                                                                 <th>Markup</th>
-                                                                                <th>Price</th>
+                                                                                <th>Price w/o VAT</th>
+                                                                                <th>Price w/ VAT</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -182,6 +183,10 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     <input type="number" class="form-control" v-model.number="newProduct.product_units[key].pricing[index].selling[x].selling_price"/>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input type="number" disabled class="form-control" 
+                                                                                    v-bind:value="s + (s*settings.default_vat_percentage) "/>
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
@@ -430,6 +435,9 @@
             },
             token(){
                 return this.$store.state.token;
+            },
+            settings(){
+                return this.$store.state.settings;
             },
             productName(){
                 return (this.newProduct.brand_name +' '+ this.newProduct.product_description).toUpperCase();

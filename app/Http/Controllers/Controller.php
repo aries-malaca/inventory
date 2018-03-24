@@ -22,7 +22,8 @@ class Controller extends BaseController{
         $data = Setting::get()->toArray();
         $array = array();
         foreach($data as $key=>$value)
-            $array[$value['setting_name']] = $value['setting_value'];
+            $array[$value['setting_name']] = ($value['setting_type']==='number' OR $value['setting_type'] ==='yes_no') ?
+             (int)$value['setting_value']:$value['setting_value'];
 
         return $array;
     }
