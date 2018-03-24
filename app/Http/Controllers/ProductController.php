@@ -7,6 +7,7 @@ use App\ProductPrice;
 use App\Inventory;
 use App\Unit;
 use App\PurchaseItem;
+use App\ProductSellingPrice;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -17,11 +18,9 @@ class ProductController extends Controller{
                                         ->orderBy('category_name')
                                         ->orderBy('product_name')
                                         ->get()->toArray();
-
-        foreach($data as $key=>$value){
+        foreach($data as $key=>$value)
             $data[$key]['product_units'] = ProductUnit::leftJoin('units','product_units.unit_id','=','units.id')
                                                 ->where('product_id',$value['id'])->get()->toArray();
-        }
 
         return response()->json($data);
     }
@@ -29,11 +28,13 @@ class ProductController extends Controller{
     function getProduct(Request $request){
         $product = Product::find($request->segment(4));
         if($product->id !== null){
-            $product['product_units'] = ProductUnit::leftJoin('units','product_units.unit_id','=','units.id')
-                                    ->where('product_id',$product->id)->get()->toArray();
-            $product['product_prices'] = ProductPrice::leftJoin('price_categories','product_prices.price_category_id','=','price_categories.id')
-                ->where('product_id',$product->id)->get()->toArray();
+            $product['product_units'] = $product->units()->get();
+            foreach($product['product_units'] as $key=>$value){
+                $product['product_units'][$key]['pricing'] = $value->prices()->get();
 
+                foreach($product['product_units'][$key]['pricing'] as $k=>$v)
+                    $product['product_units'][$key]['pricing'][$k]['selling'] = $v->selling_prices()->get();
+            }
             return response()->json($product);
         }
         return response()->json(["result"=>"failed"], 404);
@@ -63,30 +64,57 @@ class ProductController extends Controller{
     }
 
     function addProduct(Request $request){
-        print_r($request->input());
         $validator = Validator::make($request->all(), [
             'product_code' => 'required|unique:products,product_code|max:255',
-            'category_id' => 'required|not_in:0',
         ]);
 
         if ($validator->fails())
-            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()]);
-
+            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
+        
+        if($errors = $this->evaluateUnits($request->input('product_units')))
+            return response()->json(['result'=>'failed', 'errors'=>$errors], 400);
+        
         $product = new Product;
         $product->product_code = $request->input('product_code');
         $product->brand_name = ($request->input('brand_name')!==null?$request->input('brand_name'):'');
-        $product->category_id = $request->input('category_id');
+        $product->category_id = $request->input('category')['value'];
         $product->sub_category_id = 0;
         $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
         $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
         $product->is_active = 1;
-        $product->product_data = json_encode($request->input('product_data'));
         $product->pictures_data = '[]';
 
         if($this->checkDuplicateName($product->product_name))
-            return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.']);
+            return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.'], 400);
 
         $product->save();
+
+        foreach($request->input('product_units') as $key=>$value){
+            $unit = new ProductUnit;
+            $unit->product_id = $product->id;
+            $unit->unit_id = $value['unit']['id'];
+            $unit->parent_unit_id = $key===0?0:$value['parent_unit_id'];
+            $unit->info = $value['info'];
+            $unit->quantity_per_parent = $value['quantity_per_parent'];
+            $unit->barcode = $value['barcode'];
+            $unit->save();
+
+            foreach($value['pricing'] as $k=>$v){
+                $price = new ProductPrice;
+                $price->purchase_price = $v['purchase_price'];
+                $price->remarks= $v['remarks'];
+                $price->product_unit_id = $unit->id;
+                $price->save();
+
+                foreach($v['selling'] as $e=>$f){
+                    $selling = new ProductSellingPrice;
+                    $selling->price_category_id = $f['price_category_id'];
+                    $selling->selling_price = $f['selling_price'];
+                    $selling->product_price_id = $price->id;
+                    $selling->save();
+                }   
+            }
+        }
 
         return response()->json(['result'=>'success']);
     }
@@ -98,7 +126,10 @@ class ProductController extends Controller{
         ]);
 
         if ($validator->fails())
-            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()]);
+            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
+        
+        if($errors = $this->evaluateUnits($request->input('product_units')))
+            return response()->json(['result'=>'failed', 'errors'=>$errors], 400);
 
         $product = Product::find($request->input('id'));
         $product->product_code = $request->input('product_code');
@@ -108,11 +139,10 @@ class ProductController extends Controller{
         $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
         $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
         $product->is_active = $request->input('is_active');
-        $product->product_data = json_encode($request->input('product_data'));
         $product->pictures_data = '[]';
 
         if($this->checkDuplicateName($product->product_name,$request->input('id')))
-            return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.']);
+            return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.'], 400);
 
         $product->save();
 
@@ -202,5 +232,18 @@ class ProductController extends Controller{
             Product::where('id', $value['id'])
                     ->update(['product_name'=> ($value['brand_name']==''?'':$value['brand_name']. ' ' ). $value['product_description']]);
         }
+    }
+
+    function evaluateUnits($units){
+        $errors = array();
+        foreach($units as $key=> $value){
+            if($value['unit'] == null)
+                $errors[] = "Unit " . ($key+1) . " is required.";
+        }
+
+        if(sizeof($errors)>0)
+            return $errors;
+
+        return false;
     }
 }

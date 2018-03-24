@@ -35,22 +35,22 @@ class Controller extends BaseController{
     public function authenticateAPI(){
         try{
             if (! $user = JWTAuth::parseToken()->authenticate())
-                return ["result"=>"failed","error"=>"token_user_not_found","status_code"=>401];
+                return ["result"=>"failed","errors"=>"token_user_not_found","status_code"=>401];
         }
         catch(TokenExpiredException $e){
-            return ["result"=>"failed","error"=>"token_expired", "status_code"=>401];
+            return ["result"=>"failed","errors"=>"token_expired", "status_code"=>401];
         }
         catch(TokenInvalidException $e){
-            return ["result"=>"failed","error"=>"token_invalid", "status_code"=>401];
+            return ["result"=>"failed","errors"=>"token_invalid", "status_code"=>401];
         }
         catch(JWTException $e){
-            return ["result"=>"failed","error"=>"token_absent","status_code"=>401];
+            return ["result"=>"failed","errors"=>"token_absent","status_code"=>401];
         }
 
         $parsed = JWTAuth::getToken();
         $tokens = json_decode($user['device_data'],true);
         if(sizeof($tokens) == 0){
-            return ["result"=>"failed","error"=>"no_token_registered","status_code"=>401];
+            return ["result"=>"failed","errors"=>"no_token_registered","status_code"=>401];
         }
         else{
             foreach($tokens as $key=>$value){
@@ -61,7 +61,7 @@ class Controller extends BaseController{
                 }
             }
         }
-        return ["result"=>"failed","error"=>"token_not_found" ,"status_code"=>401];
+        return ["result"=>"failed","errors"=>"token_not_found" ,"status_code"=>401];
     }
 
     function updateToken($token, $user){

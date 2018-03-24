@@ -49,7 +49,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Product Code</label>
-                                                <input type="text" class="form-control" v-model="newProduct.product_code"/>
+                                                <input type="text" placeholder="(Required,Unique)" class="form-control" v-model="newProduct.product_code"/>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -107,15 +107,15 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <select class="form-control" v-model="newProduct.product_units[key].unit">
+                                                    <select :class="unit===null?'background-color: rgb(255, 136, 136);':''" class="form-control" v-model="newProduct.product_units[key].unit">
                                                         <option v-for="unit in units" :value="unit">{{ unit.unit_name }}</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" v-model="newProduct.product_units[key].info"/>
+                                                    <input type="text" class="form-control" placeholder="(Optional)" v-model="newProduct.product_units[key].info"/>
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control" v-model="newProduct.product_units[key].barcode"/>
+                                                    <input type="text" class="form-control" placeholder="(Optional)" v-model="newProduct.product_units[key].barcode"/>
                                                 </td>
                                                 <td>
                                                     <input type="number" class="form-control" :disabled="key===0" v-model.number="newProduct.product_units[key].quantity_per_parent">
@@ -307,14 +307,54 @@
                 let u = this;
                 axios.get('/api/product/getProduct/' + product.id)
                     .then(function (response) {
+                        let cat = u.categories.find((i)=>{
+                                return (response.data.category_id===i.value);
+                            });
                         u.newProduct = {
                             id:response.data.id,
                             brand_name:response.data.brand_name,
                             product_code:response.data.product_code,
                             product_description:response.data.product_description,
-                            category_id:response.data.category_id,
+                            category:cat===undefined?null:cat,
+                            product_units:[],
                             is_active:response.data.is_active
                         };
+
+                        for(var x=0;x<response.data.product_units.length;x++){
+                            let unit = response.data.product_units[x];
+                            u.newProduct.product_units.push({
+                                unit:u.units.find((i)=>{
+                                    return (unit.unit_id===i.id);
+                                }),
+                                quantity_per_parent:unit.quantity_per_parent,
+                                parent_unit_id:unit.parent_unit_id,
+                                info:unit.info,
+                                barcode:unit.barcode,
+                                pricing:[]
+                            });
+
+                            for(var y=0;y<unit.pricing.length;y++){
+                                let price = unit.pricing[y];
+                                u.newProduct.product_units[x].pricing.push({
+                                    purchase_price:price.purchase_price,
+                                    remarks:price.remarks,
+                                    selling:[]
+                                });
+
+                                for(var z=0;z<price.selling.length;z++){
+                                    let selling = price.selling[z];
+                                    let category = u.prices.find((i)=>{
+                                        return i.id===selling.price_category_id;
+                                    });
+                                    u.newProduct.product_units[x].pricing[y].selling.push({
+                                        selling_price:selling.selling_price,
+                                        price_category_id:selling.price_category_id,
+                                        default_markup:category.default_markup,
+                                        name:category.price_category_name
+                                    });
+                                }
+                            }
+                        }
 
                         $("#add-modal").modal("show");
                     });
@@ -340,10 +380,10 @@
                 }
             },
             addProduct:function(){
-                this.makeRequest(event, this.newCategory, API_URL + '/api/product/addProduct?token=' + this.token, "#add-modal", 'fetchProducts');
+                this.makeRequest(event, this.newProduct, API_URL + '/api/product/addProduct?token=' + this.token, "#add-modal", 'fetchProducts');
             },
             updateProduct:function(){
-                this.makeRequest(event, this.newCategory, API_URL + '/api/product/updateProduct?token=' + this.token, "#add-modal",  'fetchProducts');
+                this.makeRequest(event, this.newProduct, API_URL + '/api/product/updateProduct?token=' + this.token, "#add-modal",  'fetchProducts');
             },
             makeRequest(event, data, url, modal, fetch){
                 let u = this;
