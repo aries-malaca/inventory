@@ -1,9 +1,22 @@
 <template>
-
+    <div class="nav-tabs-custom">
+        <!-- Tabs within a box -->
+        <ul class="nav nav-tabs pull-right">
+            <li><a href="#users-tab" data-toggle="tab" aria-expanded="true">Users</a></li>
+            <li class="active"><a href="#settings-tab" data-toggle="tab" aria-expanded="false">System Settings</a></li>
+        </ul>
+        <div class="tab-content no-padding">
+            <users></users>
+            <system-settings></system-settings>
+        </div>
+    </div>
 </template>
 <script>
+    import Users from './settings/Users.vue';
+    import SystemSettings from './settings/SystemSettings.vue';
     export default {
         name: 'Settings',
+        components:{ Users, SystemSettings },
         data(){
             return{
                 title:'Settings'
