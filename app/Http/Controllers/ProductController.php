@@ -61,7 +61,7 @@ class ProductController extends Controller{
             $product->brand_name = ($request->input('brand_name')!==null?$request->input('brand_name'):'');
             $product->category_id = $request->input('category')['value'];
             $product->sub_category_id = 0;
-            $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'') .' ' . ($request->input('size')!==null?$request->input('size');
+            $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'') .' ' . ($request->input('size')!==null?$request->input('size'));
             $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
             $product->is_active = $request->input('is_active');
             $product->pictures_data = '[]';
