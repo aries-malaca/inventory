@@ -382,6 +382,7 @@
                             brand_name:response.data.brand_name,
                             product_code:response.data.product_code,
                             product_description:response.data.product_description,
+                            size:response.data.size,
                             category:cat===undefined?null:cat,
                             product_units:[],
                             pictures_data:response.data.pictures_data,

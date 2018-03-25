@@ -127,7 +127,6 @@ class ProductController extends Controller{
             $product->sub_category_id = 0;
             $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'') . ' ' . ($request->input('size')!==null && $request->input('size')!==''?$request->input('size'):'');
             $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
-            $product->size = $request->input('size');
             $product->is_active = $request->input('is_active');
             $product->pictures_data = json_encode($request->input('pictures_data'));
 
