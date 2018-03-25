@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "croppie": "^2.6.1",
+    "jquery": "^3.3.1",
     "vue": "^2.5.13",
     "vue-form-wizard": "^0.6.6",
     "vue-good-table": "^1.19.2",
@@ -18,6 +19,7 @@
     "vue-location-picker": "^1.0.1",
     "vue-router": "^2.8.1",
     "vue-select": "^2.4.0",
+    "vue-slick": "^1.1.12",
     "vue2-google-maps": "^0.8.3",
     "vuejs-datepicker": "^0.9.25",
     "vuex": "^3.0.1"
