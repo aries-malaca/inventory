@@ -316,7 +316,8 @@
                     parent_unit_id:0,
                     info:'',
                     barcode:'',
-                    pricing:[]
+                    pricing:[],
+                    size:''
                 });
                 this.addPurchasePrice(this.newProduct.product_units.length - 1);
             },
@@ -385,7 +386,8 @@
                             category:cat===undefined?null:cat,
                             product_units:[],
                             pictures_data:response.data.pictures_data,
-                            is_active:response.data.is_active
+                            is_active:response.data.is_active,
+                            size:response.data.size
                         };
 
                         for(var x=0;x<response.data.product_units.length;x++){
