@@ -39,6 +39,11 @@ Route::post('/supplier/updateSupplier', 'SupplierController@updateSupplier');
 //end supplier API
 
 
+//settings API
+Route::get('/settings/getSettings', 'SettingController@getSettings');
+Route::post('/settings/updateSettings', 'SettingController@updateSettings');
+//end settings API
+
 
 
 
@@ -144,12 +149,6 @@ Route::get('/sales/printReceipt/{id}', 'SaleController@printReceipt');
 Route::get('/sales/getTempID', 'SaleController@getTempID');
 Route::post('/sales/deleteSale', 'SaleController@deleteSale');
 //end purchases API
-
-//settings API
-Route::get('/settings/getSettings', 'SettingController@getSettings');
-Route::post('/settings/updateSettings', 'SettingController@updateSettings');
-//end settings API
-
 
 //excel
 Route::post('/reports/generateSalesReport', 'ReportController@generateSalesReport');

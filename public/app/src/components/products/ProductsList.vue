@@ -5,7 +5,6 @@
                 <h3 class="box-title">Product List</h3>
                 &nbsp;
                 <button @click="showAddModal" class="btn btn-success btn-sm">Add Product</button>
-
                 <div class="pull-right">
                     <input type="text" v-model="barcode" class="form-control" placeholder="Find product by Barcode."/>
                 </div>
@@ -25,7 +24,6 @@
             </div>
             <!-- /.box-body -->
         </div>
-
         <div id="add-modal" class="modal fade" tabindex="-1" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -275,7 +273,6 @@
             </div>
             <!-- /.modal-dialog -->
         </div>
-
     </div>
 </template>
 <script>
