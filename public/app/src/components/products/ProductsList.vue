@@ -33,30 +33,26 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <div v-if="!viewing">
-                            <h4 class="modal-title" v-if="newProduct.id==0">Add Product</h4>
-                            <h4 class="modal-title" v-else>Update Product</h4>
-                        </div>
-                        <div v-else>
-                             <h4 class="modal-title">({{ newProduct.product_code }}) {{ productName }}</h4>
-                        </div>
+                        <h4 class="modal-title" v-if="newProduct.id==0">Add Product</h4>
+                        <h4 class="modal-title" v-else>Update Product</h4>
                     </div>
-                    <div class="modal-body" v-if="!viewing">
+                    <div class="modal-body">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs pull-right">
+                                <li class="" v-if="newProduct.id!==0"><a href="#inventory" data-toggle="tab" aria-expanded="false">Inventory</a></li>
                                 <li class=""><a href="#units" data-toggle="tab" aria-expanded="true">Units & Pricing</a></li>
                                 <li class="active"><a href="#info" data-toggle="tab" aria-expanded="false">Product Info</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="info">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Product Code</label>
                                                 <input type="text" placeholder="(Required,Unique)" class="form-control" v-model="newProduct.product_code"/>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Brand</label>
                                                 <input type="text" placeholder="(Optional)" class="form-control" v-model="newProduct.brand_name"/>
@@ -69,12 +65,11 @@
                                                 <label>Description</label>
                                                 <input type="text" placeholder="(Required)" class="form-control" v-model="newProduct.product_description"/>
                                             </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                <label>Product Size</label>
-                                                <input type="text" class="form-control" v-model="newProduct.size"/>
-                                            </div>
-                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                            <label>Product Size</label>
+                                            <input type="text" class="form-control" v-model="newProduct.size"/>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -223,8 +218,8 @@
                                                                                 <th colspan="2" style="text-align:center">Selling</th>
                                                                             </tr>
                                                                             <tr>          
-                                                                                <th>(%)</th>
-                                                                                <th>Amount</th>
+                                                                                <th>Percentage</th>
+                                                                                <th>Markup Amount</th>
                                                                                 <th>W/O Vat</th>
                                                                                 <th>W/ Vat</th>
                                                                             </tr>
@@ -260,21 +255,18 @@
                                     </table>
                                 </div>
                                 <!-- /.tab-pane -->
+                                <div class="tab-pane" id="inventory">
+
+                                </div>
+                                <!-- /.tab-pane -->
                             </div>
                             <!-- /.tab-content -->
                         </div>
                     </div>
-                    <product-view v-else :product="newProduct" />
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <div v-if="!viewing">
-                            <button type="button" v-if="newProduct.id==0" @click="addProduct" class="btn btn-primary">Save</button>
-                            <div v-else>
-                                <button type="button" @click="updateProduct" class="btn btn-primary">Update</button>
-                                <button type="button" @click="viewProduct(newProduct)" class="btn btn-warning">Cancel</button>
-                            </div>
-                        </div>
-                        <button type="button" v-else @click="viewing=false" class="btn btn-warning">Edit</button>
+                        <button type="button" v-if="newProduct.id==0" @click="addProduct" class="btn btn-primary">Save</button>
+                        <button type="button" v-else @click="updateProduct" class="btn btn-primary">Update</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -288,11 +280,10 @@
     import DataTable from '../components/DataTable.vue';
     import Uploader from "../modals/UploadPictureModalSmall.vue";
     import VueSelect from 'vue-select';
-    import ProductView from './ProductView.vue';
 
     export default {
         name: 'ProductsList',
-        components:{ DataTable, VueSelect, Uploader, ProductView },
+        components:{ DataTable, VueSelect, Uploader },
         data(){
             return{
                 barcode:'',
@@ -307,8 +298,7 @@
                     ],
                     rowClicked: this.viewProduct,
                 },
-                newProduct:{},
-                viewing:false,
+                newProduct:{}
             }
         },
         methods:{
@@ -371,7 +361,6 @@
                     ]
                 };
                 this.addPurchasePrice(0);
-                this.viewing = false;
                 $("#add-modal").modal("show");
             },
             viewProduct:function(product){
@@ -429,7 +418,6 @@
                         }
 
                         $("#add-modal").modal("show");
-                        u.viewing = true;
                     });
             },
             autoFillPurchasePrices(i, j){

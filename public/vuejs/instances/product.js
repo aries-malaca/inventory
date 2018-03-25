@@ -11,6 +11,7 @@ var vue_products = new Vue({
             brand_name:'',
             product_code:'',
             product_description:'',
+            size:'',
             category_id:0,
             product_data:{
                 product_units:[
@@ -180,6 +181,7 @@ var vue_products = new Vue({
                 brand_name:product.brand_name,
                 product_code:product.product_code,
                 product_description:product.product_description,
+                size:product.size,
                 category_id:product.category_id,
                 product_data:{
                     product_units:[]
@@ -351,6 +353,7 @@ var vue_products = new Vue({
                 brand_name:'',
                 product_code:'',
                 product_description:'',
+                size:'',
                 category_id:0,
                 product_data:{
                     product_units:[
@@ -524,6 +527,7 @@ var vue_products = new Vue({
                 brand_name:product.brand_name,
                 product_code:product.product_code,
                 product_description:product.product_description,
+                size:product.size,
                 category_id:product.category_id,
                 product_data:{
                     product_units:[]
