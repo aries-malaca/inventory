@@ -409,7 +409,7 @@ var vue_products = new Vue({
             }
         },
         product_name:function(product){
-            return (product.brand_name==null?'':product.brand_name) + ' ' + product.product_description;
+            return (product.brand_name==null?'':product.brand_name) + ' ' + product.product_description + ' ' + product.size;
         },
         getPrice:function(price_category_id){
             for(var x=0;x<this.price_categories.length;x++){

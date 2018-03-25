@@ -531,7 +531,7 @@
                 return this.$store.state.settings;
             },
             productName(){
-                return (this.newProduct.brand_name +' '+ this.newProduct.product_description).toUpperCase();
+                return (this.newProduct.brand_name +' '+ this.newProduct.product_description +' '+ this.newProduct.size).toUpperCase();
             }
         }
     }
