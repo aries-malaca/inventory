@@ -46,13 +46,13 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="info">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Product Code</label>
                                                 <input type="text" placeholder="(Required,Unique)" class="form-control" v-model="newProduct.product_code"/>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Brand</label>
                                                 <input type="text" placeholder="(Optional)" class="form-control" v-model="newProduct.brand_name"/>
@@ -68,8 +68,9 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                            <label>Product Size</label>
-                                            <input type="text" class="form-control" v-model="newProduct.size"/>
+                                                <label>Product Size</label>
+                                                <input type="text" class="form-control" v-model="newProduct.size"/>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
