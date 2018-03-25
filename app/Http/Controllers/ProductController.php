@@ -57,10 +57,11 @@ class ProductController extends Controller{
             
             $product = new Product;
             $product->product_code = $request->input('product_code');
+            $product->size = ($request->input('size')!==null?$request->input('size'):'');
             $product->brand_name = ($request->input('brand_name')!==null?$request->input('brand_name'):'');
             $product->category_id = $request->input('category')['value'];
             $product->sub_category_id = 0;
-            $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
+            $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'') .' ' . ($request->input('size')!==null?$request->input('size');
             $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
             $product->is_active = $request->input('is_active');
             $product->pictures_data = '[]';
@@ -120,10 +121,11 @@ class ProductController extends Controller{
             $this->clearProductUnits($request->input('id'));
 
             $product->product_code = $request->input('product_code');
+            $product->size = ($request->input('size')!==null?$request->input('size'):'');
             $product->brand_name = ($request->input('brand_name')!==null?$request->input('brand_name'):'');
             $product->category_id = $request->input('category')['value'];
             $product->sub_category_id = 0;
-            $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'');
+            $product->product_name = ($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'') . ' ' . ($request->input('size')!==null && $request->input('size')!==''?$request->input('size'):'');
             $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
             $product->is_active = $request->input('is_active');
             $product->pictures_data = json_encode($request->input('pictures_data'));
@@ -302,7 +304,7 @@ class ProductController extends Controller{
         $products = Product::get()->toArray();
         foreach($products as $key=>$value){
             Product::where('id', $value['id'])
-                    ->update(['product_name'=> ($value['brand_name']==''?'':$value['brand_name']. ' ' ). $value['product_description']]);
+                    ->update(['product_name'=> ($value['brand_name']==''?'':$value['brand_name']. ' ' ). $value['product_description']. ' ' . ($value['size']==''?'':$value['size'])]);
         }
     }
 
