@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Sales & Inventory | Log in</title>
+  <title>Product Inquiry App | Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -26,7 +26,7 @@
 <body class="hold-transition login-page">
 <div class="login-box" id="login">
   <div class="login-logo">
-    <a><b>Sales & Inventory</b> App</a>
+    <a><b>Product Inquiry</b> App</a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -61,7 +61,7 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="../../theme/bootstrap/js/bootstrap.min.js"></script>
 <script src="../../theme/plugins/toastr/toastr.min.js"></script>
-<script src="../../vuejs/vue.js"></script>
+<script src="../../js/vue.js"></script>
 <script src="../../js/jquery-cookie.js"></script>
 <script src="../../js/login.js"></script>
 </body>

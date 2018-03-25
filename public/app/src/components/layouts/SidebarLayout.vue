@@ -7,7 +7,7 @@
             </div>
             <div class="pull-left info">
                 <p>{{ user.name}}</p>
-                <a href="#/"><i class="fa fa-circle text-success"></i> Online</a>
+                <a href="#/"><i class="fa fa-circle text-success"></i> Online </a>
             </div>
         </div>
         <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -15,7 +15,7 @@
             <li :class=" title==='Home'?'active':''">
                 <a href="/#/home"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a>
             </li>
-            <li v-for="m in menus" v-bind:class="title=== m.menu_title?'active':''" v-if="m.menu_active===1">
+            <li v-for="m in menus" v-bind:class="title === m.menu_title?'active':''" v-if="m.menu_active===1">
                 <a :href="'/#/' + m.menu_url ">
                     <i :class="'fa ' + m.menu_icon"></i>
                     <span>{{ m.menu_title }}</span>

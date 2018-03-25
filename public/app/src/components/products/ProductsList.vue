@@ -39,7 +39,6 @@
                     <div class="modal-body">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs pull-right">
-                                <li class="" v-if="newProduct.id!==0"><a href="#inventory" data-toggle="tab" aria-expanded="false">Inventory</a></li>
                                 <li class=""><a href="#units" data-toggle="tab" aria-expanded="true">Units & Pricing</a></li>
                                 <li class="active"><a href="#info" data-toggle="tab" aria-expanded="false">Product Info</a></li>
                             </ul>
@@ -262,10 +261,6 @@
                                     </table>
                                 </div>
                                 <!-- /.tab-pane -->
-                                <div class="tab-pane" id="inventory">
-
-                                </div>
-                                <!-- /.tab-pane -->
                             </div>
                             <!-- /.tab-content -->
                         </div>
@@ -316,7 +311,8 @@
                     parent_unit_id:0,
                     info:'',
                     barcode:'',
-                    pricing:[]
+                    pricing:[],
+                    size:''
                 });
                 this.addPurchasePrice(this.newProduct.product_units.length - 1);
             },
@@ -386,7 +382,8 @@
                             category:cat===undefined?null:cat,
                             product_units:[],
                             pictures_data:response.data.pictures_data,
-                            is_active:response.data.is_active
+                            is_active:response.data.is_active,
+                            size:response.data.size
                         };
 
                         for(var x=0;x<response.data.product_units.length;x++){
