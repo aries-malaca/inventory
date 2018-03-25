@@ -75,19 +75,25 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label>Product Name</label>
-                                            <input type="text" placeholder="(Optional)" class="form-control" disabled :value="productName"/>
+                                            <div class="form-group">
+                                                <label>Product Name</label>
+                                                <input type="text" placeholder="(Optional)" class="form-control" disabled :value="productName"/>
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <label>Category</label>
-                                            <vue-select v-model="newProduct.category" :options="categories"></vue-select>
+                                            <div class="form-group">
+                                                <label>Category</label>
+                                                <vue-select v-model="newProduct.category" :options="categories"></vue-select>
+                                            </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <label>Status</label>
-                                            <select v-model="newProduct.is_active" class="form-control">
-                                                <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
-                                            </select>
+                                            <div class="form-group">
+                                                <label>Status</label>
+                                                <select v-model="newProduct.is_active" class="form-control">
+                                                    <option value="1">Active</option>
+                                                    <option value="0">Inactive</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div v-if="newProduct.id !== 0">
