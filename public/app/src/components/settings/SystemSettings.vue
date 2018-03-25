@@ -28,6 +28,9 @@
             }
         },
         methods:{
+            viewSetting(setting){
+
+            },
             getSettings(){
                 let u = this;
                 axios.get('/api/settings/getSettings')
