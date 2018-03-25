@@ -5,7 +5,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini">App</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg">{{ currentApp }} App</span>
+            <span class="logo-lg">Product Inquiry App</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->

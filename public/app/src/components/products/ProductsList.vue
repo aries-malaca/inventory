@@ -39,7 +39,6 @@
                     <div class="modal-body">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs pull-right">
-                                <li class="" v-if="newProduct.id!==0"><a href="#inventory" data-toggle="tab" aria-expanded="false">Inventory</a></li>
                                 <li class=""><a href="#units" data-toggle="tab" aria-expanded="true">Units & Pricing</a></li>
                                 <li class="active"><a href="#info" data-toggle="tab" aria-expanded="false">Product Info</a></li>
                             </ul>
@@ -260,10 +259,6 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                                <!-- /.tab-pane -->
-                                <div class="tab-pane" id="inventory">
-
                                 </div>
                                 <!-- /.tab-pane -->
                             </div>
