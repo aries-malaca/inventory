@@ -352,6 +352,7 @@
                     product_description:'',
                     category:null,
                     is_active:1,
+                    size:'',
                     product_units:[
                         {
                             unit:null,
