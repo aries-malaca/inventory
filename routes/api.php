@@ -19,7 +19,7 @@ Route::post('/product/updateCategory', 'ProductMiscController@updateCategory');
 Route::get('/product/getTempID', 'ProductController@getTempID');
 Route::post('/product/uploadPicture', 'ProductController@uploadPicture');
 Route::post('/product/removePicture', 'ProductController@removePicture');
-//Route::get('/product/mergeProductName', 'ProductController@mergeProductName');
+Route::get('/product/deleteTemporaryPictures', 'ProductController@deleteTemporaryPictures');
 
 Route::get('/product/getUnits', 'ProductMiscController@getUnits');
 Route::post('/product/addUnit', 'ProductMiscController@addUnit');

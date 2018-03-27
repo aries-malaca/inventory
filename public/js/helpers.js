@@ -37,7 +37,7 @@ var SweetConfirmation = function(text, confirm_callback){
             cancelButtonClass:'btn-sm red',
             confirmButtonClass:'btn-sm blue',
             confirmButtonText:'YES',
-            cancelButtonText:'NO',
+            cancelButtonText:'NO'
         },
         function(t){
             if(t){
