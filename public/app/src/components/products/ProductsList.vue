@@ -28,16 +28,19 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" @click="closeModal" v-if="newProduct.id===0">
+                        <button type="button" class="close" @click="closeModal" v-if="newProduct.id===0 && !is_viewing">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <button type="button" v-else class="close" data-dismiss="modal" aria-label="close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" v-if="newProduct.id===0">Add Product</h4>
-                        <h4 class="modal-title" v-else>Update Product</h4>
+                        <div v-if="!is_viewing">
+                            <h4 class="modal-title" v-if="newProduct.id===0">Add Product</h4>
+                            <h4 class="modal-title" v-else>Update Product</h4>
+                        </div>
+                        <h4 class="modal-title" v-else>{{ productName }}</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" v-if="!is_viewing">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs pull-right">
                                 <li class=""><a href="#units" data-toggle="tab" aria-expanded="true">Units & Pricing</a></li>
@@ -267,12 +270,18 @@
                             <!-- /.tab-content -->
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left"  @click="closeModal" v-if="newProduct.id===0">Close</button>
-                        <button type="button" class="btn btn-default pull-left" v-else data-dismiss="modal">Close</button>
+                    <div class="modal-body" v-else>
 
-                        <button type="button" v-if="newProduct.id===0" @click="addProduct" class="btn btn-primary">Save</button>
-                        <button type="button" v-else @click="updateProduct" class="btn btn-primary">Update</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left"  @click="closeModal" v-if="newProduct.id===0 && !is_viewing">Close</button>
+                        <button type="button" class="btn btn-default pull-left" v-else data-dismiss="modal">Close</button>
+                        <div v-if="!is_viewing">
+                            <button type="button" v-if="newProduct.id===0" @click="addProduct" class="btn btn-primary">Save</button>
+                            <button type="button" v-else @click="updateProduct" class="btn btn-primary">Update</button>
+                            <button type="button" v-if="newProduct.id !== 0" @click="is_viewing=true" class="btn btn-warning">Cancel</button>
+                        </div>
+                        <button type="button" v-else @click="is_viewing=false" class="btn btn-warning">Edit</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -303,7 +312,8 @@
                     ],
                     rowClicked: this.viewProduct,
                 },
-                newProduct:{}
+                newProduct:{},
+                is_viewing:false,
             }
         },
         methods:{
@@ -376,6 +386,7 @@
                         }
                     ]
                 };
+                this.is_viewing = false;
                 this.addPurchasePrice(0);
                 $("#add-modal").modal("show");
             },
@@ -385,6 +396,7 @@
                     return false;
                 }
                 let u = this;
+                this.is_viewing = true;
                 axios.get('/api/product/getProduct/' + product.id)
                     .then(function (response) {
                         let cat = u.categories.find((i)=>{
