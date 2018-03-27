@@ -6,9 +6,9 @@ use App\ProductUnit;
 use App\ProductPrice;
 use App\Inventory;
 use App\Unit;
-use App\PurchaseItem;
 use App\ProductSellingPrice;
 use Illuminate\Support\Facades\Auth;
+use Storage;
 use Validator;
 
 class ProductController extends Controller{
@@ -179,17 +179,23 @@ class ProductController extends Controller{
                 //check if extension is valid
                 if (in_array($ext, $valid_ext)) {
                     $timestamp = time().'.'.$ext ;
-                    $file->move('images/products/', $request->input('product_id') . '_' . $timestamp);
-                    $product = Product::find($request->input('product_id'));
-                    $pics = json_decode($product->pictures_data,true);
-                    $pics[$request->input('key')] = $request->input('product_id') . '_' . $timestamp;
-                    $product->pictures_data = json_encode($pics);
-                    $product->save();
-                    return response()->json(["result"=>"success",'message'=>'Picture has been uploaded.'],200);
+
+                    if($request->input('product_id') != 0) {
+                        $file->move('images/products/', $request->input('product_id') . '_' . $timestamp);
+                        $product = Product::find($request->input('product_id'));
+                        $pics = json_decode($product->pictures_data, true);
+                        $pics[$request->input('key')] = $request->input('product_id') . '_' . $timestamp;
+                        $product->pictures_data = json_encode($pics);
+                        $product->save();
+                    }
+                    else
+                        $file->move('images/temp/', $request->input('product_id') . '_' . $timestamp);
+
+                    return response()->json(["result"=>"success",'message'=>'Picture has been uploaded.', 'filename'=>$request->input('product_id') . '_' . $timestamp],200);
                 }
-                return response()->json(["result"=>"failed","error"=>"Invalid File Format."],400);
+                return response()->json(["result"=>"failed","errors"=>"Invalid File Format."],400);
             }
-            return response()->json(["result"=>"failed","error"=>"No File to be uploaded."], 400);
+            return response()->json(["result"=>"failed","errors"=>"No File to be uploaded."], 400);
         }
         return response()->json($api, $api["status_code"]);
     }
@@ -197,14 +203,25 @@ class ProductController extends Controller{
     function removePicture(Request $request){
         $api = $this->authenticateAPI();
         if($api['result'] === 'success') {
-            $product = Product::find($request->input('product_id'));
-            $pics = json_decode($product->pictures_data,true);
-            $file_name = $pics[$request->input('key')];
-            unset($pics[$request->input('key')]);
-            $product->pictures_data = json_encode($pics);
-            if(file_exists(public_path('/images/products/'.$file_name)))
-                unlink(public_path('/images/products/'.$file_name));
-            $product->save();
+            if($request->input('product_id') != 0){
+                $product = Product::find($request->input('product_id'));
+                $pics = json_decode($product->pictures_data,true);
+                $file_name = $pics[$request->input('key')];
+                unset($pics[$request->input('key')]);
+                $product->pictures_data = json_encode($pics);
+                if(file_exists(public_path('/images/products/'.$file_name)))
+                    unlink(public_path('/images/products/'.$file_name));
+                $product->save();
+            }
+            else{
+                $files = Storage::disk('files')->files('/images/temp');
+                foreach($files as $file){
+                    if(strpos($file, $request->input('key').'_') !== false)
+                        if(file_exists($file))
+                            unlink($file);
+                }
+            }
+
             return response()->json(["result"=>"success","message"=>"Picture has been deleted"],200);
         }
         return response()->json($api, $api["status_code"]);
@@ -300,12 +317,17 @@ class ProductController extends Controller{
         return $stocks .' '. $unit;
     }
 
-    function mergeProductName(){
-        $products = Product::get()->toArray();
-        foreach($products as $key=>$value){
-            Product::where('id', $value['id'])
-                    ->update(['product_name'=> ($value['brand_name']==''?'':$value['brand_name']. ' ' ). $value['product_description']. ' ' . ($value['size']==''?'':$value['size'])]);
+    function deleteTemporaryPictures(){
+        $api = $this->authenticateAPI();
+        if($api['result'] === 'success') {
+            $files = Storage::disk('files')->files('/images/temp');
+            foreach ($files as $file) {
+                if (file_exists($file))
+                    unlink($file);
+            }
+            return response()->json(['result' => 'success']);
         }
+        return response()->json($api, $api["status_code"]);
     }
 
     function evaluateUnits($units){

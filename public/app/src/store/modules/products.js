@@ -6,6 +6,7 @@ export const products = {
         prices: [],
         categories: [],
         units: [],
+        last_uploaded_file:null
     },
     actions:{
         fetchProducts(context){
@@ -57,6 +58,10 @@ export const products = {
         },
         updateUnits(state, units){
             state.units = units;
+        },
+        updateLastUploadedFile(state, filename){
+            state.last_uploaded_file = filename;
         }
     }
+
 };

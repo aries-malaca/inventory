@@ -22,7 +22,9 @@
                     data:data,
                     processData: false,  // tell jQuery not to process the data
                     contentType: false,  // tell jQuery not to set contentType
-                    success:function(){
+                    success:function(response){
+                        console.log(response);
+                        u.$store.commit('products/updateLastUploadedFile', response.filename);
                         u.$emit('emit_host');
                     },
                     error:function (error) {

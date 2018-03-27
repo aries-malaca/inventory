@@ -5,7 +5,6 @@
                 <h3 class="box-title">Product List</h3>
                 &nbsp;
                 <button @click="showAddModal" class="btn btn-success btn-sm">Add Product</button>
-
                 <div class="pull-right">
                     <input type="text" v-model="barcode" class="form-control" placeholder="Find product by Barcode."/>
                 </div>
@@ -25,18 +24,23 @@
             </div>
             <!-- /.box-body -->
         </div>
-
         <div id="add-modal" class="modal fade" tabindex="-1" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" @click="closeModal" v-if="newProduct.id===0 && !is_viewing">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" v-if="newProduct.id==0">Add Product</h4>
-                        <h4 class="modal-title" v-else>Update Product</h4>
+                        <button type="button" v-else class="close" data-dismiss="modal" aria-label="close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div v-if="!is_viewing">
+                            <h4 class="modal-title" v-if="newProduct.id===0">Add Product</h4>
+                            <h4 class="modal-title" v-else>Update Product</h4>
+                        </div>
+                        <h4 class="modal-title" v-else>{{ productName }}</h4>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" v-if="!is_viewing">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs pull-right">
                                 <li class=""><a href="#units" data-toggle="tab" aria-expanded="true">Units & Pricing</a></li>
@@ -45,27 +49,25 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="info">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Product Code</label>
                                                 <input type="text" placeholder="(Required,Unique)" class="form-control" v-model="newProduct.product_code"/>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Brand</label>
                                                 <input type="text" placeholder="(Optional)" class="form-control" v-model="newProduct.brand_name"/>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-9">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Description</label>
                                                 <input type="text" placeholder="(Required)" class="form-control" v-model="newProduct.product_description"/>
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Product Size</label>
                                                 <input type="text" class="form-control" v-model="newProduct.size"/>
@@ -95,13 +97,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-if="newProduct.id !== 0">
+                                    <div>
                                         <h4>Pictures</h4>
                                         <div class="row">
                                             <div class="col-md-3" v-for="(pic,key) in newProduct.pictures_data">
                                                 <ul class="list-unstyled profile-nav" style="margin-top:5px">
                                                     <li>
-                                                        <img v-bind:src="'images/products/'+ pic" class="img-responsive pic-bordered" alt="" />
+                                                        <img v-bind:src="'images/products/'+ pic" v-if="newProduct.id!==0"
+                                                             class="img-responsive pic-bordered" alt="" />
+                                                        <img v-else v-bind:src="'images/temp/'+ pic"
+                                                             class="img-responsive pic-bordered" alt="" />
                                                         <div>
                                                             <a @click="showUploadModal(key)" class="profile-edit"> <i class="fa fa-pencil"></i> </a>
                                                             <a @click="removePicture(key,pic)" style="margin-top:30px" class="profile-edit"> <i class="fa fa-close"></i> </a>
@@ -225,7 +230,7 @@
                                                                             </tr>
                                                                             <tr>          
                                                                                 <th>Percentage</th>
-                                                                                <th>Markup Amount</th>
+                                                                                <th>Amount</th>
                                                                                 <th>W/O Vat</th>
                                                                                 <th>W/ Vat</th>
                                                                             </tr>
@@ -265,17 +270,24 @@
                             <!-- /.tab-content -->
                         </div>
                     </div>
+                    <div class="modal-body" v-else>
+
+                    </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                        <button type="button" v-if="newProduct.id==0" @click="addProduct" class="btn btn-primary">Save</button>
-                        <button type="button" v-else @click="updateProduct" class="btn btn-primary">Update</button>
+                        <button type="button" class="btn btn-default pull-left"  @click="closeModal" v-if="newProduct.id===0 && !is_viewing">Close</button>
+                        <button type="button" class="btn btn-default pull-left" v-else data-dismiss="modal">Close</button>
+                        <div v-if="!is_viewing">
+                            <button type="button" v-if="newProduct.id===0" @click="addProduct" class="btn btn-primary">Save</button>
+                            <button type="button" v-else @click="updateProduct" class="btn btn-primary">Update</button>
+                            <button type="button" v-if="newProduct.id !== 0" @click="is_viewing=true" class="btn btn-warning">Cancel</button>
+                        </div>
+                        <button type="button" v-else @click="is_viewing=false" class="btn btn-warning">Edit</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
             </div>
             <!-- /.modal-dialog -->
         </div>
-
     </div>
 </template>
 <script>
@@ -300,10 +312,19 @@
                     ],
                     rowClicked: this.viewProduct,
                 },
-                newProduct:{}
+                newProduct:{},
+                is_viewing:false,
             }
         },
         methods:{
+            closeModal(){
+                if(confirm("Are you sure you want to discard this dialog's data?")){
+                    axios.get('/api/product/deleteTemporaryPictures?token=' + this.token)
+                        .then(function () {
+                            $("#add-modal").modal("hide");
+                        });
+                }
+            },
             addProductUnit(){
                 this.newProduct.product_units.push({
                     unit:null,
@@ -353,6 +374,7 @@
                     category:null,
                     is_active:1,
                     size:'',
+                    pictures_data:[],
                     product_units:[
                         {
                             unit:null,
@@ -364,11 +386,17 @@
                         }
                     ]
                 };
+                this.is_viewing = false;
                 this.addPurchasePrice(0);
                 $("#add-modal").modal("show");
             },
             viewProduct:function(product){
+                if(product.id===0) {
+                    this.newProduct.pictures_data.push(this.last_uploaded);
+                    return false;
+                }
                 let u = this;
+                this.is_viewing = true;
                 axios.get('/api/product/getProduct/' + product.id)
                     .then(function (response) {
                         let cat = u.categories.find((i)=>{
@@ -488,7 +516,11 @@
                     axios.post('/api/product/removePicture?token=' + this.token, {product_id:this.newProduct.id, key: key})
                     .then(function (response) {
                         toastr.success(response.data.message);
-                        u.viewProduct(u.newProduct);
+
+                        if(u.newProduct.id !== 0)
+                            u.viewProduct(u.newProduct);
+                        else
+                            u.newProduct.pictures_data.splice(key,1);
                     })
                     .catch(function (error) {
                         XHRCatcher(error);
@@ -539,6 +571,9 @@
             },
             productName(){
                 return (this.newProduct.brand_name +' '+ this.newProduct.product_description +' '+ this.newProduct.size).toUpperCase();
+            },
+            last_uploaded(){
+                return this.$store.state.products.last_uploaded_file;
             }
         }
     }
