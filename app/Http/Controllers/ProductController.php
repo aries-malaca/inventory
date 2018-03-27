@@ -64,7 +64,7 @@ class ProductController extends Controller{
             $product->product_name = strtoupper(($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'') .' ' . ($request->input('size')!==null?$request->input('size'):''));
             $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
             $product->is_active = $request->input('is_active');
-            $product->pictures_data = '[]';
+            $product->pictures_data = json_encode($request->input('pictures_data'));
 
             if($this->checkDuplicateName($product->product_name))
                 return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.'], 400);
