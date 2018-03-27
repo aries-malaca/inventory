@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="box box-warning">
+                <div class="box box-danger">
                     <div class="box-header with-border">
                         <h3 class="box-title">Units</h3>
                         &nbsp;

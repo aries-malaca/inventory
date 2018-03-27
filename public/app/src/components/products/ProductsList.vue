@@ -517,7 +517,9 @@
                     }) !== undefined || u.barcode === ''
 
                 });
+                
             },
+            
             prices(){
                 return this.$store.state.products.prices;
             },
