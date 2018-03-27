@@ -375,6 +375,7 @@
                     category:null,
                     is_active:1,
                     size:'',
+                    product_name:'',
                     pictures_data:[],
                     product_units:[
                         {
@@ -411,6 +412,7 @@
                             size:response.data.size,
                             category:cat===undefined?null:cat,
                             product_units:[],
+                            product_name:response.data.product_name,
                             pictures_data:response.data.pictures_data,
                             is_active:response.data.is_active,
                             size:response.data.size
