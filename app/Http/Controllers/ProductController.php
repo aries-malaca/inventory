@@ -64,12 +64,15 @@ class ProductController extends Controller{
             $product->product_name = strtoupper(($request->input('brand_name')!==null && $request->input('brand_name')!==''?$request->input('brand_name'):'') .' ' . ($request->input('product_description')!==null?$request->input('product_description'):'') .' ' . ($request->input('size')!==null?$request->input('size'):''));
             $product->product_description = ($request->input('product_description')!==null?$request->input('product_description'):'');
             $product->is_active = $request->input('is_active');
-            $product->pictures_data = json_encode($request->input('pictures_data'));
-
+            $product->pictures_data = '[]';
             if($this->checkDuplicateName($product->product_name))
                 return response()->json(['result'=>'failed', 'errors'=>'Product name already exists.'], 400);
 
             $product->save();
+
+            $p = Product::find($product->id);
+            $p->pictures_data = json_encode($this->replaceID($request->input('pictures_data'), $product->id));
+            $p->save();
 
             foreach($request->input('product_units') as $key=>$value){
                 $unit = new ProductUnit;
@@ -101,6 +104,17 @@ class ProductController extends Controller{
             return response()->json(['result'=>'success','message'=>'Product has been added.']);
         }
         return response()->json($api, $api["status_code"]);
+    }
+
+    function replaceID($array, $id){
+        $new_array = array();
+        foreach($array as $key=>$value) {
+            $replaced = str_replace('0_', $id . '_', $value);
+            $new_array[] = $replaced;
+            Storage::disk('files')->move('images/temp/'. $value, 'images/products/'. $replaced);
+        }
+
+        return $new_array;
     }
 
     function updateProduct(Request $request){

@@ -271,7 +271,7 @@
                         </div>
                     </div>
                     <div class="modal-body" v-else>
-
+                        <product-view :product="newProduct"></product-view>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left"  @click="closeModal" v-if="newProduct.id===0 && !is_viewing">Close</button>
@@ -293,11 +293,12 @@
 <script>
     import DataTable from '../components/DataTable.vue';
     import Uploader from "../modals/UploadPictureModalSmall.vue";
+    import ProductView from "./ProductView.vue";
     import VueSelect from 'vue-select';
 
     export default {
         name: 'ProductsList',
-        components:{ DataTable, VueSelect, Uploader },
+        components:{ DataTable, VueSelect, Uploader, ProductView },
         data(){
             return{
                 barcode:'',
