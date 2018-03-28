@@ -38,7 +38,7 @@
                             <h4 class="modal-title" v-if="newProduct.id===0">Add Product</h4>
                             <h4 class="modal-title" v-else>Update Product</h4>
                         </div>
-                        <h4 class="modal-title" v-else>{{ productName }}</h4>
+                        <h4 class="modal-title" v-else>Product View</h4>
                     </div>
                     <div class="modal-body" v-if="!is_viewing">
                         <div class="nav-tabs-custom">

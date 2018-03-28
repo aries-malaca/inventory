@@ -11,6 +11,12 @@
   <link rel="stylesheet" href="../../theme/dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="../../theme/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="../../theme/plugins/toastr/toastr.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+ 
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
   <div id="wrapper">
@@ -35,5 +41,6 @@
   <script src="../../js/notify.js"></script>
   <script src="../../js/jquery-cookie.js"></script>
   <script src="../../app/dist/build.js"></script>
+
 </body>
 </html>
