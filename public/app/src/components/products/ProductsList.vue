@@ -38,7 +38,7 @@
                             <h4 class="modal-title" v-if="newProduct.id===0">Add Product</h4>
                             <h4 class="modal-title" v-else>Update Product</h4>
                         </div>
-                        <h4 class="modal-title" v-else>Product View</h4>
+                        <h4 class="modal-title" v-else>{{ productName }}</h4>
                     </div>
                     <div class="modal-body" v-if="!is_viewing">
                         <div class="nav-tabs-custom">
@@ -573,7 +573,7 @@
                 return this.$store.state.settings;
             },
             productName(){
-                return (this.newProduct.brand_name +' '+ this.newProduct.product_description +' '+ this.newProduct.size).toUpperCase();
+                return (this.newProduct.product_code + ' ' + this.newProduct.brand_name +' '+ this.newProduct.product_description +' '+ this.newProduct.size).toUpperCase();
             },
             last_uploaded(){
                 return this.$store.state.products.last_uploaded_file;
