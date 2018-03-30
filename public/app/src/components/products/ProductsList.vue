@@ -573,7 +573,7 @@
                 return this.$store.state.settings;
             },
             productName(){
-                return (this.newProduct.brand_name +' '+ this.newProduct.product_description +' '+ this.newProduct.size).toUpperCase();
+                return (this.newProduct.product_code + ' ' + this.newProduct.brand_name +' '+ this.newProduct.product_description +' '+ this.newProduct.size).toUpperCase();
             },
             last_uploaded(){
                 return this.$store.state.products.last_uploaded_file;
