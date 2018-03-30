@@ -1,18 +1,58 @@
 <template>
-    <div>
-        <data-table
-            :columns="settingTable.columns"
-            :rows="settings"
-            :paginate="true"
-            :onClick="settingTable.rowClicked"
-            styleClass="table table-bordered table-hover table-striped">
-        </data-table>
+    <div class="tab-pane active" id="settings-tab" style="position: relative;">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">System Settings</h3>
+            </div>
+            <div class="box-body">
+                <data-table
+                    :columns="settingTable.columns"
+                    :rows="settings"
+                    :paginate="true"
+                    :onClick="settingTable.rowClicked"
+                    styleClass="table table-bordered table-hover table-striped">
+                </data-table>
+                <div class="modal fade" id="setting-modal" tabindex="1">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class="modal-title">Update Setting</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>{{ newSetting.setting_label }}:</label>
+                                            <input v-if="newSetting.setting_type==='string' || newSetting.setting_type==='number'"
+                                                :type="newSetting.setting_type==='string'?'text':'number'"
+                                                v-model="newSetting.setting_value" class="form-control"/>
+                                            <select v-model="newSetting.setting_value" v-else class="form-control">
+                                                <option :value="1">Yes</option>
+                                                <option :value="0">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-loading-text="Saving..." @click="updateSetting">Update</button>
+                                <button type="button" class="btn pull-left" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 <script>
     import DataTable from '../components/DataTable.vue';
     export default {
         name: 'SystemSettings',
+        components:{ DataTable },
         data(){
             return{
                 settings:[],
@@ -29,7 +69,13 @@
         },
         methods:{
             viewSetting(setting){
-
+                this.newSetting = {
+                    id:setting.id,
+                    setting_value:setting.setting_value,
+                    setting_label:setting.setting_label,
+                    setting_type:setting.setting_type
+                };
+                $("#setting-modal").modal("show");
             },
             getSettings(){
                 let u = this;
@@ -41,15 +87,16 @@
                         XHRCatcher(error);
                     });
             },
-            updateSettings(event){
+            updateSetting(event){
                 let u = this;
                 let $btn = $(event.target);
                 $btn.button('loading');
-                axios.post(url, this.newSetting)
+                axios.post('/api/settings/updateSettings?token=' + this.token, this.newSetting)
                     .then(function (response) {
                         toastr.success(response.data.message);
-                        $("#settings-modal").modal("hide");
+                        $("#setting-modal").modal("hide");
                         $btn.button('reset');
+                        u.getSettings();
                     })
                     .catch(function (error) {
                         $btn.button('reset');
@@ -59,6 +106,11 @@
         },
         mounted(){
             this.getSettings();
+        },
+        computed:{
+            token(){
+                this.$store.state.token;
+            }
         }
     }
 </script>

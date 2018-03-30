@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\User;
 use App\Level;
@@ -9,7 +8,6 @@ use JWTAuth;
 use Hash;
 
 class UserController extends Controller{
-
     public function login(Request $request){
         $validator = Validator::make($request->all(), [
             'email' => 'required|max:255',
@@ -43,35 +41,44 @@ class UserController extends Controller{
     }
 
     function getUsers(){
-        return response()->json(User::leftJoin('levels','users.level','=','levels.id')
-                                    ->select('level_name','users.*')
-                                    ->get()->toArray());
+        $data = User::leftJoin('levels','users.level','=','levels.id')
+                                ->select('level_name','users.*')
+                                ->get()->toArray();
+        foreach($data as $key=>$value)
+            $data[$key]['user_data'] = json_decode($value['user_data']);
+        
+        return response()->json($data);
     }
 
     function addUser(Request $request){
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:users,name|max:255',
             'email' => 'required|email|max:255',
-            'level' => 'required|not_in:0',
-            'branch_id' => 'required|not_in:0',
+            'level' => 'required|not_in:0'
         ]);
 
         if ($validator->fails())
-            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()]);
+            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()],400);
 
-        $user = new User;
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->level = $request->input('level');
-        $user->password = bcrypt('secret');
-        $user->address = $request->input('address');
-        $user->mobile = $request->input('mobile');
-        $user->photo = 'default.jpg';
-        $user->is_active = 1;
-        $user->branch_id = $request->input('branch_id');
-        $user->save();
+        $api = $this->authenticateAPI();
 
-        return response()->json(['result'=>'success']);
+        if($api['result'] === 'success') {
+            $user = new User;
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->level = $request->input('level');
+            $user->password = bcrypt('secret');
+            $user->address = $request->input('address');
+            $user->mobile = $request->input('mobile');
+            $user->photo = 'default.jpg';
+            $user->is_active = $request->input('is_active');
+            $user->branch_id = 1;
+            $user->save();
+
+            return response()->json(['result'=>'success','message'=>'User has been added.']);
+        }
+
+        return response()->json($api, $api["status_code"]);
     }
 
     function updateUser(Request $request){
@@ -79,23 +86,27 @@ class UserController extends Controller{
             'name' => 'required|unique:users,name,'.$request->input('id').'|max:255',
             'email' => 'required|email|max:255',
             'level' => 'required|not_in:0',
-            'branch_id' => 'required|not_in:0',
         ]);
 
         if ($validator->fails())
-            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()]);
+            return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()],400);
 
-        $user = User::find($request->input('id'));
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->level = $request->input('level');
-        $user->address = $request->input('address');
-        $user->mobile = $request->input('mobile');
-        $user->is_active = $request->input('is_active');
-        $user->branch_id = $request->input('branch_id');
-        $user->save();
+        $api = $this->authenticateAPI();
 
-        return response()->json(['result'=>'success']);
+        if($api['result'] === 'success') {
+            $user = User::find($request->input('id'));
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->level = $request->input('level');
+            $user->address = $request->input('address');
+            $user->mobile = $request->input('mobile');
+            $user->is_active = $request->input('is_active');
+            $user->save();
+
+            return response()->json(['result'=>'success','message'=>'User has been updated.']);
+        }
+        
+        return response()->json($api, $api["status_code"]);
     }
 
     function getUser(){

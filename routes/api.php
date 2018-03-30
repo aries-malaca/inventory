@@ -44,11 +44,19 @@ Route::get('/settings/getSettings', 'SettingController@getSettings');
 Route::post('/settings/updateSettings', 'SettingController@updateSettings');
 //end settings API
 
+//users API
+Route::get('/users/getUsers', 'UserController@getUsers');
+Route::get('/user/getUser', 'UserController@getUser');
+Route::post('/user/destroyToken', 'UserController@destroyToken');
+Route::post('/users/addUser', 'UserController@addUser');
+Route::post('/users/updateUser', 'UserController@updateUser');
+//end users API
 
-
-
-
-
+//levels API
+Route::get('/levels/getLevels', 'LevelController@getLevels');
+Route::post('/levels/addLevel', 'LevelController@addLevel');
+Route::post('/levels/updateLevel', 'LevelController@updateLevel');
+//end levels API
 
 
 
@@ -79,23 +87,6 @@ Route::post('/branches/updateBranch', 'BranchController@updateBranch');
 //profile API
 Route::post('/profile/updateProfile', 'ProfileController@updateProfile');
 //end profile API
-
-
-
-//users API
-Route::get('/users/getUsers', 'UserController@getUsers');
-Route::get('/user/getUser', 'UserController@getUser');
-Route::patch('/user/destroyToken', 'UserController@destroyToken');
-Route::post('/users/addUser', 'UserController@addUser');
-Route::post('/users/updateUser', 'UserController@updateUser');
-//end users API
-
-//levels API
-Route::get('/levels/getLevels', 'LevelController@getLevels');
-Route::post('/levels/addLevel', 'LevelController@addLevel');
-Route::post('/levels/updateLevel', 'LevelController@updateLevel');
-Route::post('/levels/deleteLevel', 'LevelController@deleteLevel');
-//end levels API
 
 //permissions API
 Route::get('/permissions/getPermissions', 'PermissionController@getPermissions');
