@@ -135,7 +135,7 @@
         	},
         	showAddModal(){
         		this.newUser = {
-        			id:'',
+        			id:0,
         			name:'',
         			mobile:'',
         			is_active:1,
@@ -194,7 +194,9 @@
         		return this.$store.state.token;
         	},
 			levels(){
-        		return this.$store.state.levels.levels;
+        		return this.$store.state.levels.levels.filter((item)=>{
+        			return item.is_active===1;
+        		});
         	}
         }
     }

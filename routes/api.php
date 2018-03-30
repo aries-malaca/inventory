@@ -46,6 +46,7 @@ Route::post('/settings/updateSettings', 'SettingController@updateSettings');
 
 //users API
 Route::get('/users/getUsers', 'UserController@getUsers');
+Route::get('/users/getUserLogs/{id}', 'UserController@getUserLogs');
 Route::get('/user/getUser', 'UserController@getUser');
 Route::post('/user/destroyToken', 'UserController@destroyToken');
 Route::post('/users/addUser', 'UserController@addUser');
@@ -59,7 +60,10 @@ Route::post('/levels/updateLevel', 'LevelController@updateLevel');
 //end levels API
 
 
-
+//profile API
+Route::post('/profile/updateProfile', 'ProfileController@updateProfile');
+Route::post('/profile/uploadPicture', 'ProfileController@uploadPicture');
+//end profile API
 
 
 
@@ -83,10 +87,6 @@ Route::post('/branches/addBranch', 'BranchController@addBranch');
 Route::post('/branches/updateBranch', 'BranchController@updateBranch');
 //end branches API
 
-
-//profile API
-Route::post('/profile/updateProfile', 'ProfileController@updateProfile');
-//end profile API
 
 //permissions API
 Route::get('/permissions/getPermissions', 'PermissionController@getPermissions');

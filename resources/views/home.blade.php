@@ -38,6 +38,7 @@
   <script src="../../js/axios.js"></script>
   <script src="../../js/config.js"></script>
   <script src="../../js/moment-round.js"></script>
+  <script src="../../js/croppie.js"></script>
   <script src="../../js/notify.js"></script>
   <script src="../../js/jquery-cookie.js"></script>
   <script src="../../app/dist/build.js"></script>

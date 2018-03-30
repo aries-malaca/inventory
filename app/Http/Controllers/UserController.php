@@ -6,6 +6,7 @@ use App\Level;
 use Validator;
 use JWTAuth;
 use Hash;
+use DB;
 
 class UserController extends Controller{
     public function login(Request $request){
@@ -73,6 +74,10 @@ class UserController extends Controller{
             $user->photo = 'default.jpg';
             $user->is_active = $request->input('is_active');
             $user->branch_id = 1;
+            $user->device_data = '[]';
+            $user->user_data = '{}';
+            $user->last_login = date('Y-m-d');
+            $user->last_activity = date('Y-m-d');
             $user->save();
 
             return response()->json(['result'=>'success','message'=>'User has been added.']);
@@ -132,20 +137,72 @@ class UserController extends Controller{
     }
 
     public function destroyToken(Request $request){
-        $user = User::find($request->input('user_id'));
-        $tokens = json_decode($user->device_data, true);
-        $new_tokens = array();
-        if(sizeof($tokens) == 0)
-            $user->device_data = json_encode(array());
-        else{
-            foreach ($tokens as $t=>$v){
-                if($v['token']!= $request->input('token'))
-                    $new_tokens[] = $v;
-            }
-            $user->device_data = json_encode($new_tokens);
-        }
-        $user->save();
+        $api = $this->authenticateAPI();
 
-        return response()->json(["result"=>"success"]);
+        if($api['result'] === 'success'){
+            $user = User::find($request->input('user_id'));
+            $tokens = json_decode($user->device_data, true);
+            $new_tokens = array();
+            if(sizeof($tokens) == 0)
+                $user->device_data = json_encode(array());
+            else{
+                foreach ($tokens as $t=>$v){
+                    if($v['token']!= $request->input('token'))
+                        $new_tokens[] = $v;
+                }
+                $user->device_data = json_encode($new_tokens);
+            }
+            $user->save();
+
+            return response()->json(["result"=>"success"]);
+
+        }
+
+        return response()->json($api, $api["status_code"]);
+    }
+
+    function getUserLogs(Request $request){
+        $data = DB::select(DB::raw("SELECT * FROM audits 
+                            WHERE user_id=" .$request->segment(4) ) . " 
+                            ORDER BY created_at DESC 
+                            LIMIT 20");
+        $logs = array();
+        foreach($data as $key=>$value){
+            $old = json_decode($value->old_values);
+            $new = json_decode($value->new_values);
+            $action = ucfirst($value->event) . ' ' . str_replace("App\\", "", $value->auditable_type);
+            if($value->new_values !== '[]'){
+                $body = [];
+
+                if($value->event==='updated')
+                    foreach($old as $k=>$v)
+                        $body[] = [$k=>$v .' -> ' . $new->$k ];
+                else
+                    foreach($new as $k=>$v)
+                        $body[] = [$k=>$v];
+
+                $category = strtolower(str_replace("App\\", "", $value->auditable_type));
+                if($value->user_id === $value->auditable_id){
+                    if(isset($old->last_login)){
+                        $action = "Logged in the system";
+                        $body = [];
+                    }
+                    else
+                        $action = "Updated Profile";
+
+                    $category = 'user';
+                }
+
+                $logs[] = array(
+                    "action" => $action,
+                    "body" => $body,
+                    "category"=>$category,
+                    "ip_address"=>$value->ip_address,
+                    "created_at"=>$value->created_at
+                );
+            }
+        }
+
+        return response()->json($logs);
     }
 }

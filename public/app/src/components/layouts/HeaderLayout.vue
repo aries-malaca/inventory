@@ -29,7 +29,7 @@
                                 <img :src="'../../images/users/' + user.photo " class="img-circle" alt="User Image">
                                 <p>
                                     {{ user.name }}
-                                    <small>Member since {{ user.created_at }}</small>
+                                    <small>Member since: {{ moment(user.created_at).format("MM/DD/YYYY") }}</small>
                                 </p>
                             </li>
                             <!-- Menu Footer-->
@@ -55,7 +55,8 @@
         methods:{
             logout: function() {
                 this.$emit('logout')
-            }
+            },
+            moment:moment
         },
         computed:{
             user(){

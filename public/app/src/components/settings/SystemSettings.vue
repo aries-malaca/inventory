@@ -109,7 +109,7 @@
         },
         computed:{
             token(){
-                this.$store.state.token;
+                return this.$store.state.token;
             }
         }
     }
