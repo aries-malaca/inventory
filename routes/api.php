@@ -66,6 +66,7 @@ Route::post('/profile/uploadPicture', 'ProfileController@uploadPicture');
 Route::get('/settings/getBackups', 'SettingController@getBackups');
 Route::get('/settings/runBackup', 'SettingController@runBackup');
 Route::post('/settings/restoreBackup', 'SettingController@restoreBackup');
+Route::post('/settings/deleteBackup', 'SettingController@deleteBackup');
 //end database API
 
 

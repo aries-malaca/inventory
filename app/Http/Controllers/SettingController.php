@@ -38,10 +38,12 @@ class SettingController extends Controller{
         $array = array();
         foreach($files as $key=>$file){
             $array[] = [
-                "filename"=>$file,
-                "size"=>number_format(Storage::size($file)/102400, 2) .'Mb'
+                "filename"=>str_replace('backups/','',$file),
+                "size"=>number_format(Storage::size($file)/102400, 2) .'Mb',
+                "created"=>date('m/d/Y h:i A',Storage::lastModified($file))
             ];
         }
+        rsort($array);
         return response()->json($array);
     }
 
@@ -54,10 +56,20 @@ class SettingController extends Controller{
     }
 
     function restoreBackup(Request $request){
-        $code = Artisan::call('backup:mysql-restore', ['--filename' => $request->input('filename'), '--yes'=>true]);
-        if($code ===0)
-            return response()->json(['result'=>'success', 'message'=>"Database successfully restored."]);
+        if(Storage::exists('backups/' . $request->input('filename'))){
+            $code = Artisan::call('backup:mysql-restore', ['--filename' => $request->input('filename'), '--yes'=>true]);
+            if($code ===0)
+                return response()->json(['result'=>'success', 'message'=>"Database successfully restored."]);
+        }
 
-        return  response()->json(['result'=>'success', 'errors'=>'DB restore Failed to execute.'], 400);
+        return  response()->json(['result'=>'failed', 'errors'=>'DB restore Failed to execute.'], 400);
+    }
+
+    function deleteBackup(Request $request){
+        if(Storage::exists('backups/' . $request->input('filename'))){
+            Storage::delete('backups/' . $request->input('filename'));
+            return response()->json(['result'=>'success', 'message'=>"Backup successfully deleted."]);
+        }
+        return response()->json(['result'=>'failed', 'errors'=>"Failed to delete backup file."],400);
     }
 }
