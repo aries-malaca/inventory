@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <h4>Product Units and Pricing</h4>
-                    <table class="table table-condensed table-bordered table-hover">
+                    <table class="table table-condensed table-bordered table-hover" >
                         <tr>
                             <th>Unit</th>
                             <th>Bar Code</th>
