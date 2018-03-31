@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Dubai',
 
     /*
     |--------------------------------------------------------------------------
@@ -179,7 +179,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
-        OwenIt\Auditing\AuditingServiceProvider::class
+        OwenIt\Auditing\AuditingServiceProvider::class,
+        Backup\BackupServiceProvider::class
     ],
 
     /*
@@ -233,4 +234,18 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
     ],
 
+    'permissions'=>[
+        'products'=>['view', 'add', 'update'],
+        'categories'=>['view', 'add', 'update'],
+        'prices'=>['view', 'add', 'update'],
+        'units'=>['view', 'add', 'update'],
+        'branches'=>['view', 'add', 'update'],
+        'accounts'=>['view', 'add', 'update'],
+        'payers'=>['view', 'add', 'update'],
+        'payees'=>['view', 'add', 'update'],
+        'incomes'=>['view', 'add', 'update'],
+        'expenses'=>['view', 'add', 'update'],
+        'reports'=>['view']
+    ],
+    'reports'=>['product_reports']
 ];

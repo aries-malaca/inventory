@@ -46,30 +46,7 @@
                 </ul>
                 <div class="tab-content">
                   <div class="tab-pane active" id="activity">
-                    <!-- The timeline -->
-                    <ul class="timeline timeline-inverse">
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <li v-for="log in logs">
-
-                        <i class="fa fa-user bg-red" v-if="log.category==='user'"></i>
-                        <i class="fa fa-cart-plus bg-blue" v-if="log.category==='product'"></i>
-
-                        <div class="timeline-item">
-                          <span class="time">
-                            <i class="fa fa-clock-o"></i> {{ moment(log.created_at).format("MM/DD/YYYY hh:mm A") }}
-                          </span>
-                          <h3 class="timeline-header">{{ log.action }}</h3>
-                          <div class="timeline-body">
-                            <p>{{ log.body }}</p>
-                          </div>
-                          <div class="timeline-footer">
-                            <strong>IP: {{ log.ip_address }}</strong>
-                          </div>
-                        </div>
-                      </li>
-                      <!-- END timeline item -->
-                    </ul>
+                      <activities :logs="computed_logs"></activities>
                   </div>
                   <!-- /.tab-pane -->
                   <div id="tokens" class="tab-pane">
@@ -167,9 +144,10 @@
 <script>
     import UploadPictureModal from './modals/UploadPictureModal.vue';
     import MyDevicesTable from './tables/MyDevicesTable.vue';
+    import Activities from './timelines/Activities.vue';
     export default {
         name: 'Profile',
-        components:{ UploadPictureModal, MyDevicesTable },
+        components:{ UploadPictureModal, MyDevicesTable, Activities },
         data(){
             return{
                 title:'Profile',

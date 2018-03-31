@@ -1,7 +1,5 @@
 <?php
-
 use Illuminate\Http\Request;
-
 //products API
 Route::get('/product/getProducts', 'ProductController@getProducts');
 Route::get('/product/getProduct/{id}', 'ProductController@getProduct');
@@ -38,7 +36,6 @@ Route::post('/supplier/addSupplier', 'SupplierController@addSupplier');
 Route::post('/supplier/updateSupplier', 'SupplierController@updateSupplier');
 //end supplier API
 
-
 //settings API
 Route::get('/settings/getSettings', 'SettingController@getSettings');
 Route::post('/settings/updateSettings', 'SettingController@updateSettings');
@@ -55,17 +52,22 @@ Route::post('/users/updateUser', 'UserController@updateUser');
 
 //levels API
 Route::get('/levels/getLevels', 'LevelController@getLevels');
+Route::get('/levels/getPermissions', 'LevelController@getPermissions');
 Route::post('/levels/addLevel', 'LevelController@addLevel');
 Route::post('/levels/updateLevel', 'LevelController@updateLevel');
 //end levels API
-
 
 //profile API
 Route::post('/profile/updateProfile', 'ProfileController@updateProfile');
 Route::post('/profile/uploadPicture', 'ProfileController@uploadPicture');
 //end profile API
 
-
+//database API
+Route::get('/settings/getBackups', 'SettingController@getBackups');
+Route::get('/settings/runBackup', 'SettingController@runBackup');
+Route::post('/settings/restoreBackup', 'SettingController@restoreBackup');
+Route::post('/settings/deleteBackup', 'SettingController@deleteBackup');
+//end database API
 
 
 
@@ -87,19 +89,6 @@ Route::post('/branches/addBranch', 'BranchController@addBranch');
 Route::post('/branches/updateBranch', 'BranchController@updateBranch');
 //end branches API
 
-
-//permissions API
-Route::get('/permissions/getPermissions', 'PermissionController@getPermissions');
-Route::post('/permissions/addPermission', 'PermissionController@addPermission');
-Route::post('/permissions/updatePermission', 'PermissionController@updatePermission');
-Route::post('/permissions/deletePermission', 'PermissionController@deletePermission');
-//end permissions API
-
-//profile API
-Route::post('/profile/updateProfile', 'ProfileController@updateProfile');
-Route::post('/profile/changePassword', 'ProfileController@changePassword');
-//end profile API
-
 //receives API
 Route::get('/receives/getReceives', 'ReceiveController@getReceives');
 Route::post('/receives/addReceive', 'ReceiveController@addReceive');
@@ -108,7 +97,6 @@ Route::post('/receives/updateReceive', 'ReceiveController@updateReceive');
 Route::post('/receives/voidReceive', 'ReceiveController@voidReceive');
 Route::post('/receives/deleteReceive', 'ReceiveController@deleteReceive');
 //end receives API
-
 
 //receives API
 Route::get('/reconciliations/getReconciliations', 'ReconciliationController@getReconciliations');

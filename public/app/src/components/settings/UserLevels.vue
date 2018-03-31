@@ -11,7 +11,7 @@
 		            :columns="levelTable.columns"
 		            :rows="computed_levels"
 		            :paginate="true"
-		            :onClick="viewLeveL"
+		            :onClick="viewLevel"
 		            styleClass="table table-bordered table-hover table-striped">
 		        </data-table>
 		        <div class="modal fade" id="level-modal" tabindex="1">
@@ -48,6 +48,24 @@
 		                            	</div>
 		                        	</div>
 		                        </div>
+								<div class="row" v-if="newLevel.level_data !== undefined">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>System</label>
+											<select v-model="newLevel.level_data.system" class="form-control">
+												<option v-for="system in systems" :value="system">{{ system }}</option>
+											</select>
+										</div>
+									</div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Dashboard</label>
+                                            <select v-model="newLevel.level_data.dashboard" class="form-control">
+                                                <option v-for="dashboard in dashboards" :value="dashboard">{{ dashboard }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+								</div>
 		                    </div>
 		                    <div class="modal-footer">
 		                    	<button type="button" class="btn btn-success" v-if="newLevel.id===0" @click="addLevel">Save</button>
@@ -91,14 +109,16 @@
                         XHRCatcher(error);
                     });
         	},
-        	viewLeveL(level){
+        	viewLevel(level){
         		this.newLevel = {
         			id:level.id,
         			level_name:level.level_name,
         			level_description:level.level_description,
         			is_active:level.is_active,
         			level_data:{
-        				permissions:[]
+        				permissions:[],
+						system:level.level_data.system,
+                        dashboard:level.level_data.dashboard,
         			}
         		};
 
@@ -117,7 +137,9 @@
 	    			level_description:'',
 	    			is_active:1,
 	    			level_data:{
-	    				permissions:[]
+	    				permissions:[],
+						system:'',
+                        dashboard:'ProductDashboard'
 	    			}
 	    		};
 
@@ -171,7 +193,13 @@
         	},
         	levels(){
         		return this.$store.state.levels.levels;
-        	}
+        	},
+			systems(){
+        	    return this.$store.state.systems;
+			},
+            dashboards(){
+                return this.$store.state.dashboards;
+            }
         }
     }
 </script>

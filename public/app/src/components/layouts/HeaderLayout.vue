@@ -1,11 +1,11 @@
 <template>
     <div>
         <!-- Logo -->
-        <a href="/#/home" class="logo">
+        <a href="/#/home" class="logo" >
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini">App</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg">Product Inquiry App</span>
+            <span class="logo-lg" v-if="user.level_data !== undefined">{{ user.level_data.system }}</span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
