@@ -162,8 +162,7 @@ class UserController extends Controller{
     }
 
     function getUserLogs(Request $request){
-        $data = DB::select(DB::raw("SELECT * FROM audits 
-                            WHERE user_id=" .$request->segment(4) ) . " 
+        $data = DB::select(DB::raw("SELECT * FROM audits WHERE new_values <> '[]' AND user_id=" .$request->segment(4) ) . " 
                             ORDER BY created_at DESC 
                             LIMIT 20");
         $logs = array();

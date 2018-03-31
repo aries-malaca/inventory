@@ -78,6 +78,14 @@
         watch:{
             title(){
                 window.document.title = 'App | ' + this.title;
+            },
+            'user.level_data'(){
+                if(this.user.level_data !== undefined){
+                    if(this.user.level_data.dashboard === 'ProductDashboard')
+                        $("body").addClass("skin-blue");
+                    else
+                        $("body").addClass("skin-green");
+                }
             }
         }
     }

@@ -22,7 +22,15 @@ export const store = new Vuex.Store({
         user: null,
         settings:null,
         menus:[],
-        title: 'App'
+        title: 'App',
+        systems:[
+            'Product Inquiry',
+            'Accounting System',
+        ],
+        dashboards:[
+            'ProductDashboard',
+            'AccountingDashboard'
+        ]
     },
     actions:{
         fetchAuthenticatedUser(context){

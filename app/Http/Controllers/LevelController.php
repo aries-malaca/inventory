@@ -66,4 +66,11 @@ class LevelController extends Controller{
         
         return response()->json($api, $api["status_code"]);
     }
+
+    function getPermissions(){
+        return response()->json([
+            "permissions"=>config('app.permissions'),
+            "reports"=>config('app.reports')
+        ]);
+    }
 }

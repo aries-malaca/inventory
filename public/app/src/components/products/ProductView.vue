@@ -32,7 +32,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-4">
                     <!-- Product Image -->
-                        <img class="img-responsive" :src="'images/products/' + product.pictures_data" alt="Product Image">
+                    <img class="img-responsive" :src="'images/products/' + product.pictures_data[0]" alt="Product Image">
                 </div>
             </div>
             <div class="row">
