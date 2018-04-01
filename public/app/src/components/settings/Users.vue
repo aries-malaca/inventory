@@ -4,7 +4,7 @@
 			<div class="box-header with-border">
 	    		<h3 class="box-title">Users</h3>
 	            &nbsp;
-	            <button class="btn btn-success btn-sm" @click="showAddModal">Add User</button> 
+	            <button class="btn btn-success btn-sm" v-if="gate(user, 'users', 'add')" @click="showAddModal">Add User</button>
         	</div>
         	<div class="box-body">
         		<data-table
@@ -99,6 +99,7 @@
                 userTable:{
                     columns: [
                         { label: 'Name', field: 'name' },
+                        { label: 'Level', field: 'level_name' },
                         { label: 'Email', field: 'email' },
                         { label: 'Mobile', field: 'mobile' },
                         { label: 'Address', field: 'address' },
@@ -164,6 +165,11 @@
                     });
         	},
         	updateUser(){
+                if(gate(user, 'users', 'update')){
+                    toastr.error("Not allowed to update");
+                    return false;
+                }
+
 				let u = this;
                 let $btn = $(event.target);
                 $btn.button('loading');

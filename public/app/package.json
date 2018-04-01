@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "chart.js": "^2.7.2",
     "croppie": "^2.6.1",
     "jquery": "^3.3.1",
     "vue": "^2.5.13",
+    "vue-chartjs": "^3.3.1",
     "vue-form-wizard": "^0.6.6",
     "vue-good-table": "^1.19.2",
     "vue-good-wizard": "^1.1.2",

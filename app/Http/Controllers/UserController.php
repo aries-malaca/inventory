@@ -43,8 +43,8 @@ class UserController extends Controller{
 
     function getUsers(){
         $data = User::leftJoin('levels','users.level','=','levels.id')
-                                ->select('level_name','users.*')
-                                ->get()->toArray();
+                        ->select('level_name','users.*')
+                        ->get()->toArray();
         foreach($data as $key=>$value)
             $data[$key]['user_data'] = json_decode($value['user_data']);
         

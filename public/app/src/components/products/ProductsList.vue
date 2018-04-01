@@ -4,7 +4,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Product List</h3>
                 &nbsp;
-                <button @click="showAddModal" class="btn btn-success btn-sm">Add Product</button>
+                <button @click="showAddModal" v-if="gate(user,'products', 'add')" class="btn btn-success btn-sm">Add Product</button>
                 <div class="pull-right">
                     <input type="text" v-model="barcode" class="form-control" placeholder="Find product by Barcode."/>
                 </div>
@@ -15,11 +15,11 @@
                     <h4>No item found for barcode: {{ barcode }}</h4>
                 </div>
                 <data-table v-else
-                        :columns="productTable.columns"
-                        :rows="products"
-                        :paginate="true"
-                        :onClick="productTable.rowClicked"
-                        styleClass="table table-bordered table-hover table-striped">
+                    :columns="productTable.columns"
+                    :rows="products"
+                    :paginate="true"
+                    :onClick="productTable.rowClicked"
+                    styleClass="table table-bordered table-hover table-striped">
                 </data-table>
             </div>
             <!-- /.box-body -->
@@ -281,7 +281,9 @@
                             <button type="button" v-else @click="updateProduct" class="btn btn-primary">Update</button>
                             <button type="button" v-if="newProduct.id !== 0" @click="is_viewing=true" class="btn btn-warning">Cancel</button>
                         </div>
-                        <button type="button" v-else @click="is_viewing=false" class="btn btn-warning">Edit</button>
+                        <div v-else>
+                            <button type="button" v-if="gate(user, 'products', 'update')" @click="is_viewing=false" class="btn btn-warning">Edit</button>
+                        </div>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -541,20 +543,16 @@
         computed:{
             products(){
                 let u = this;
-
                 return this.$store.state.products.products.map((product)=>{
                     product.status_html = product.is_active===1? '<span class="label label-info">Active</span>':'<span class="label label-danger">Inactive</span>';
                     return product;
                 }).filter((product)=>{
-
                     return product.product_units.find((unit)=>{
                         return unit.barcode === u.barcode;
                     }) !== undefined || u.barcode === ''
 
                 });
-                
             },
-            
             prices(){
                 return this.$store.state.products.prices;
             },
@@ -577,6 +575,9 @@
             },
             last_uploaded(){
                 return this.$store.state.products.last_uploaded_file;
+            },
+            user(){
+                return this.$store.state.user;
             }
         }
     }

@@ -4,7 +4,7 @@
 			<div class="box-header with-border">
 	    		<h3 class="box-title">User Levels</h3>
 	            &nbsp;
-	            <button class="btn btn-success btn-sm" @click="showAddModal">Add Level</button> 
+	            <button class="btn btn-success btn-sm" v-if="gate(user, 'users', 'add')"  @click="showAddModal">Add Level</button>
         	</div>
         	<div class="box-body">
         		<data-table
@@ -23,48 +23,77 @@
 		                        <h4 class="modal-title" v-else>Add Level</h4>
 		                    </div>
 		                    <div class="modal-body">
-		                        <div class="row">
-		                            <div class="col-md-8">
-		                            	<div class="form-group">
-		                            		<label>Level Name</label>
-		                            		<input class="form-control" type="text" v-model="newLevel.level_name"/>
-		                            	</div>
-		                            </div>
-		                            <div class="col-md-4">
-		                            	<div class="form-group">
-		                            		<label>Status</label>
-		                            		<select class="form-control" v-model="newLevel.is_active">
-		                            			<option value="1">Active</option>
-		                            			<option value="0">Inactive</option>
-		                            		</select>
-		                            	</div>
-		                            </div>
-		                        </div>
-		                        <div class="row">
-		                        	<div class="col-md-12">
-		                            	<div class="form-group">
-		                            		<label>Description</label>
-		                            		<input class="form-control" type="text" v-model="newLevel.level_description"/>
-		                            	</div>
-		                        	</div>
-		                        </div>
-								<div class="row" v-if="newLevel.level_data !== undefined">
-									<div class="col-md-6">
-										<div class="form-group">
-											<label>System</label>
-											<select v-model="newLevel.level_data.system" class="form-control">
-												<option v-for="system in systems" :value="system">{{ system }}</option>
-											</select>
+								<div class="nav-tabs-custom">
+									<!-- Tabs within a box -->
+									<ul class="nav nav-tabs pull-right">
+										<li><a href="#permissions-tab" data-toggle="tab" aria-expanded="false">Permissions</a></li>
+										<li  class="active"><a href="#basic-tab" data-toggle="tab" aria-expanded="true">Basic</a></li>
+									</ul>
+									<div class="tab-content no-padding">
+										<div class="tab-pane active" id="basic-tab" style="position: relative;">
+											<div class="row">
+												<div class="col-md-8">
+													<div class="form-group">
+														<label>Level Name</label>
+														<input class="form-control" type="text" v-model="newLevel.level_name"/>
+													</div>
+												</div>
+												<div class="col-md-4">
+													<div class="form-group">
+														<label>Status</label>
+														<select class="form-control" v-model="newLevel.is_active">
+															<option value="1">Active</option>
+															<option value="0">Inactive</option>
+														</select>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-12">
+													<div class="form-group">
+														<label>Description</label>
+														<input class="form-control" type="text" v-model="newLevel.level_description"/>
+													</div>
+												</div>
+											</div>
+											<div class="row" v-if="newLevel.level_data !== undefined">
+												<div class="col-md-6">
+													<div class="form-group">
+														<label>System</label>
+														<select v-model="newLevel.level_data.system" class="form-control">
+															<option v-for="system in systems" :value="system">{{ system }}</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-group">
+														<label>Dashboard</label>
+														<select v-model="newLevel.level_data.dashboard" class="form-control">
+															<option v-for="dashboard in dashboards" :value="dashboard">{{ dashboard }}</option>
+														</select>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="tab-pane" id="permissions-tab" style="position: relative;">
+											<h4>User Access</h4>
+											<table class="table table-condensed table-bordered" v-if="newLevel.level_data !== undefined">
+												<tbody>
+													<tr v-for="p,key in permissions">
+														<th>{{ p.name }}</th>
+														<td>
+															<span v-for="a,k in p.actions">
+																<label>
+																	{{ a }}
+																	<input type="checkbox" v-model="newLevel.level_data.permissions[p.name]" :value="a"/>
+																</label>
+															</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
 										</div>
 									</div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Dashboard</label>
-                                            <select v-model="newLevel.level_data.dashboard" class="form-control">
-                                                <option v-for="dashboard in dashboards" :value="dashboard">{{ dashboard }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
 								</div>
 		                    </div>
 		                    <div class="modal-footer">
@@ -95,10 +124,23 @@
                         { label: 'Description', field: 'level_description' },
                         { label: 'Status', field: 'status', html:true }
                     ]
-                }
+                },
+				permissions:[],
+				reports:[],
             }
         },
         methods:{
+            getPermissions(){
+                let u = this;
+                axios.get('/api/levels/getPermissions')
+                    .then(function (response) {
+                        u.permissions = response.data.permissions;
+                        u.reports = response.data.reports;
+                    })
+                    .catch(function (error) {
+                        XHRCatcher(error);
+                    });
+            },
         	getLevels(){
                 let u = this;
                 axios.get('/api/levels/getLevels')
@@ -116,17 +158,24 @@
         			level_description:level.level_description,
         			is_active:level.is_active,
         			level_data:{
-        				permissions:[],
+        				permissions:{},
+						reports:[],
 						system:level.level_data.system,
                         dashboard:level.level_data.dashboard,
         			}
         		};
 
-
-        		let u = this;
-        		level.level_data.permissions.forEach((item)=>{
-        			u.newLevel.level_data.permissions.push(item);
-        		});
+                let u = this;
+                this.permissions.forEach((item)=>{
+                    u.newLevel.level_data.permissions[item.name] = function(){
+                        if(level.level_data.permissions !== undefined){
+                            if(level.level_data.permissions[item.name] !== undefined){
+                                return level.level_data.permissions[item.name];
+                            }
+                        }
+                        return [];
+                    }();
+                });
         		
         		$("#level-modal").modal("show");
         	},
@@ -137,11 +186,15 @@
 	    			level_description:'',
 	    			is_active:1,
 	    			level_data:{
-	    				permissions:[],
+	    				permissions:{},
 						system:'',
                         dashboard:'ProductDashboard'
 	    			}
 	    		};
+                let u = this;
+	       		this.permissions.forEach((item)=>{
+	       		    u.newLevel.level_data.permissions[item.name] = [];
+                });
 
         		$("#level-modal").modal("show");
         	},
@@ -162,6 +215,11 @@
                     });
         	},
         	updateLevel(){
+                if(gate(user, 'users', 'update')){
+                    toastr.error("Not allowed to update");
+                    return false;
+                }
+
 				let u = this;
                 let $btn = $(event.target);
                 $btn.button('loading');
@@ -180,6 +238,7 @@
         },
         mounted(){
         	this.getLevels();
+        	this.getPermissions();
         },
         computed:{
         	computed_levels(){

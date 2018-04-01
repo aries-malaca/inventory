@@ -55,8 +55,7 @@
         methods:{
             logout: function() {
                 this.$emit('logout')
-            },
-            moment:moment
+            }
         },
         computed:{
             user(){
