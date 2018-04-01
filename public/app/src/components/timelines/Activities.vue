@@ -11,7 +11,7 @@
                   </span>
                 <h3 class="timeline-header"><span v-if="default_user!==undefined">{{ default_user.name }} </span>{{ log.action }}</h3>
                 <div class="timeline-body">
-                    <p>{{ log.body }}</p>
+                    <p v-if="log.body!=='[]'">{{ log.body }}</p>
                     <br/><strong>IP: {{ log.ip_address }}</strong>
                 </div>
             </div>
