@@ -143,6 +143,9 @@
         computed:{
             token(){
                 return this.$store.state.token;
+            },
+            user(){
+                return this.$store.state.user;
             }
         }
     }

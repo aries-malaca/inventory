@@ -272,7 +272,7 @@
                 this.makeRequest(event, this.newCategory, API_URL + '/api/product/addCategory?token=' + this.token, "#add-category-modal", 'fetchCategories');
             },
             updateCategory(event){
-                if(this.gate(user,'categories','update')){
+                if(!this.gate(this.user,'categories','update')){
                     toastr.error("Not allowed to updated.");
                     return false;
                 }
@@ -282,7 +282,7 @@
                 this.makeRequest(event, this.newPrice, API_URL + '/api/product/addPrice?token=' + this.token, "#add-price-modal", 'fetchPrices');
             },
             updatePrice(event){
-                if(this.gate(user,'prices','update')){
+                if(!this.gate(this.user,'prices','update')){
                     toastr.error("Not allowed to updated.");
                     return false;
                 }
@@ -293,7 +293,7 @@
                 this.makeRequest(event, this.newUnit, API_URL + '/api/product/addUnit?token=' + this.token, "#add-unit-modal", 'fetchUnits');
             },
             updateUnit(event){
-                if(this.gate(user,'units','update')){
+                if(!this.gate(this.user,'units','update')){
                     toastr.error("Not allowed to updated.");
                     return false;
                 }
