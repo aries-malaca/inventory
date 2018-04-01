@@ -245,6 +245,9 @@ return [
         'payees'=>['view', 'add', 'update'],
         'incomes'=>['view', 'add', 'update'],
         'expenses'=>['view', 'add', 'update'],
+        'settings'=>['view', 'update'],
+        'users'=>['view', 'add', 'update'],
+        'database'=>['view', 'backup', 'restore'],
         'reports'=>['view']
     ],
     'reports'=>['product_reports']

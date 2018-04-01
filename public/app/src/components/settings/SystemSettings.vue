@@ -88,6 +88,11 @@
                     });
             },
             updateSetting(event){
+                if(gate(user, 'settings', 'update')){
+                    toastr.error("Not allowed to update");
+                    return false;
+                }
+
                 let u = this;
                 let $btn = $(event.target);
                 $btn.button('loading');

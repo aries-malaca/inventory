@@ -1,12 +1,12 @@
 <template>
     <div class="tab-pane" id="categories-tab" style="position: relative;">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4" v-if="gate(user,'categories','view')">
                 <div class="box box-success">
                     <div class="box-header with-border">
                         <h3 class="box-title">Product Categories</h3>
                         &nbsp;
-                        <button @click="showAddCategoryModal" class="btn btn-success btn-sm">Add Category</button>
+                        <button @click="showAddCategoryModal" v-if="gate(user,'categories','add')" class="btn btn-success btn-sm">Add Category</button>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -21,12 +21,12 @@
                     <!-- /.box-body -->
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" v-if="gate(user,'prices','view')">
                 <div class="box box-warning">
                     <div class="box-header with-border">
                         <h3 class="box-title">Price Categories</h3>
                         &nbsp;
-                        <button @click="showAddPriceModal" class="btn btn-success btn-sm">Add Price Category</button>
+                        <button @click="showAddPriceModal" v-if="gate(user,'prices','add')" class="btn btn-success btn-sm">Add Price Category</button>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -41,12 +41,12 @@
                     <!-- /.box-body -->
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" v-if="gate(user,'units','view')">
                 <div class="box box-danger">
                     <div class="box-header with-border">
                         <h3 class="box-title">Units</h3>
                         &nbsp;
-                        <button @click="showAddUnitModal" class="btn btn-success btn-sm">Add Unit</button>
+                        <button @click="showAddUnitModal" v-if="gate(user,'units','add')" class="btn btn-success btn-sm">Add Unit</button>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -102,7 +102,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <h4 class="modal-title" v-if="newPrice.id==0">Add Price Category</h4>
+                        <h4 class="modal-title" v-if="newPrice.id===0">Add Price Category</h4>
                         <h4 class="modal-title" v-else>Update Price Category</h4>
                     </div>
                     <div class="modal-body">
@@ -272,18 +272,31 @@
                 this.makeRequest(event, this.newCategory, API_URL + '/api/product/addCategory?token=' + this.token, "#add-category-modal", 'fetchCategories');
             },
             updateCategory(event){
+                if(this.gate(user,'categories','update')){
+                    toastr.error("Not allowed to updated.");
+                    return false;
+                }
                 this.makeRequest(event, this.newCategory, API_URL + '/api/product/updateCategory?token=' + this.token, "#add-category-modal", 'fetchCategories');
             },
             addPrice(event){
                 this.makeRequest(event, this.newPrice, API_URL + '/api/product/addPrice?token=' + this.token, "#add-price-modal", 'fetchPrices');
             },
             updatePrice(event){
+                if(this.gate(user,'prices','update')){
+                    toastr.error("Not allowed to updated.");
+                    return false;
+                }
+
                 this.makeRequest(event, this.newPrice, API_URL + '/api/product/updatePrice?token=' + this.token, "#add-price-modal", 'fetchPrices');
             },
             addUnit(event){
                 this.makeRequest(event, this.newUnit, API_URL + '/api/product/addUnit?token=' + this.token, "#add-unit-modal", 'fetchUnits');
             },
             updateUnit(event){
+                if(this.gate(user,'units','update')){
+                    toastr.error("Not allowed to updated.");
+                    return false;
+                }
                 this.makeRequest(event, this.newUnit, API_URL + '/api/product/updateUnit?token=' + this.token, "#add-unit-modal", 'fetchUnits');
             }
         },
@@ -303,6 +316,9 @@
             },
             token(){
                 return this.$store.state.token;
+            },
+            user(){
+                return this.$store.state.user;
             }
         }
     }

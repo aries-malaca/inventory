@@ -4,7 +4,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Database</h3>
                 &nbsp;
-                <button class="btn btn-success" @click="runBackup">Backup Database</button>
+                <button class="btn btn-success" v-if="gate(user, 'database', 'backup')" @click="runBackup">Backup Database</button>
             </div>
             <div class="box-body">
                 <data-table
@@ -40,8 +40,8 @@
                                 </table>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" @click="deleteBackup">Delete</button>
-                                <button type="button" class="btn btn-success" @click="restoreBackup">Restore</button>
+                                <button type="button" class="btn btn-danger" v-if="gate(user, 'database', 'backup')" @click="deleteBackup">Delete</button>
+                                <button type="button" class="btn btn-success" v-if="gate(user, 'database', 'restore')" @click="restoreBackup">Restore</button>
                                 <button type="button" class="btn pull-left" data-dismiss="modal">Close</button>
                             </div>
                         </div>

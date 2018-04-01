@@ -15,7 +15,8 @@
             <li :class=" title==='Home'?'active':''">
                 <a href="/#/home"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a>
             </li>
-            <li v-for="m in menus" v-bind:class="title === m.menu_title?'active':''" v-if="m.menu_active===1">
+            <li v-for="m in menus" v-bind:class="title === m.menu_title?'active':''"
+                    v-if="m.menu_active===1 && gate(user, m.menu_url,'view')">
                 <a :href="'/#/' + m.menu_url ">
                     <i :class="'fa ' + m.menu_icon"></i>
                     <span>{{ m.menu_title }}</span>

@@ -203,8 +203,7 @@
                     .catch(function (error) {
                         XHRCatcher(error);
                     });
-            },
-            moment:moment
+            }
         },
         mounted:function(){
             this.$store.commit('updateTitle', this.title);

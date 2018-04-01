@@ -68,8 +68,17 @@ class LevelController extends Controller{
     }
 
     function getPermissions(){
+        $data = config('app.permissions');
+        $permissions = [];
+        foreach($data as $key=>$value){
+            $permissions[] = [
+                "name"=>$key,
+                "actions"=>$value
+            ];
+        }
+
         return response()->json([
-            "permissions"=>config('app.permissions'),
+            "permissions"=>$permissions,
             "reports"=>config('app.reports')
         ]);
     }

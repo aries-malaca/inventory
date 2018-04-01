@@ -43,8 +43,8 @@ class UserController extends Controller{
 
     function getUsers(){
         $data = User::leftJoin('levels','users.level','=','levels.id')
-                                ->select('level_name','users.*')
-                                ->get()->toArray();
+                        ->select('level_name','users.*')
+                        ->get()->toArray();
         foreach($data as $key=>$value)
             $data[$key]['user_data'] = json_decode($value['user_data']);
         
@@ -162,9 +162,10 @@ class UserController extends Controller{
     }
 
     function getUserLogs(Request $request){
-        $data = DB::select(DB::raw("SELECT * FROM audits WHERE new_values <> '[]' AND user_id=" .$request->segment(4) ) . " 
+        $data = DB::select(DB::raw("SELECT * FROM audits WHERE new_values <> '[]' AND (user_id=" .$request->segment(4)  . " 
+                            OR (auditable_id=" . $request->segment(4) . " AND ISNULL(user_id))) 
                             ORDER BY created_at DESC 
-                            LIMIT 20");
+                            LIMIT 20"));
         $logs = array();
         foreach($data as $key=>$value){
             $old = json_decode($value->old_values);
@@ -181,15 +182,14 @@ class UserController extends Controller{
                         $body[] = [$k=>$v];
 
                 $category = strtolower(str_replace("App\\", "", $value->auditable_type));
-                if($value->user_id === $value->auditable_id){
-                    if(isset($old->last_login)){
-                        $action = "Logged in the system";
-                        $body = [];
-                    }
-                    else
-                        $action = "Updated Profile";
-
+                if($value->user_id === $value->auditable_id) {
+                    $action = "Updated Profile";
                     $category = 'user';
+                }
+
+                if(isset($old->last_login)){
+                    $action = "Logged in the system";
+                    $body = [];
                 }
 
                 $logs[] = array(
