@@ -88,7 +88,7 @@
                     });
             },
             updateSetting(event){
-                if(gate(user, 'settings', 'update')){
+                if(!this.gate(this.user, 'settings', 'update')){
                     toastr.error("Not allowed to update");
                     return false;
                 }
@@ -115,6 +115,9 @@
         computed:{
             token(){
                 return this.$store.state.token;
+            },
+            user(){
+                return this.$store.state.user;
             }
         }
     }

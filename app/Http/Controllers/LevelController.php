@@ -77,9 +77,6 @@ class LevelController extends Controller{
             ];
         }
 
-        return response()->json([
-            "permissions"=>$permissions,
-            "reports"=>config('app.reports')
-        ]);
+        return response()->json($permissions);
     }
 }

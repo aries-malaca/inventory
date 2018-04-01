@@ -94,6 +94,11 @@ export default {
     },
     methods:{
 
+    },
+    computed:{
+        user(){
+            return this.$store.state.user;
+        }
     }
 }
 </script>

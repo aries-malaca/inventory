@@ -125,8 +125,7 @@
                         { label: 'Status', field: 'status', html:true }
                     ]
                 },
-				permissions:[],
-				reports:[],
+				permissions:[]
             }
         },
         methods:{
@@ -134,8 +133,7 @@
                 let u = this;
                 axios.get('/api/levels/getPermissions')
                     .then(function (response) {
-                        u.permissions = response.data.permissions;
-                        u.reports = response.data.reports;
+                        u.permissions = response.data;
                     })
                     .catch(function (error) {
                         XHRCatcher(error);
@@ -215,7 +213,7 @@
                     });
         	},
         	updateLevel(){
-                if(gate(user, 'users', 'update')){
+                if(!this.gate(this.user, 'users', 'update')){
                     toastr.error("Not allowed to update");
                     return false;
                 }
@@ -258,6 +256,9 @@
 			},
             dashboards(){
                 return this.$store.state.dashboards;
+            },
+            user(){
+                return this.$store.state.user;
             }
         }
     }

@@ -165,7 +165,7 @@
                     });
         	},
         	updateUser(){
-                if(gate(user, 'users', 'update')){
+                if(!this.gate(this.user, 'users', 'update')){
                     toastr.error("Not allowed to update");
                     return false;
                 }
@@ -203,7 +203,10 @@
         		return this.$store.state.levels.levels.filter((item)=>{
         			return item.is_active===1;
         		});
-        	}
+        	},
+            user(){
+                return this.$store.state.user;
+            }
         }
     }
 </script>
