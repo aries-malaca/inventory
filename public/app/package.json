@@ -11,19 +11,20 @@
   "dependencies": {
     "axios": "^0.16.2",
     "chart.js": "^2.7.2",
-    "croppie": "^2.6.1",
+    "croppie": "^2.6.2",
     "jquery": "^3.3.1",
-    "vue": "^2.5.13",
+    "npm": "^5.8.0",
+    "vue": "^2.5.16",
     "vue-chartjs": "^3.3.1",
     "vue-form-wizard": "^0.6.6",
-    "vue-good-table": "^1.19.2",
-    "vue-good-wizard": "^1.1.2",
+    "vue-good-table": "^1.21.0",
+    "vue-good-wizard": "^1.2.2",
     "vue-location-picker": "^1.0.1",
     "vue-router": "^2.8.1",
     "vue-select": "^2.4.0",
     "vue-slick": "^1.1.12",
-    "vue2-google-maps": "^0.8.3",
-    "vuejs-datepicker": "^0.9.25",
+    "vue2-google-maps": "^0.8.11",
+    "vuejs-datepicker": "^0.9.29",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -36,8 +37,8 @@
     "css-loader": "^0.25.0",
     "file-loader": "^0.9.0",
     "vue-loader": "^12.1.0",
-    "vue-template-compiler": "^2.5.13",
+    "vue-template-compiler": "^2.5.16",
     "webpack": "^2.6.1",
-    "webpack-dev-server": "^2.11.1"
+    "webpack-dev-server": "^2.11.2"
   }
 }
