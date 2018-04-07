@@ -8,8 +8,7 @@
                 <li class="pull-left header"><i class="fa fa-inbox"></i> {{ title }}</li>
             </ul>
             <div class="tab-content no-padding">
-                <products-list></products-list>
-                <categories></categories>
+                <product-reports></product-reports>
             </div>
         </div>
         <unauthorized v-else></unauthorized>
@@ -17,9 +16,10 @@
 </template>
 <script>
     import Unauthorized from './errors/Unauthorized.vue';
+    import ProductReports from './reports/ProductReports.vue';
     export default {
         name: 'Reports',
-        components:{ Unauthorized },
+        components:{ Unauthorized, ProductReports },
         data(){
             return{
                 title:'Reports'

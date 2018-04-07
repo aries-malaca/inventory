@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2018 at 04:52 PM
+-- Generation Time: Apr 01, 2018 at 10:33 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -25,6 +25,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `accounts`
+--
+
+CREATE TABLE `accounts` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `account_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `account_notes` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `opening_balance` double(8,2) NOT NULL,
+  `credit_limit` double(8,2) NOT NULL,
+  `is_credit` int(11) NOT NULL,
+  `is_active` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL,
+  `account_data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `audits`
 --
 
@@ -32,12 +52,12 @@ CREATE TABLE `audits` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED DEFAULT NULL,
   `event` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `auditable_id` int(10) UNSIGNED NOT NULL,
-  `auditable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `auditable_type` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `auditable_id` int(11) NOT NULL,
   `old_values` text COLLATE utf8mb4_unicode_ci,
   `new_values` text COLLATE utf8mb4_unicode_ci,
   `url` text COLLATE utf8mb4_unicode_ci,
-  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ip_address` text COLLATE utf8mb4_unicode_ci,
   `user_agent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -48,13 +68,94 @@ CREATE TABLE `audits` (
 -- Dumping data for table `audits`
 --
 
-INSERT INTO `audits` (`id`, `user_id`, `event`, `auditable_id`, `auditable_type`, `old_values`, `new_values`, `url`, `ip_address`, `user_agent`, `tags`, `created_at`, `updated_at`) VALUES
-(1, NULL, 'updated', 8, 'App\\Product', '{\"pictures_data\":\"{\\\"1\\\":\\\"8_1521894969.jpg\\\"}\"}', '{\"pictures_data\":\"[]\"}', 'http://localhost:8000/api/product/updateProduct?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 04:52:01', '2018-03-24 04:52:01'),
-(2, 1, 'updated', 8, 'App\\Product', '{\"pictures_data\":\"[]\"}', '{\"pictures_data\":\"[\\\"8_1521895999.jpg\\\"]\"}', 'http://localhost:8000/api/product/uploadPicture?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE&product_id=8&key=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 04:53:19', '2018-03-24 04:53:19'),
-(3, NULL, 'updated', 8, 'App\\Product', '{\"pictures_data\":\"[\\\"8_1521895999.jpg\\\"]\"}', '{\"pictures_data\":\"[]\"}', 'http://localhost:8000/api/product/updateProduct?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 04:53:44', '2018-03-24 04:53:44'),
-(4, 1, 'updated', 8, 'App\\Product', '{\"pictures_data\":\"[]\"}', '{\"pictures_data\":\"[\\\"8_1521896105.jpg\\\"]\"}', 'http://localhost:8000/api/product/uploadPicture?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE&product_id=8&key=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 04:55:06', '2018-03-24 04:55:06'),
-(5, 1, 'updated', 7, 'App\\Product', '{\"pictures_data\":\"[]\"}', '{\"pictures_data\":\"[\\\"7_1521896742.jpg\\\"]\"}', 'http://localhost:8000/api/product/uploadPicture?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE&product_id=7&key=0', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 05:05:43', '2018-03-24 05:05:43'),
-(6, 1, 'created', 9, 'App\\Product', '[]', '{\"product_code\":\"test\",\"brand_name\":\"test\",\"category_id\":2,\"sub_category_id\":0,\"product_name\":\"test test\",\"product_description\":\"test\",\"is_active\":1,\"pictures_data\":\"[]\",\"id\":9}', 'http://localhost:8000/api/product/addProduct?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-24 07:39:56', '2018-03-24 07:39:56');
+INSERT INTO `audits` (`id`, `user_id`, `event`, `auditable_type`, `auditable_id`, `old_values`, `new_values`, `url`, `ip_address`, `user_agent`, `tags`, `created_at`, `updated_at`) VALUES
+(1, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 09:35:13', '2018-03-31 09:35:13'),
+(2, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:03:19', '2018-03-31 10:03:19'),
+(3, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:13:55', '2018-03-31 10:13:55'),
+(4, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:15:51', '2018-03-31 10:15:51'),
+(5, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:26:43', '2018-03-31 10:26:43'),
+(6, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:28:26', '2018-03-31 10:28:26'),
+(7, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:33:12', '2018-03-31 10:33:12'),
+(8, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/levels/updateLevel?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:34:27', '2018-03-31 10:34:27'),
+(9, NULL, 'updated', 'App\\User', 4, '{\"last_login\":\"2018-03-30 00:00:00\"}', '{\"last_login\":\"2018-03-31 18:39\"}', 'http://localhost:8000/auth/login?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:39:06', '2018-03-31 10:39:06'),
+(10, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:41:00', '2018-03-31 10:41:00'),
+(11, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/levels/updateLevel?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:41:33', '2018-03-31 10:41:33'),
+(12, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:49:24', '2018-03-31 10:49:24'),
+(13, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:50:42', '2018-03-31 10:50:42'),
+(14, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 10:56:50', '2018-03-31 10:56:50'),
+(15, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:01:33', '2018-03-31 11:01:33'),
+(16, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:01:43', '2018-03-31 11:01:43'),
+(17, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:07:28', '2018-03-31 11:07:28'),
+(18, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:08:23', '2018-03-31 11:08:23'),
+(19, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:09:51', '2018-03-31 11:09:51'),
+(20, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:09:51', '2018-03-31 11:09:51'),
+(21, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:10:00', '2018-03-31 11:10:00'),
+(22, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:51:59', '2018-03-31 11:51:59'),
+(23, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:53:47', '2018-03-31 11:53:47'),
+(24, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:55:03', '2018-03-31 11:55:03'),
+(25, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:57:40', '2018-03-31 11:57:40'),
+(26, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 11:57:47', '2018-03-31 11:57:47'),
+(27, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:01:22', '2018-03-31 12:01:22'),
+(28, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:01:27', '2018-03-31 12:01:27'),
+(29, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:02:36', '2018-03-31 12:02:36'),
+(30, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/levels/updateLevel?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:03:14', '2018-03-31 12:03:14'),
+(31, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:03:35', '2018-03-31 12:03:35'),
+(32, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:04:04', '2018-03-31 12:04:04'),
+(33, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:07:01', '2018-03-31 12:07:01'),
+(34, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:10:55', '2018-03-31 12:10:55'),
+(35, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:10:59', '2018-03-31 12:10:59'),
+(36, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/levels/updateLevel?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:11:18', '2018-03-31 12:11:18'),
+(37, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:11:23', '2018-03-31 12:11:23'),
+(38, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:13:22', '2018-03-31 12:13:22'),
+(39, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:14:40', '2018-03-31 12:14:40'),
+(40, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:15:01', '2018-03-31 12:15:01'),
+(41, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:16:34', '2018-03-31 12:16:34'),
+(42, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:19:02', '2018-03-31 12:19:02'),
+(43, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:19:14', '2018-03-31 12:19:14'),
+(44, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:20:01', '2018-03-31 12:20:01'),
+(45, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/levels/updateLevel?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:24:17', '2018-03-31 12:24:17'),
+(46, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:24:40', '2018-03-31 12:24:40'),
+(47, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:28:49', '2018-03-31 12:28:49'),
+(48, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:35:53', '2018-03-31 12:35:53'),
+(49, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:36:01', '2018-03-31 12:36:01'),
+(50, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:38:02', '2018-03-31 12:38:02'),
+(51, 1, 'updated', 'App\\User', 4, '{\"name\":\"est\"}', '{\"name\":\"Accounting User\"}', 'http://localhost:8000/api/users/updateUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:38:22', '2018-03-31 12:38:22'),
+(52, 1, 'updated', 'App\\User', 5, '{\"name\":\"sagsagkasgkljk\"}', '{\"name\":\"Product User\"}', 'http://localhost:8000/api/users/updateUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:38:32', '2018-03-31 12:38:32'),
+(53, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:38:46', '2018-03-31 12:38:46'),
+(54, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/levels/updateLevel?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:39:47', '2018-03-31 12:39:47'),
+(55, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:39:55', '2018-03-31 12:39:55'),
+(56, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 12:47:10', '2018-03-31 12:47:10'),
+(57, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 22:25:20', '2018-03-31 22:25:20'),
+(58, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 22:27:23', '2018-03-31 22:27:23'),
+(59, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 22:41:51', '2018-03-31 22:41:51'),
+(60, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 22:51:33', '2018-03-31 22:51:33'),
+(61, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 22:58:45', '2018-03-31 22:58:45'),
+(62, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 23:45:18', '2018-03-31 23:45:18'),
+(63, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 23:48:56', '2018-03-31 23:48:56'),
+(64, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 23:55:42', '2018-03-31 23:55:42'),
+(65, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 23:59:14', '2018-03-31 23:59:14'),
+(66, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-03-31 23:59:37', '2018-03-31 23:59:37'),
+(67, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 00:06:02', '2018-04-01 00:06:02'),
+(68, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 00:07:05', '2018-04-01 00:07:05'),
+(69, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 00:18:42', '2018-04-01 00:18:42'),
+(70, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 00:22:30', '2018-04-01 00:22:30'),
+(71, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 00:23:37', '2018-04-01 00:23:37'),
+(72, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 00:23:56', '2018-04-01 00:23:56'),
+(73, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 00:28:24', '2018-04-01 00:28:24'),
+(74, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:22:24', '2018-04-01 01:22:24'),
+(75, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:45:08', '2018-04-01 01:45:08'),
+(76, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:45:11', '2018-04-01 01:45:11'),
+(77, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:47:55', '2018-04-01 01:47:55'),
+(78, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:48:04', '2018-04-01 01:48:04'),
+(79, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:48:34', '2018-04-01 01:48:34'),
+(80, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:51:00', '2018-04-01 01:51:00'),
+(81, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:54:18', '2018-04-01 01:54:18'),
+(82, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:55:44', '2018-04-01 01:55:44'),
+(83, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/levels/updateLevel?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:56:07', '2018-04-01 01:56:07'),
+(84, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:56:29', '2018-04-01 01:56:29'),
+(85, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:58:02', '2018-04-01 01:58:02'),
+(86, 1, 'updated', 'App\\User', 1, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:58:08', '2018-04-01 01:58:08'),
+(87, 4, 'updated', 'App\\User', 4, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-01 01:59:09', '2018-04-01 01:59:09');
 
 -- --------------------------------------------------------
 
@@ -78,8 +179,7 @@ CREATE TABLE `branches` (
 --
 
 INSERT INTO `branches` (`id`, `branch_name`, `branch_address`, `branch_contact`, `branch_role`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'Main Branch', 'Jaen Nueva Ecija', '0000000', 'BOTH', 1, '2017-04-29 07:55:56', '2017-05-19 21:09:18'),
-(2, 'Dummy Branch', 'test', '0909', 'BOTH', 1, '2017-05-27 10:12:24', '2017-05-27 10:56:22');
+(1, 'Main Branch', 'Jaen Nueva Ecija', '0000000', 'BOTH', 1, '2017-04-29 07:55:56', '2017-05-19 21:09:18');
 
 -- --------------------------------------------------------
 
@@ -143,6 +243,94 @@ CREATE TABLE `conversions` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `expenses`
+--
+
+CREATE TABLE `expenses` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `expense_amount` double(8,2) NOT NULL,
+  `expense_date` datetime NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `expense_notes` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payee_id` int(11) NOT NULL,
+  `expense_category_id` int(11) NOT NULL,
+  `expense_data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `expense_categories`
+--
+
+CREATE TABLE `expense_categories` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `expense_category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expense_category_icon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expense_category_color` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_active` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fund_transfers`
+--
+
+CREATE TABLE `fund_transfers` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `from_account_id` int(11) NOT NULL,
+  `to_account_id` int(11) NOT NULL,
+  `fund_transfer_amount` double(8,2) NOT NULL,
+  `fund_transfer_notes` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fund_transfer_data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fund_transfer_date` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `incomes`
+--
+
+CREATE TABLE `incomes` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `income_amount` double(8,2) NOT NULL,
+  `income_date` datetime NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `income_notes` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payer_id` int(11) NOT NULL,
+  `income_category_id` int(11) NOT NULL,
+  `income_data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `income_categories`
+--
+
+CREATE TABLE `income_categories` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `income_category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `income_category_icon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `income_category_color` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_active` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `inventories`
 --
 
@@ -180,9 +368,9 @@ CREATE TABLE `levels` (
 --
 
 INSERT INTO `levels` (`id`, `level_name`, `level_description`, `is_default`, `is_active`, `created_at`, `updated_at`, `level_data`) VALUES
-(1, 'Admin', 'Super User', 1, 1, NULL, '2017-06-01 07:30:11', '{\"permissions\":[{\"page\":\"sales\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"cancel\",\"value\":\"true\"},{\"action\":\"approve\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"void\",\"value\":\"true\"}]},{\"page\":\"purchases\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"cancel\",\"value\":\"true\"},{\"action\":\"approve\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"void\",\"value\":\"true\"}]},{\"page\":\"receives\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"cancel\",\"value\":\"true\"},{\"action\":\"approve\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"void\",\"value\":\"true\"}]},{\"page\":\"transfers\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"cancel\",\"value\":\"true\"},{\"action\":\"approve\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"void\",\"value\":\"true\"}]},{\"page\":\"products\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"price\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"category\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"delete\",\"value\":\"true\"}]},{\"page\":\"price_category\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"delete\",\"value\":\"true\"}]},{\"page\":\"clients\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"suppliers\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"branches\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"reports\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"}]},{\"page\":\"users\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"delete\",\"value\":\"true\"}]},{\"page\":\"levels\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"delete\",\"value\":\"true\"}]},{\"page\":\"settings\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"reconciliations\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]}]}'),
-(2, 'Cashier', 'Sales Person', 0, 1, '2017-05-07 22:38:09', '2017-06-01 07:30:04', '{\"permissions\":[{\"page\":\"sales\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"cancel\",\"value\":\"true\"},{\"action\":\"approve\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"void\",\"value\":\"false\"}]},{\"page\":\"purchases\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"cancel\",\"value\":\"false\"},{\"action\":\"approve\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"void\",\"value\":\"false\"}]},{\"page\":\"receives\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"cancel\",\"value\":\"false\"},{\"action\":\"approve\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"void\",\"value\":\"false\"}]},{\"page\":\"transfers\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"cancel\",\"value\":\"false\"},{\"action\":\"approve\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"void\",\"value\":\"false\"}]},{\"page\":\"products\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"price\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"false\"}]},{\"page\":\"category\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"delete\",\"value\":\"false\"}]},{\"page\":\"sub_category\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"delete\",\"value\":\"false\"}]},{\"page\":\"price_category\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"delete\",\"value\":\"false\"}]},{\"page\":\"clients\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"suppliers\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"}]},{\"page\":\"branches\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"}]},{\"page\":\"reports\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"}]},{\"page\":\"users\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"delete\",\"value\":\"false\"}]},{\"page\":\"levels\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"delete\",\"value\":\"false\"}]},{\"page\":\"settings\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"}]},{\"page\":\"reconciliations\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"}]}]}'),
-(3, 'Inventory', 'Product Inventory', 0, 1, '2017-05-19 21:29:50', '2017-06-01 07:31:06', '{\"permissions\":[{\"page\":\"sales\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"cancel\",\"value\":\"false\"},{\"action\":\"approve\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"void\",\"value\":\"false\"}]},{\"page\":\"purchases\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"cancel\",\"value\":\"true\"},{\"action\":\"approve\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"void\",\"value\":\"true\"}]},{\"page\":\"receives\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"cancel\",\"value\":\"true\"},{\"action\":\"approve\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"void\",\"value\":\"true\"}]},{\"page\":\"transfers\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"cancel\",\"value\":\"true\"},{\"action\":\"approve\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"void\",\"value\":\"true\"}]},{\"page\":\"products\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"price\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"false\"}]},{\"page\":\"category\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"},{\"action\":\"delete\",\"value\":\"true\"}]},{\"page\":\"price_category\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"delete\",\"value\":\"false\"}]},{\"page\":\"clients\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"}]},{\"page\":\"suppliers\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"branches\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]},{\"page\":\"reports\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"}]},{\"page\":\"users\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"delete\",\"value\":\"false\"}]},{\"page\":\"levels\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"add\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"},{\"action\":\"delete\",\"value\":\"false\"}]},{\"page\":\"settings\",\"permission\":[{\"action\":\"view\",\"value\":\"false\"},{\"action\":\"update\",\"value\":\"false\"}]},{\"page\":\"reconciliations\",\"permission\":[{\"action\":\"view\",\"value\":\"true\"},{\"action\":\"add\",\"value\":\"true\"},{\"action\":\"update\",\"value\":\"true\"}]}]}');
+(1, 'Super Admin', 'SuperAdmin', 1, 1, NULL, '2018-03-31 12:24:17', '{\"permissions\":{\"products\":[\"view\",\"add\",\"update\"],\"categories\":[\"view\",\"update\",\"add\"],\"prices\":[\"update\",\"view\",\"add\"],\"units\":[\"view\",\"add\",\"update\"],\"branches\":[\"update\",\"add\",\"view\"],\"accounts\":[\"view\",\"add\",\"update\"],\"payers\":[\"view\",\"add\",\"update\"],\"payees\":[\"view\",\"add\",\"update\"],\"incomes\":[\"view\",\"add\",\"update\"],\"expenses\":[\"view\",\"add\",\"update\"],\"settings\":[\"view\",\"update\"],\"users\":[\"update\",\"add\",\"view\"],\"database\":[\"view\",\"backup\",\"restore\"],\"reports\":[\"view\"]},\"reports\":[],\"system\":\"Product Inquiry\",\"dashboard\":\"ProductDashboard\"}'),
+(4, 'Administrator - Accounting', 'Accounting Admin', 0, 1, '2018-03-29 17:09:11', '2018-04-01 01:56:07', '{\"permissions\":{\"products\":[],\"categories\":[],\"prices\":[],\"units\":[],\"branches\":[\"view\",\"add\",\"update\"],\"accounts\":[\"view\",\"add\",\"update\"],\"payers\":[\"view\",\"add\",\"update\"],\"payees\":[\"view\",\"add\",\"update\"],\"incomes\":[\"view\",\"add\",\"update\"],\"expenses\":[\"view\",\"add\",\"update\"],\"settings\":[],\"users\":[],\"database\":[],\"reports\":[\"view\",\"product_reports\"]},\"reports\":[],\"system\":\"Accounting System\",\"dashboard\":\"AccountingDashboard\"}'),
+(5, 'Administrator - Products', 'Products', 0, 1, '2018-03-30 22:48:29', '2018-03-31 00:50:47', '{\"permissions\":[],\"system\":\"Product Inquiry\",\"dashboard\":\"ProductDashboard\"}');
 
 -- --------------------------------------------------------
 
@@ -231,9 +419,11 @@ INSERT INTO `menus` (`id`, `parent_id`, `menu_url`, `menu_title`, `menu_descript
 (3, 0, 'clients', 'Clients', '', 'fa-users', 3, 0, NULL, NULL),
 (4, 0, 'suppliers', 'Suppliers', '', 'fa-truck', 4, 0, NULL, NULL),
 (5, 0, 'branches', 'Branches', '', 'fa-building', 5, 1, NULL, NULL),
-(6, 0, 'reports', 'Reports', '', 'fa-folder-open', 7, 1, NULL, NULL),
-(7, 0, 'settings', 'Settings', '', 'fa-cog', 8, 1, NULL, NULL),
-(8, 0, 'accounting', 'Accounting', '', 'fa-money', 6, 1, NULL, NULL);
+(6, 0, 'reports', 'Reports', '', 'fa-folder-open', 10, 1, NULL, NULL),
+(7, 0, 'settings', 'Settings', '', 'fa-cog', 9, 1, NULL, NULL),
+(8, 0, 'accounts', 'Accounts', '', 'fa-money', 6, 1, NULL, NULL),
+(9, 0, 'incomes', 'Incomes', '', 'fa-money', 7, 1, NULL, NULL),
+(10, 0, 'expenses', 'Expenses', '', 'fa-money', 8, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -280,7 +470,50 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (26, '2017_05_30_221752_create_reconciliation_items_table', 5),
 (27, '2018_02_16_122745_create_product_prices_table', 6),
 (28, '2018_02_16_123357_create_product_units_table', 6),
-(29, '2018_03_24_040641_create_product_selling_prices_table', 7);
+(29, '2018_03_24_040641_create_product_selling_prices_table', 7),
+(32, '2018_03_24_081846_create_audits_table', 8),
+(41, '2018_04_01_071540_create_accounts_table', 9),
+(42, '2018_04_01_071631_create_incomes_table', 9),
+(43, '2018_04_01_071639_create_expenses_table', 9),
+(44, '2018_04_01_071647_create_payees_table', 9),
+(45, '2018_04_01_071653_create_payers_table', 9),
+(46, '2018_04_01_071702_create_income_categories_table', 9),
+(47, '2018_04_01_071711_create_expense_categories_table', 9),
+(48, '2018_04_01_072007_create_fund_transfers_table', 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payees`
+--
+
+CREATE TABLE `payees` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `payee_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payee_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payee_mobile` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payee_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_active` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payers`
+--
+
+CREATE TABLE `payers` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `payer_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payer_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payer_mobile` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payer_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_active` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -358,17 +591,18 @@ CREATE TABLE `products` (
   `is_active` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `pictures_data` text COLLATE utf8mb4_unicode_ci NOT NULL
+  `pictures_data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `size` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `brand_name`, `product_code`, `category_id`, `sub_category_id`, `product_description`, `product_name`, `is_active`, `created_at`, `updated_at`, `pictures_data`) VALUES
-(7, 'kkkjhjkg', '13313', 1, 0, 'k', 'kkkjhjkg k', 1, '2018-03-23 20:27:37', '2018-03-24 05:05:42', '[\"7_1521896742.jpg\"]'),
-(8, '', 'ahkasl;hashklshak', 1, 0, '', ' ', 1, '2018-03-24 03:53:18', '2018-03-24 04:55:05', '[\"8_1521896105.jpg\"]'),
-(9, 'test', 'test', 2, 0, 'test', 'test test', 1, '2018-03-24 07:39:55', '2018-03-24 07:39:55', '[]');
+INSERT INTO `products` (`id`, `brand_name`, `product_code`, `category_id`, `sub_category_id`, `product_description`, `product_name`, `is_active`, `created_at`, `updated_at`, `pictures_data`, `size`) VALUES
+(7, 'kkkjhjkg', '13313', 2, 0, 'kest', '13313 KKKJHJKG KEST 2KG', 1, '2018-03-23 20:27:37', '2018-03-30 02:59:36', '[\"7_1521910838.jpg\"]', '2kg'),
+(8, 'test2', 'ahkasl;hashklshak', 1, 0, 'test2', 'test2 test2', 1, '2018-03-24 03:53:18', '2018-03-24 17:49:06', '[]', ''),
+(9, 'test', 'test', 1, 0, 'test', 'test test', 1, '2018-03-24 07:39:55', '2018-03-24 08:57:19', '[]', '');
 
 -- --------------------------------------------------------
 
@@ -390,10 +624,10 @@ CREATE TABLE `product_prices` (
 --
 
 INSERT INTO `product_prices` (`id`, `purchase_price`, `product_unit_id`, `created_at`, `updated_at`, `remarks`) VALUES
-(12, 10.00, 13, '2018-03-24 04:36:36', '2018-03-24 04:36:36', NULL),
-(16, 1.00, 17, '2018-03-24 04:58:44', '2018-03-24 04:58:44', NULL),
-(19, 4.00, 20, '2018-03-24 07:43:46', '2018-03-24 07:43:46', 'test'),
-(20, 2.00, 21, '2018-03-24 07:43:47', '2018-03-24 07:43:47', 'test');
+(25, 100.00, 26, '2018-03-24 08:57:19', '2018-03-24 08:57:19', 'test'),
+(26, 50.00, 27, '2018-03-24 08:57:20', '2018-03-24 08:57:20', 'test'),
+(27, 1.00, 28, '2018-03-24 17:49:06', '2018-03-24 17:49:06', NULL),
+(31, 10.00, 32, '2018-03-30 02:59:37', '2018-03-30 02:59:37', NULL);
 
 -- --------------------------------------------------------
 
@@ -415,14 +649,14 @@ CREATE TABLE `product_selling_prices` (
 --
 
 INSERT INTO `product_selling_prices` (`id`, `product_price_id`, `price_category_id`, `selling_price`, `created_at`, `updated_at`) VALUES
-(21, 12, 15, 12, '2018-03-24 04:36:37', '2018-03-24 04:36:37'),
-(22, 12, 4, 10.3, '2018-03-24 04:36:37', '2018-03-24 04:36:37'),
-(29, 16, 15, 1.15, '2018-03-24 04:58:44', '2018-03-24 04:58:44'),
-(30, 16, 4, 1.02, '2018-03-24 04:58:44', '2018-03-24 04:58:44'),
-(35, 19, 15, 4.6, '2018-03-24 07:43:46', '2018-03-24 07:43:46'),
-(36, 19, 4, 4.08, '2018-03-24 07:43:46', '2018-03-24 07:43:46'),
-(37, 20, 15, 2.3, '2018-03-24 07:43:47', '2018-03-24 07:43:47'),
-(38, 20, 4, 2.04, '2018-03-24 07:43:47', '2018-03-24 07:43:47');
+(47, 25, 15, 115, '2018-03-24 08:57:19', '2018-03-24 08:57:19'),
+(48, 25, 4, 102, '2018-03-24 08:57:19', '2018-03-24 08:57:19'),
+(49, 26, 15, 57.5, '2018-03-24 08:57:20', '2018-03-24 08:57:20'),
+(50, 26, 4, 51, '2018-03-24 08:57:20', '2018-03-24 08:57:20'),
+(51, 27, 15, 1.15, '2018-03-24 17:49:06', '2018-03-24 17:49:06'),
+(52, 27, 4, 1.02, '2018-03-24 17:49:06', '2018-03-24 17:49:06'),
+(59, 31, 15, 12, '2018-03-30 02:59:37', '2018-03-30 02:59:37'),
+(60, 31, 4, 10.3, '2018-03-30 02:59:38', '2018-03-30 02:59:38');
 
 -- --------------------------------------------------------
 
@@ -447,10 +681,10 @@ CREATE TABLE `product_units` (
 --
 
 INSERT INTO `product_units` (`id`, `product_id`, `unit_id`, `parent_unit_id`, `quantity_per_parent`, `info`, `barcode`, `created_at`, `updated_at`) VALUES
-(13, 7, 11, 0, 1, NULL, NULL, '2018-03-24 04:36:36', '2018-03-24 04:36:36'),
-(17, 8, 6, 0, 1, NULL, NULL, '2018-03-24 04:58:43', '2018-03-24 04:58:43'),
-(20, 9, 11, 0, 1, NULL, NULL, '2018-03-24 07:43:45', '2018-03-24 07:43:45'),
-(21, 9, 12, 0, 2, NULL, NULL, '2018-03-24 07:43:46', '2018-03-24 07:43:46');
+(26, 9, 11, 0, 1, NULL, NULL, '2018-03-24 08:57:19', '2018-03-24 08:57:19'),
+(27, 9, 12, 0, 2, NULL, NULL, '2018-03-24 08:57:20', '2018-03-24 08:57:20'),
+(28, 8, 6, 0, 1, NULL, NULL, '2018-03-24 17:49:06', '2018-03-24 17:49:06'),
+(32, 7, 11, 0, 1, NULL, NULL, '2018-03-30 02:59:37', '2018-03-30 02:59:37');
 
 -- --------------------------------------------------------
 
@@ -632,14 +866,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `setting_name`, `setting_value`, `setting_label`, `setting_type`, `created_at`, `updated_at`) VALUES
-(1, 'auto_launch_sales_form', '0', 'Auto Launch Sales Form', 'yes_no', '2018-02-16 09:41:17', '2018-02-16 01:41:17'),
-(2, 'default_vat_percentage', '12', 'Default VAT %', 'number', '2018-02-16 09:41:17', '2018-02-16 01:41:17'),
-(3, 'pos_vat_inclusive', '1', 'POS VAT Inclusive', 'yes_no', '2018-02-16 09:41:17', '2018-02-16 01:41:17'),
-(4, 'pos_vat_enabled', '1', 'POS VAT Enabled', 'yes_no', '2018-02-16 09:41:18', '2018-02-16 01:41:18'),
-(5, 'transaction_password', 'password', 'Transaction Password', 'string', '2018-02-16 09:41:18', '2018-02-16 01:41:18'),
-(6, 'pos_receipt_message', 'Thank you!!!', 'POS Receipt Message', 'string', '2018-02-16 09:41:18', '2018-02-16 01:41:18'),
-(9, 'default_client_id', '2', 'Default Client ID', 'number', '2018-02-16 09:41:18', '2018-02-16 01:41:18'),
-(10, 'product_search_length', '100', 'Product Search Length', 'number', '2018-02-16 09:41:18', '2018-02-16 01:41:18');
+(1, 'default_vat_percentage', '12', 'Default VAT %', 'number', '2018-03-29 15:38:13', '2018-02-16 01:41:17');
 
 -- --------------------------------------------------------
 
@@ -779,13 +1006,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `address`, `mobile`, `photo`, `level`, `branch_id`, `is_active`, `remember_token`, `created_at`, `updated_at`, `last_login`, `device_data`, `user_data`, `last_activity`) VALUES
-(1, 'Admin', 'admin@test.com', '$2y$10$BSQJpZCvU0Zah01NmNXv8.FDtovfYwj3KTOuySbS2AWL9zwayQaNC', 'Philippines', '090911111', 'default.jpg', 1, 1, 1, 'RZ4XEzNjeWKXCgfjpAuage6eLGpfnrnvCYSHRuAgK4LLrwuBlA5MUp9aiLhb', '2017-04-27 00:00:00', '2018-03-24 07:43:43', '2018-03-24 10:06:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1OTk2LCJleHAiOjE1MjU0ODU5OTYsIm5iZiI6MTUyMTg4NTk5NiwianRpIjoiRXFhaTBaYjVQMEcxVXZBVyJ9.4lsAQ0LXnnmWjdjaqVZnzrAH_quEawnG2z3gQidQUfE\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-24 10:06\",\"last_activity\":\"2018-03-24 15:43\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODg1NzEyLCJleHAiOjE1MjU0ODU3MTIsIm5iZiI6MTUyMTg4NTcxMiwianRpIjoiTTYxQkRHODV2WkMzU1hTaSJ9.Q2nzVInKNz7qJaxD6A2CHJsQX1k5kBfxD1-OLxKqMeo\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-24 10:01\",\"last_activity\":\"2018-03-24 10:04\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIxODY2NjU4LCJleHAiOjE1MjU0NjY2NTgsIm5iZiI6MTUyMTg2NjY1OCwianRpIjoiVjVRYnpHQkw0dlpqbHptViJ9.8SIfQcCVxGc8n-HfhHF1t-ZBP_wgUFukh7cpSNC1zgs\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-24 04:44\",\"last_activity\":\"2018-03-24 09:49\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODI0MjE2NSwiZXhwIjoxNTIxODQyMTY1LCJuYmYiOjE1MTgyNDIxNjUsImp0aSI6IkNMN0pkY1JyMkdSZmthdWkifQ.tvYOoCJfxIK4zIhwVvpTBwWRyTaly5qYVIwWwvo04m0\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-10 05:56\",\"last_activity\":\"2018-03-23 18:19\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODIzNzUxNywiZXhwIjoxNTE4MjQxMTE3LCJuYmYiOjE1MTgyMzc1MTcsImp0aSI6IjR0TnZ5dHl0QUVSSE9McHgifQ.m1gt20Y17Z297n2K1-c8cBE73dbzX7ax0k7O70XZG7o\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-10 04:38\",\"last_activity\":\"2018-02-10 05:38\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODE5NDg4NiwiZXhwIjoxNTE4MTk4NDg2LCJuYmYiOjE1MTgxOTQ4ODYsImp0aSI6ImlWVWtGaTVUTnRZYXNBUTMifQ.e-69iLYswnHBiSXXzAktZb8d-_9Ks951OdXXXf45ay0\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-09 16:48\",\"last_activity\":\"2018-02-09 16:48\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3QvYXV0aC9sb2dpbiIsImlhdCI6MTUxODE5NDcwMywiZXhwIjoxNTE4MTk4MzAzLCJuYmYiOjE1MTgxOTQ3MDMsImp0aSI6IjY0YnAwT1d2cUE1MDZNSVoifQ.-Ij7hFJX5IvsDgJnSmRtnNoCVVwMek3E-xcrQs_MYDA\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/63.0.3239.132 Safari\\/537.36\",\"registered\":\"2018-02-09 16:45\",\"last_activity\":\"2018-02-09 16:45\"}]', '{}', '2018-03-24 15:43:00'),
-(2, 'Cashier', 'test@test1.com', '$2y$10$IFoB29Z.TLfUDDlx1o6ddOtsGDi/f8lThEhLtVMjGbmEHtFAB2rNe', 'Test', '12345', 'default.jpg', 2, 1, 1, NULL, '2017-05-07 14:38:43', '2017-05-20 12:26:08', '0000-00-00 00:00:00', '[]', '{}', '0000-00-00 00:00:00'),
-(3, 'Inventory', 'test@test.com', '$2y$10$EeZ0uedDpuucIcQCmSSmLumoU7jnbBZOA0heProLU4tZvoY651vAW', 'test', 'test', 'default.jpg', 3, 1, 1, 'w8LlVd4Y3dTbXqqZCl5L8N3xQtk6L3SoNVMvHREkZAQOpG7RyI7RM7YkamNh', '2017-05-19 13:30:21', '2017-05-19 13:30:21', '0000-00-00 00:00:00', '[]', '{}', '0000-00-00 00:00:00');
+(1, 'Admin', 'admin@test.com', '$2y$10$zGfRX9Dg5kTeW/1.0RXdJulcxx7yvn6Tk6Md3dFvXJjYP080dHkQe', 'Las Pinas City, Philippines2', '0909111112222', '1_1522407836.jpg', 1, 1, 1, 'RZ4XEzNjeWKXCgfjpAuage6eLGpfnrnvCYSHRuAgK4LLrwuBlA5MUp9aiLhb', '2017-04-27 00:00:00', '2018-04-01 01:58:08', '2018-03-30 09:51:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-30 09:51\",\"last_activity\":\"2018-04-01 09:58\"}]', '{}', '2018-04-01 09:58:00'),
+(4, 'Accounting User', 'test@yes.com', '$2y$10$Oc/uOJcor9BzEi5LDl10y.h2kPiO33hm2kjw3uTONP6sPwUSTDpx2', 'test', '2552', 'default.jpg', 4, 1, 1, NULL, '2018-03-30 02:43:45', '2018-04-01 01:59:16', '2018-03-31 18:39:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-31 18:39\",\"last_activity\":\"2018-04-01 09:59\"}]', '{}', '2018-04-01 09:59:00'),
+(5, 'Product User', 'aaa@testyc.om', '$2y$10$P0JBbUULvEqlGTWeMJ508Oddy9BReSEx.n0do9Afhv.rpp4hIo7zq', 'asgasg', ';l;l', 'default.jpg', 5, 1, 1, NULL, '2018-03-30 02:47:45', '2018-03-31 12:38:32', '2018-03-30 00:00:00', '[]', '{}', '2018-03-30 00:00:00');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `accounts`
+--
+ALTER TABLE `accounts`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `audits`
@@ -818,6 +1051,36 @@ ALTER TABLE `conversions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `expenses`
+--
+ALTER TABLE `expenses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `expense_categories`
+--
+ALTER TABLE `expense_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `fund_transfers`
+--
+ALTER TABLE `fund_transfers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `incomes`
+--
+ALTER TABLE `incomes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `income_categories`
+--
+ALTER TABLE `income_categories`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `inventories`
 --
 ALTER TABLE `inventories`
@@ -845,6 +1108,18 @@ ALTER TABLE `menus`
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payees`
+--
+ALTER TABLE `payees`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `payers`
+--
+ALTER TABLE `payers`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -978,16 +1253,22 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `accounts`
+--
+ALTER TABLE `accounts`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `audits`
 --
 ALTER TABLE `audits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `branches`
 --
 ALTER TABLE `branches`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -1008,16 +1289,46 @@ ALTER TABLE `conversions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `expenses`
+--
+ALTER TABLE `expenses`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `expense_categories`
+--
+ALTER TABLE `expense_categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `fund_transfers`
+--
+ALTER TABLE `fund_transfers`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `incomes`
+--
+ALTER TABLE `incomes`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `income_categories`
+--
+ALTER TABLE `income_categories`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `inventories`
 --
 ALTER TABLE `inventories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `levels`
 --
 ALTER TABLE `levels`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `logs`
@@ -1029,13 +1340,25 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
+-- AUTO_INCREMENT for table `payees`
+--
+ALTER TABLE `payees`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `payers`
+--
+ALTER TABLE `payers`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -1047,7 +1370,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `price_categories`
 --
 ALTER TABLE `price_categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -1059,19 +1382,19 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `product_prices`
 --
 ALTER TABLE `product_prices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `product_selling_prices`
 --
 ALTER TABLE `product_selling_prices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `product_units`
 --
 ALTER TABLE `product_units`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `purchases`
@@ -1125,13 +1448,13 @@ ALTER TABLE `sale_items`
 -- AUTO_INCREMENT for table `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sub_categories`
 --
 ALTER TABLE `sub_categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
@@ -1161,7 +1484,7 @@ ALTER TABLE `units`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
