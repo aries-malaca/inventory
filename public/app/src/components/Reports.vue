@@ -7,7 +7,7 @@
                 <li v-if="gate(user, 'reports', 'accounting_reports')"><a href="#accounting-reports-tab" data-toggle="tab" aria-expanded="false">Accounting Reports</a></li>
                 <li class="pull-left header"><i class="fa fa-inbox"></i> {{ title }}</li>
             </ul>
-            <div class="tab-content no-padding">
+            <div class="tab-content">
                 <product-reports></product-reports>
             </div>
         </div>
