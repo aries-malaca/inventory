@@ -69,7 +69,9 @@ Route::post('/settings/restoreBackup', 'SettingController@restoreBackup');
 Route::post('/settings/deleteBackup', 'SettingController@deleteBackup');
 //end database API
 
-
+//report
+Route::post('/reports/generateReport', 'ReportController@generateReport');
+//report
 
 
 
