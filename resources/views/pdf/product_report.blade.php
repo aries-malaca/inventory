@@ -1,7 +1,7 @@
 <html>
 <style>
     body{
-        font-size:14px;
+        font-size:13px;
     }
     td,th{
         border-collapse:collapse;
@@ -29,7 +29,7 @@
                 {{ $product['category_name'] }}<br/>
             </td>
             <td style="width:50%">
-                <table style="width:100%;font-size:120%">
+                <table style="width:100%">
                     @foreach($product['product_units'] as $k=> $unit)
                     <tr>
                         <th style="width:25px">{{ $unit['unit']->unit_name }}</th>

@@ -36,7 +36,12 @@
         </div>
         <div class="row">
             <div class="col-md-9">
-
+                <div class="form-group">
+                    <label>Display Fields:</label><br/>
+                    <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_purchase_price"/> Purchase Price</label></div>
+                    <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_markup"/> Markup</label></div>
+                    <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_vat_price"/> VAT Price</label></div>
+                </div>
             </div>
             <div class="col-md-3">
                 <button class="btn btn-success pull-right" @click="generateReport($event)">Generate</button>
@@ -78,7 +83,10 @@
                     selling_price:0,
                     format:'pdf',
                     show_picture:false,
-                    type:'product_report'
+                    type:'product_report',
+                    display_purchase_price:false,
+                    display_markup:false,
+                    display_vat_price:false,
                 },
                 download_link:false
             }
