@@ -40,9 +40,9 @@
                     <h4>Product Units and Pricing</h4>
                     <table class="table table-condensed table-bordered table-hover" v-for="(unit, key) in product.product_units">
                         <tr>
-                            <th>Unit #{{ key+1 }}</th>
-                            <th>Bar Code</th>
-                            <th>
+                            <th style="width:10%">Unit #{{ key+1 }}</th>
+                            <th style="width:10%">Bar Code</th>
+                            <th style="width:10%">
                                 <span v-if="key>0">
                                     <span v-if="product.unit!==null">
                                         {{ unit.unit.unit_name }}
@@ -52,7 +52,7 @@
                                 </span>
                                 <span v-else>Qty</span>
                             </th>   
-                            <th>Purchase Price</th>
+                            <th style="width:10%">Purchase Price</th>
                             <th></th>
                         </tr>
                         <tr>
@@ -63,9 +63,11 @@
                                 {{product.product_units[key].barcode}}
                             </td>
                             <td>
-                                {{product.product_units[key].quantity_per_parent}}
+                                {{ product.product_units[key].quantity_per_parent }}
                             </td>
-                            <td></td>
+                            <td v-if="product.product_units[key].pricing !== undefined">
+                                {{ product.product_units[key].pricing[0].purchase_price.toFixed(2) }}
+                            </td>
                             <td>
                                 <table class="table table-condensed table-bordered table-hover" style="margin-bottom:0px">
                                     <thead>
@@ -81,13 +83,13 @@
                                             <th>W/ Vat</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                    <tbody v-if="product.product_units[key].pricing !== undefined">
+                                        <tr v-for="s in product.product_units[key].pricing[0].selling">
+                                            <td>{{ s.name }}</td>
+                                            <td>{{ (((s.selling_price - product.product_units[key].pricing[0].purchase_price) / product.product_units[key].pricing[0].purchase_price) * 100).toFixed(2) }}</td>
+                                            <td>{{ (s.selling_price - product.product_units[key].pricing[0].purchase_price).toFixed(2) }}</td>
+                                            <td>{{ s.selling_price.toFixed(2) }}</td>
+                                            <td>{{ (s.selling_price + ((s.selling_price*settings.default_vat_percentage)/100)).toFixed(2) }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -113,7 +115,10 @@ export default {
     computed:{
         user(){
             return this.$store.state.user;
-        }
+        },
+        settings(){
+            return this.$store.state.settings;
+        },
     }
 }
 </script>

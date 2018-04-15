@@ -28,15 +28,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_purchase_price"/> Purchase Price</label></div>
-                        <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_markup"/> Markup</label></div>
+                        <div class="checkbox"><label><input type="checkbox" v-model="newReport.show_picture"/> Show Picture</label></div>
                     </div>
                     <div class="col-md-6">
                         <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_vat_price"/> VAT Price</label></div>
-                        <div class="checkbox"><label><input type="checkbox" v-model="newReport.show_picture"/> Show Picture</label></div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-2">
                 <div class="form-group">
                     <label>Report Format:</label>
                     <select v-model="newReport.format" class="form-control">
@@ -45,7 +44,26 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Sort By:</label>
+                    <select v-model="newReport.sort_by" class="form-control">
+                        <option value="product_name">Product Name</option>
+                        <option value="brand_name">Brand</option>
+                        <option value="category_name">Category</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Sort Order:</label>
+                    <select v-model="newReport.sort_order" class="form-control">
+                        <option value="ASC">Ascending</option>
+                        <option value="DESC">Descending</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
                 <button class="btn btn-success pull-right" @click="generateReport($event)">Generate</button>
             </div>
         </div>
@@ -88,8 +106,9 @@
                     show_picture:false,
                     type:'product_report',
                     display_purchase_price:false,
-                    display_markup:false,
                     display_vat_price:false,
+                    sort_by:'product_name',
+                    sort_order:'ASC'
                 },
                 download_link:false
             }

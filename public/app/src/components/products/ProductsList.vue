@@ -189,10 +189,10 @@
                                                     <table class="table table-condensed table-bordered table-hover" style="margin-bottom:0px">
                                                         <tbody>
                                                             <tr v-for="(p,index) in unit.pricing">
-                                                                <td style="width:40px;">
+                                                                <!--td style="width:40px;">
                                                                     <button class="btn btn-danger btn-xs" @click="removePurchasePrice(key,index)">X</button>
                                                                     <button class="btn btn-success btn-xs" @click="addPurchasePrice(key)" v-if="unit.pricing.length === (index+1)">+</button>
-                                                                </td>
+                                                                </td-->
                                                                 <td style="width:340px;">
                                                                     <div class="row">
                                                                         <div class="col-md-4">
@@ -279,7 +279,7 @@
                         <div v-if="!is_viewing">
                             <button type="button" v-if="newProduct.id===0" @click="addProduct" class="btn btn-primary">Save</button>
                             <button type="button" v-else @click="updateProduct" class="btn btn-primary">Update</button>
-                            <button type="button" v-if="newProduct.id !== 0" @click="is_viewing=true" class="btn btn-warning">Cancel</button>
+                            <button type="button" v-if="newProduct.id !== 0" @click="getProduct(newProduct.id)" class="btn btn-warning">Cancel</button>
                         </div>
                         <div v-else>
                             <button type="button" v-if="gate(user, 'products', 'update')" @click="is_viewing=false" class="btn btn-warning">Edit</button>
@@ -401,7 +401,12 @@
                 }
                 let u = this;
                 this.is_viewing = true;
-                axios.get('/api/product/getProduct/' + product.id)
+                this.getProduct(product.id);
+            },
+            getProduct(id){
+                let u = this;
+                this.is_viewing=true
+                axios.get('/api/product/getProduct/' + id)
                     .then(function (response) {
                         let cat = u.categories.find((i)=>{
                                 return (response.data.category_id===i.value);

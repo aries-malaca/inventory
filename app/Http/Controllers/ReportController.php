@@ -15,7 +15,8 @@ class ReportController extends Controller{
         $validator = Validator::make($request->all(), [
             'type' => 'required',
             'selling_price' => 'required|not_in:0',
-            'categories' => 'required'
+            'categories' => 'required',
+            'brands' => 'required'
         ]);
 
         if ($validator->fails())
@@ -41,7 +42,12 @@ class ReportController extends Controller{
         if(!in_array(0, $new_array))
             $data = $data->whereIn('category_id', $new_array);
 
-        $data = $data->get()->all();
+        if(!in_array("All", $request->input('brands')))
+            $data = $data->whereIn('brand_name', $request->input('brands'));
+
+        
+        $data = $data->orderBy($request->input('sort_by'), $request->input('sort_order'))
+                    ->get()->all();
 
         foreach($data as $key=>$product){
             $data[$key]['product_units'] = Product::find($product['id'])->units()->get();
@@ -73,17 +79,7 @@ class ReportController extends Controller{
             $pdf->save(public_path($url));
         }
         else{
-            Excel::create('product_report', function($excel) use ($data){
-                $excel->sheet('Products', function($sheet) use ($data){
-                    foreach($data as $key=>$value){
-                        $sheet->row($key + 2,
-                            array( $value['product_name'],
-                                    $value['category_name']
-                            )
-                        );
-                    }
-                });
-            })->store('xlsx', public_path('files/generated'));
+            Excel::store(collect([]), 'files/generated/product_report.xlsx', 'files');
         }
         return array("path"=>$url, "data"=>$data);
     }
