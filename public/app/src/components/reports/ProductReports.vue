@@ -7,7 +7,13 @@
                     <vue-select multiple :options="categories" v-model="newReport.categories"></vue-select>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label>Brand:</label>
+                    <vue-select multiple :options="brands" v-model="newReport.brands"></vue-select>
+                </div>
+            </div>
+            <div class="col-md-2">
                 <div class="form-group">
                     <label>Selling Price:</label>
                     <select v-model="newReport.selling_price" class="form-control">
@@ -15,32 +21,28 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-2">
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Display Fields:</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_purchase_price"/> Purchase Price</label></div>
+                        <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_markup"/> Markup</label></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_vat_price"/> VAT Price</label></div>
+                        <div class="checkbox"><label><input type="checkbox" v-model="newReport.show_picture"/> Show Picture</label></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
                 <div class="form-group">
                     <label>Report Format:</label>
                     <select v-model="newReport.format" class="form-control">
                         <option value="pdf">PDF</option>
                         <option value="xlsx">EXCEL</option>
                     </select>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label>Show Picture:</label>
-                    <select v-model="newReport.show_picture" class="form-control">
-                        <option :value="true">YES</option>
-                        <option :value="false">NO</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-9">
-                <div class="form-group">
-                    <label>Display Fields:</label><br/>
-                    <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_purchase_price"/> Purchase Price</label></div>
-                    <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_markup"/> Markup</label></div>
-                    <div class="checkbox"><label><input type="checkbox" v-model="newReport.display_vat_price"/> VAT Price</label></div>
                 </div>
             </div>
             <div class="col-md-3">
@@ -80,6 +82,7 @@
             return{
                 newReport:{
                     categories:null,
+                    brands:null,
                     selling_price:0,
                     format:'pdf',
                     show_picture:false,
@@ -111,10 +114,21 @@
         },
         computed:{
             categories(){
-                var d = this.$store.state.products.categories.map((item)=>{
-                    return { label:item.category_name, value: item.id };
-                });
+                var d = [];
                 d.push({ label:"All", value: 0});
+
+                this.$store.state.products.categories.forEach((item)=>{
+                    d.push({ label:item.category_name, value: item.id });
+                });
+
+                return d;
+            },
+            brands(){
+                var d = ["All"];
+                this.products.forEach((item)=>{
+                    if(d.indexOf(item.brand_name) === -1)
+                        d.push(item.brand_name);
+                });
                 return d;
             },
             prices(){
@@ -123,6 +137,9 @@
             token(){
                 return this.$store.state.token;
             },
+            products(){
+                return this.$store.getters['products/activeProducts'];
+            }
         },
         mounted(){
 
