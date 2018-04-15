@@ -38,18 +38,33 @@
             <div class="row">
                 <div class="col-md-12">
                     <h4>Product Units and Pricing</h4>
-                    <table class="table table-condensed table-bordered table-hover">
+                    <table class="table table-condensed table-bordered table-hover" v-for="(unit, key) in product.product_units">
                         <tr>
-                            <th>Unit</th>
+                            <th>Unit #{{ key+1 }}</th>
                             <th>Bar Code</th>
-                            <th>Qty</th>
+                            <th>
+                                <span v-if="key>0">
+                                    <span v-if="product.unit!==null">
+                                        {{ unit.unit.unit_name }}
+                                    </span>
+                                    <span v-else>Qty</span>
+                                    per {{ product.product_units[key-1].unit.unit_name }}
+                                </span>
+                                <span v-else>Qty</span>
+                            </th>   
                             <th>Purchase Price</th>
                             <th></th>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>
+                                {{ product.product_units[key].unit.unit_name }}
+                            </td>
+                            <td>
+                                {{product.product_units[key].barcode}}
+                            </td>
+                            <td>
+                                {{product.product_units[key].quantity_per_parent}}
+                            </td>
                             <td></td>
                             <td>
                                 <table class="table table-condensed table-bordered table-hover" style="margin-bottom:0px">
