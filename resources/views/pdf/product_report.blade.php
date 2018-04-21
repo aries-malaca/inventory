@@ -1,7 +1,7 @@
 <html>
 <style>
     body{
-        font-size:13px;
+        font-size:12px;
     }
     td,th{
         border-collapse:collapse;
@@ -13,68 +13,75 @@
     <table style="width:100%">
         <tr>
             @if($request->input('show_picture'))
-            <td style="width:18%; text-align:center">
+            <td style="width:130px; text-align:center">
                 <b>Product Image</b>
             </td>
-            <td style="width:32%; text-align:center">
-            @else
-            <td style="width:50%; text-align:center">
-            @endif    
+            @endif
+            <td style="width:150px; text-align:center">
                 <b>Product Name </b>
             </td>
-            <td style="width:60%; text-align:center">
+            <td style="width:80px; text-align:center">
                 <b>Unit</b>
+            </td>
+            <td style="width:110px; text-align:center">
+                <b>Notes</b>
+            </td>
+            <td style="width:80px; text-align:center">
+                <b>Purchase Price</b>
+            </td>
+            <td style="width:80px; text-align:center">
+                <b>Selling Price (VAT)</b>
+            </td>
+            <td style="width:80px; text-align:center">
+                <b>Selling Price</b>
             </td>
         </tr>
         @foreach($products as $key=>$product)
         <tr>
             @if($request->input('show_picture'))
-            <td style="width:18%">
+            <td>
                 @if($product['pictures_data'] != "")
-                <img src="{{ $product['pictures_data']  }}" alt="" style="width:100px; height:70px"/>
+                <img src="{{ $product['pictures_data']  }}" alt="" style="width:100px;"/>
                 @endif
             </td>
-            <td style="width:32%">
+            <td>
             @else
-            <td style="width:40%">
+            <td>
             @endif
                 <br/>{{ $product['product_name'] }}<br/>
             </td>
-            <td style="width:60%">
+            <td colspan="5">
                 <table style="width:100%">
                     @foreach($product['product_units'] as $k=> $unit)
-                    <tr>
-                        <th style="width:20px"><br/>{{ $unit['unit']->unit_name }}</th>
-                        <th style="width:30px">
-                            @if($k>0)
-                            <br/>{{$unit['unit']->unit_name}} / {{ $product['product_units'][$k-1]['unit']->unit_name }} : {{ $unit['quantity_per_parent'] }}
-                            @endif
-                        </th>
-                        <th style="width:20px;text-align:right">
+                        <tr>
+                            <td width="80px;">{{ $unit['unit']->unit_name }}</td>
+                            <td  width="110px;">
+                                @if($k>0)
+                                    {{$unit['unit']->unit_name}} / {{ $product['product_units'][$k-1]['unit']->unit_name }} : {{ $unit['quantity_per_parent'] }}
+                                @endif
+                            </td>
                             @if($request->input('display_purchase_price'))
-                                <br/>
-                                PP: {{ number_format($unit['pricing'][0]['purchase_price'], 2) }}
+                                <td width="80px;">
+                                {{ number_format($unit['pricing'][0]['purchase_price'], 2) }}
+                                <td>
                             @endif
                             @if($request->input('display_vat_price'))
+                                <td width="80px;">
+                                    @foreach($unit['pricing'][0]['selling'] as $s=> $selling)
+                                        @if($selling['price_category_id'] == $request->input('selling_price'))
+                                            {{ number_format( (($selling['selling_price'] * .12) + $selling['selling_price']), 2) }}
+                                        @endif
+                                    @endforeach
+                                </td>
+                            @endif
+                            <td width="80px;">
                                 @foreach($unit['pricing'][0]['selling'] as $s=> $selling)
                                     @if($selling['price_category_id'] == $request->input('selling_price'))
-                                    <br/>
-                                    
-                                    VP: {{ number_format( (($selling['selling_price'] * .12) + $selling['selling_price']), 2) }}
+                                        {{ number_format($selling['selling_price'], 2) }}
                                     @endif
                                 @endforeach
-                            @endif
-                        </th>
-                        <th style="width:20px;text-align:right">
-                            @foreach($unit['pricing'][0]['selling'] as $s=> $selling)
-                                @if($selling['price_category_id'] == $request->input('selling_price'))
-                                <br/>
-                                
-                                SP: {{ number_format($selling['selling_price'], 2) }}
-                                @endif
-                            @endforeach
-                        </th>
-                    </tr>
+                            </td>
+                        </tr>
                     @endforeach
                 </table>
             </td>
