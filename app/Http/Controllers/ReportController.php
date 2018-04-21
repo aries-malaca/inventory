@@ -72,9 +72,14 @@ class ReportController extends Controller{
         }
 
         $url = 'files/generated/'.$request->input('type') .'.' . $request->input('format');
+        $size = 0;
+        if($request->input('display_purchase_price'))
+            $size++;
+        if($request->input('display_vat_price'))
+            $size++;
 
         if($request->input('format') === 'pdf'){
-            $pdf = PDF::loadView('pdf.'.$request->input('type'), array("products"=>$data, "request"=>$request));
+            $pdf = PDF::loadView('pdf.'.$request->input('type'), array("products"=>$data, "request"=>$request, "field_size"=>$size));
             $pdf->setPaper('letter', 'portrait');
             $pdf->save(public_path($url));
         }
