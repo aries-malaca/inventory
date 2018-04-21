@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\PriceCategory;
 use App\ProductPrice;
 use Illuminate\Http\Request;
 use PDF;
 use Excel;
 use Validator;
 use App\Product;
+use App\Category;
 use App\ProductUnit;
 use App\Unit;
 class ReportController extends Controller{
@@ -79,7 +81,11 @@ class ReportController extends Controller{
             $size++;
 
         if($request->input('format') === 'pdf'){
-            $pdf = PDF::loadView('pdf.'.$request->input('type'), array("products"=>$data, "request"=>$request, "field_size"=>$size));
+            $pdf = PDF::loadView('pdf.'.$request->input('type'), array("products"=>$data,
+                                                                        "request"=>$request,
+                                                                        "field_size"=>$size,
+                                                                        "categories"=>in_array(0, $new_array)?['All']:Category::whereIn('id', $new_array)->pluck("category_name")->toArray(),
+                                                                        "price_category"=>PriceCategory::find($request->input('selling_price'))));
             $pdf->setPaper('letter', 'portrait');
             $pdf->save(public_path($url));
         }

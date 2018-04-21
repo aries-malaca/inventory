@@ -10,6 +10,12 @@
     }
 </style>
 <body>
+    <h2 style="text-align: center">Product List</h2>
+    <h3 style="text-align: left">Brand: {{ in_array('All', $request->input('brands')) ?'All':implode(", ",$request->input('brands')) }}</h3>
+    @if(!empty($categories))
+    <h3 style="text-align: left">Category: {{ implode(", ",$categories) }}</h3>
+    @endif
+    <h3 style="text-align: left">Price: {{ $price_category->price_category_name }}</h3>
     <table>
         <thead>
         <tr>
