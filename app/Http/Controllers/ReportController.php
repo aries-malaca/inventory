@@ -11,6 +11,7 @@ use App\Product;
 use App\Category;
 use App\ProductUnit;
 use App\Unit;
+use App\Exports\ProductList;
 class ReportController extends Controller{
 
     function generateReport(Request $request){
@@ -49,7 +50,7 @@ class ReportController extends Controller{
 
         
         $data = $data->orderBy($request->input('sort_by'), $request->input('sort_order'))
-                    ->get()->all();
+                    ->get();
 
         foreach($data as $key=>$product){
             $data[$key]['product_units'] = Product::find($product['id'])->units()->get();
@@ -80,47 +81,20 @@ class ReportController extends Controller{
         if($request->input('display_vat_price'))
             $size++;
 
+        $big_data = array("products"=>$data,
+                        "request"=>$request,
+                        "field_size"=>$size,
+                        "categories"=>in_array(0, $new_array)?['All']:Category::whereIn('id', $new_array)->pluck("category_name")->toArray(),
+                        "price_category"=>PriceCategory::find($request->input('selling_price')));
+
         if($request->input('format') === 'pdf'){
-            $pdf = PDF::loadView('pdf.'.$request->input('type'), array("products"=>$data,
-                                                                        "request"=>$request,
-                                                                        "field_size"=>$size,
-                                                                        "categories"=>in_array(0, $new_array)?['All']:Category::whereIn('id', $new_array)->pluck("category_name")->toArray(),
-                                                                        "price_category"=>PriceCategory::find($request->input('selling_price'))));
+            $pdf = PDF::loadView('pdf.'.$request->input('type'), $big_data);
             $pdf->setPaper('letter', 'portrait');
             $pdf->save(public_path($url));
         }
-        else{
-            Excel::store(collect([]), 'files/generated/product_report.xlsx', 'files');
-        }
+        else
+            Excel::store(new ProductList($big_data), 'files/generated/product_report.xlsx', 'files');
+
         return array("path"=>$url, "data"=>$data);
-    }
-
-    function generateSalesReport(Request $request){
-        $get = Sale::where('date_transaction','>=', $request->input('date_start'))
-                    ->where('date_transaction','<=', $request->input('date_end'))
-                    ->where('sales_status','sold')
-                        ->get()->toArray();
-        foreach($get as $key=>$value){
-            $sales_data = json_decode($value['sales_data'],true);
-            $get[$key]['items'] = SaleItem::leftJoin('products','sale_items.product_id','=','products.id')
-                                            ->leftJoin('units','sale_items.unit','=','units.id')
-                                            ->where('sales_id', $value['id'])->get()->toArray();
-            $get[$key]['client'] = Client::find($value['client_id']);
-            $get[$key]['items_count'] = sizeof($get[$key]['items']);
-            $get[$key]['name'] = User::find($value['user_id'])->name;
-            $get[$key]['terms'] = ($value['date_transaction'] == $value['date_due']?'COD':'Credit');
-            $get[$key]['sales_data'] = $sales_data;
-        }
-
-        $url = 'generated_'. $request->input('report_type') .'.pdf';
-        $pdf = PDF::loadView('pdf.'.$request->input('report_type'), array("sales"=>$get,
-                                                                          "date_start"=> $request->input('date_start'),
-                                                                          "date_end"=>$request->input('date_end')
-                                                                          )
-                                                                    );
-        $pdf->setPaper('letter', 'landscape');
-        $pdf->save(public_path($url));
-
-        return response()->json(['result'=>'success','link'=>$url]);
     }
 }
