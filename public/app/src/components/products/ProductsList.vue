@@ -399,13 +399,13 @@
                     this.newProduct.pictures_data.push(this.last_uploaded);
                     return false;
                 }
-                let u = this;
                 this.is_viewing = true;
                 this.getProduct(product.id);
             },
             getProduct(id){
                 let u = this;
-                this.is_viewing=true
+                this.is_viewing=true;
+                $("#add-modal").modal("show");
                 axios.get('/api/product/getProduct/' + id)
                     .then(function (response) {
                         let cat = u.categories.find((i)=>{
@@ -460,8 +460,6 @@
                                 }
                             }
                         }
-
-                        $("#add-modal").modal("show");
                     });
             },
             autoFillPurchasePrices(i, j){
