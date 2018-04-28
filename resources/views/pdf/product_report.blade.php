@@ -53,7 +53,7 @@
             </th>
             @if($request->input('display_purchase_price'))
                 <th style="width:80px; text-align:center">
-                    <b>Purchase Price</b>
+                    <b>Cost</b>
                 </th>
             @endif
             @if($request->input('display_vat_price'))

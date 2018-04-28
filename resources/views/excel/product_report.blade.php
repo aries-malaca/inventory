@@ -17,17 +17,26 @@
 @endif
 <h3 style="text-align: left">Price: {{ $price_category->price_category_name }}</h3>
 <table>
-    <tr style="background-color:yellow;color:red">
-        <th></th>
+    <tr>
+        <th style="background-color:yellow;color:red">S.N.</th>
         <th style="width:150px; text-align:center">
-            <b>Product Name </b>
+            <b>Brand </b>
+        </th>
+        <th style="width:150px; text-align:center">
+            <b>Code </b>
+        </th>
+        <th style="width:150px; text-align:center">
+            <b>Description </b>
+        </th>
+        <th style="width:150px; text-align:center">
+            <b>Size </b>
         </th>
         <th style="width:80px;text-align:center">
             <b>Unit 1</b>
         </th>
         @if($request->input('display_purchase_price'))
             <th style="width:80px; text-align:center">
-                <b>Purchase Price</b>
+                <b>Cost</b>
             </th>
         @endif
         @if($request->input('display_vat_price'))
@@ -46,7 +55,7 @@
         </th>
         @if($request->input('display_purchase_price'))
             <th style="width:80px; text-align:center">
-                <b>Purchase Price</b>
+                <b>Cost</b>
             </th>
         @endif
         @if($request->input('display_vat_price'))
@@ -65,7 +74,7 @@
         </th>
         @if($request->input('display_purchase_price'))
             <th style="width:80px; text-align:center">
-                <b>Purchase Price</b>
+                <b>Cost</b>
             </th>
         @endif
         @if($request->input('display_vat_price'))
@@ -77,11 +86,24 @@
             <b>Selling Price</b>
         </th>
     </tr>
-    @foreach($products as $key=>$product)
+        @foreach($products as $eee=>$group)
+        <tr style="font-weight:bold">
+            <td colspan="{{ $field_size+5 }}" style="border:0px"> {{ $group['category_name'] }}</td>
+        </tr>
+        @foreach($group['products'] as $key=>$product)
         <tr>
             <th>{{ $key+1 }}</th>
             <td>
-                {{ $product['product_name'] }}<br/>
+                {{ $product['brand_name'] }}<br/>
+            </td>
+            <td>
+                {{ $product['product_code'] }}<br/>
+            </td>
+            <td>
+                {{ $product['product_description'] }}<br/>
+            </td>
+            <td>
+                {{ $product['size'] }}<br/>
             </td>
             @for($x=0;$x<3;$x++)
                 @if(isset($product['product_units'][$x]))
@@ -113,6 +135,7 @@
                 @endif
             @endfor
         </tr>
+    @endforeach
     @endforeach
 </table>
 </body>

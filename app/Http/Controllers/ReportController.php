@@ -82,7 +82,7 @@ class ReportController extends Controller{
             $size++;
 
         $type = pathinfo(public_path('images/logo.jpg'), PATHINFO_EXTENSION);
-        $raw = file_get_contents($path);
+        $raw = file_get_contents(public_path('images/logo.jpg'));
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($raw);
         $logo = $base64;
 
@@ -98,8 +98,8 @@ class ReportController extends Controller{
             $pdf->setPaper('letter', 'portrait');
             $pdf->save(public_path($url));
         }
-        // else
-        //     Excel::store(new ProductList($big_data), 'files/generated/product_report.xlsx', 'files');
+        else
+            Excel::store(new ProductList($big_data), 'files/generated/product_report.xlsx', 'files');
 
         return array("path"=>$url, "data"=>$big_data);
     }
