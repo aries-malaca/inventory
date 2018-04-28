@@ -81,7 +81,10 @@ class ReportController extends Controller{
         if($request->input('display_vat_price'))
             $size++;
 
-        $big_data = array("products"=>$data,
+        $distict_categories = $this->groupByCategories($data);
+
+
+        $big_data = array("products"=>$distict_categories,
                         "request"=>$request,
                         "field_size"=>$size,
                         "categories"=>in_array(0, $new_array)?['All']:Category::whereIn('id', $new_array)->pluck("category_name")->toArray(),
