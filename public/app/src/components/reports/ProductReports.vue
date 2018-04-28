@@ -50,7 +50,6 @@
                     <select v-model="newReport.sort_by" class="form-control">
                         <option value="product_name">Product Name</option>
                         <option value="brand_name">Brand</option>
-                        <option value="category_name">Category</option>
                     </select>
                 </div>
             </div>

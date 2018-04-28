@@ -81,12 +81,15 @@ class ReportController extends Controller{
         if($request->input('display_vat_price'))
             $size++;
 
-        $distict_categories = $this->groupByCategories($data);
+        $type = pathinfo(public_path('images/logo.jpg'), PATHINFO_EXTENSION);
+        $raw = file_get_contents($path);
+        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($raw);
+        $logo = $base64;
 
-
-        $big_data = array("products"=>$distict_categories,
+        $big_data = array("products"=>$this->groupByCategories($data->toArray()),
                         "request"=>$request,
                         "field_size"=>$size,
+                        "logo"=>$logo,
                         "categories"=>in_array(0, $new_array)?['All']:Category::whereIn('id', $new_array)->pluck("category_name")->toArray(),
                         "price_category"=>PriceCategory::find($request->input('selling_price')));
 
@@ -95,9 +98,35 @@ class ReportController extends Controller{
             $pdf->setPaper('letter', 'portrait');
             $pdf->save(public_path($url));
         }
-        else
-            Excel::store(new ProductList($big_data), 'files/generated/product_report.xlsx', 'files');
+        // else
+        //     Excel::store(new ProductList($big_data), 'files/generated/product_report.xlsx', 'files');
 
-        return array("path"=>$url, "data"=>$data);
+        return array("path"=>$url, "data"=>$big_data);
+    }
+
+    function groupByCategories($data){
+        $categories = [];
+
+        foreach($data as $key=>$value){
+            $index = $this->groupIndex($categories, $value);
+
+            if($index !== false){
+                $categories[$index]['products'][] = $value;
+            }
+            else{
+                $categories[] = array("products"=>array($value), "category_id"=> $value['category_id'], 
+                                        "category_name"=>$value['category_name']);
+            }
+        }
+
+        return $categories;
+    }
+
+    function groupIndex($categories, $product){
+        foreach($categories as $key=>$value){
+            if($product['category_id'] == $value['category_id'])
+                return $key;
+        }
+        return false;
     }
 }
