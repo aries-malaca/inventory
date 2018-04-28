@@ -17,8 +17,8 @@
 @endif
 <h3 style="text-align: left">Price: {{ $price_category->price_category_name }}</h3>
 <table>
-
-    <tr>
+    <tr style="background-color:yellow;color:red">
+        <th></th>
         <th style="width:150px; text-align:center">
             <b>Product Name </b>
         </th>
@@ -79,6 +79,7 @@
     </tr>
     @foreach($products as $key=>$product)
         <tr>
+            <th>{{ $key+1 }}</th>
             <td>
                 {{ $product['product_name'] }}<br/>
             </td>
