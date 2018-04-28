@@ -53,7 +53,7 @@
             @if($request->input('show_picture'))
             <td>
                 @if($product['pictures_data'] != "")
-                <img src="{{ $product['pictures_data']  }}" alt="" style="width:100px;"/>
+                <img src="{{ $product['pictures_data']  }}" alt="" style="height:70px;"/>
                 @endif
             </td>
             <td>
@@ -62,18 +62,18 @@
             @endif
                 <br/>{{ $product['product_name'] }}<br/>
             </td>
-            <td colspan="5">
+            <td colspan="{{ $field_size+3 }}">
                 <table style="width:100%">
                     @foreach($product['product_units'] as $k=> $unit)
                         <tr>
                             <td style="width:80px;">{{ $unit['unit']->unit_name }}</td>
-                            <td  style="width:110px;text-align:right">
+                            <td  style="width:110px;">
                                 @if($k>0)
                                     {{$unit['unit']->unit_name}} / {{ $product['product_units'][$k-1]['unit']->unit_name }} : {{ $unit['quantity_per_parent'] }}
                                 @endif
                             </td>
                             @if($request->input('display_purchase_price'))
-                                <td style="width:80px">
+                                <td style="width:80px;text-align:right">
                                 {{ number_format($unit['pricing'][0]['purchase_price'], 2) }}
                                 <td>
                             @endif
