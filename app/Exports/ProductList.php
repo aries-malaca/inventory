@@ -3,7 +3,8 @@ namespace App\Exports;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class ProductList implements FromView{
+class ProductList implements FromView
+{
     var $data = [];
     var $request;
     public function __construct($data){
@@ -12,4 +13,5 @@ class ProductList implements FromView{
     public function view(): View{
         return view('excel.product_report', $this->data);
     }
+
 }

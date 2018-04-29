@@ -98,8 +98,81 @@ class ReportController extends Controller{
             $pdf->setPaper('letter', 'portrait');
             $pdf->save(public_path($url));
         }
-        else
-            Excel::store(new ProductList($big_data), 'files/generated/product_report.xlsx', 'files');
+        else{
+            Excel::load(public_path('templates/product_report.xlsx'), function($excel) use($big_data) {
+                $excel->sheet('Sheet1', function($sheet) use($big_data) {
+                    $origin = 3;
+                    $sheet->setFreeze('A3');
+                    foreach($big_data['products'] as $e => $group){
+                        $sheet->row($origin, array($group['category_name']));
+                        $sheet->row($origin, function($row) {
+                            // call cell manipulation methods
+                            $row->setFontColor('#FFFFFF');
+                            $row->setBackground('#000056');
+                        });
+                        $origin ++;
+                        $headers = [];
+                        
+                        $headers[] = 'S.N.';
+                        $headers[] = 'Brand';
+                        $headers[] = 'Code';
+                        $headers[] = 'Description';
+                        $headers[] = 'Color';
+                        $headers[] = 'Size';
+                        for($x=0;$x<3;$x++){
+                            $headers[] = 'Unit '. ($x+1);
+                            if($x>0)
+                                $headers[] = 'Notes';
+                            
+                            if($big_data['request']->input('display_purchase_price'))
+                                $headers[] = 'Cost Price';
+                            
+                                                        
+                            if($big_data['request']->input('display_vat_price'))
+                                $headers[] = 'Vat Selling Price';
+
+                            $headers[] = 'Selling';
+                        }
+                        $headers[] = 'Packaging';
+
+                        $sheet->row(2, $headers);
+                        foreach($group['products'] as $key=>$product){
+                            $content = array(
+                                $key+1,
+                                $product['brand_name'],
+                                $product['product_code'],
+                                $product['product_description'],
+                                '',
+                                $product['size'],
+                            );
+
+                            for($x=0;$x<3;$x++){
+                                if(isset($product['product_units'][$x])){
+                                    $content[] = $product['product_units'][$x]['unit']->unit_name;
+                                    if($x>0)
+                                        $content[] = $product['product_units'][$x]['unit']->unit_name .'/'. $product['product_units'][$x-1]['unit']->unit_name .':'. $product['product_units'][$x]['quantity_per_parent'];
+                                    
+                                    if($big_data['request']->input('display_purchase_price'))
+                                        $content[] = number_format($product['product_units'][0]['pricing'][0]['purchase_price'], 2);
+
+                                    if($big_data['request']->input('display_vat_price'))
+                                        foreach($product['product_units'][$x]['pricing'][0]['selling'] as $s=> $selling)
+                                            if($selling['price_category_id'] == $big_data['request']->input('selling_price'))
+                                                $content[] = number_format( (($selling['selling_price'] * .12) + $selling['selling_price']), 2);
+                                    
+                                    foreach($product['product_units'][$x]['pricing'][0]['selling'] as $s=> $selling)
+                                        if($selling['price_category_id'] == $big_data['request']->input('selling_price'))
+                                            $content[] = number_format($selling['selling_price'], 2);
+                                }
+                            }
+
+                            $sheet->row($origin, $content);
+                            $origin ++;
+                       }
+                    }
+                });
+            })->store('xlsx', public_path('files/generated'));;
+        }
 
         return array("path"=>$url, "data"=>$big_data);
     }
