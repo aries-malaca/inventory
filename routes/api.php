@@ -30,6 +30,12 @@ Route::post('/client/addClient', 'ClientController@addClient');
 Route::post('/client/updateClient', 'ClientController@updateClient');
 //end client API
 
+//quotation API
+Route::get('/quotations/getQuotations', 'QuotationController@getQuotations');
+Route::post('/quotations/addQuotation', 'QuotationController@addQuotation');
+Route::post('/quotations/updateQuotation', 'QuotationController@updateQuotation');
+//end quotation API
+
 //supplier API
 Route::get('/supplier/getSuppliers', 'SupplierController@getSuppliers');
 Route::post('/supplier/addSupplier', 'SupplierController@addSupplier');

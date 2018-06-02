@@ -10,6 +10,7 @@ import Clients from './components/Clients.vue';
 import Reports from './components/Reports.vue';
 import Settings from './components/Settings.vue';
 import Branches from './components/Branches.vue';
+import Quotations from './components/Quotations.vue';
 import NotFound from './components/errors/NotFound.vue';
 
 Vue.use(Router);
@@ -54,6 +55,10 @@ export default new Router({
         {   path: '/branches',
             name: 'Branches',
             component: Branches
+        },
+        {   path: '/quotations',
+            name: 'Quotations',
+            component: Quotations
         },
         {   path: '*',
             name: 'NotFound',

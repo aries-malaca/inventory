@@ -248,6 +248,7 @@ return [
         'settings'=>['view', 'update'],
         'users'=>['view', 'add', 'update'],
         'database'=>['view', 'backup', 'restore'],
+        'quotations'=>['view', 'add', 'update'],
         'reports'=>['view', 'product_reports', 'accounting_reports']
     ]
 ];

@@ -271,7 +271,7 @@
                         </div>
                     </div>
                     <div class="modal-body" v-else>
-                        <product-view :product="newProduct"></product-view>
+                        <product-view :product="newProduct" v-if="newProduct.id !== undefined"></product-view>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left"  @click="closeModal" v-if="newProduct.id===0 && !is_viewing">Close</button>
@@ -406,6 +406,7 @@
                 let u = this;
                 this.is_viewing=true;
                 $("#add-modal").modal("show");
+                this.newProduct = {};
                 axios.get('/api/product/getProduct/' + id)
                     .then(function (response) {
                         let cat = u.categories.find((i)=>{
