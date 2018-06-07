@@ -17,6 +17,7 @@ class CreateQuotationItemsTable extends Migration
             $table->increments('id');
             $table->integer('quotation_id');
             $table->integer('product_id');
+            $table->integer('unit_id');
             $table->integer('quantity');
             $table->float('discount');
             $table->float('base_price');
