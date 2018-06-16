@@ -59,17 +59,33 @@
                                 </div>
                             </div>
                             <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label>Select Product</label>
+                                            <vue-select v-model="selected_product" :options="product_selection"></vue-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Unit</label>
+                                            <vue-select v-model="selected_unit" :options="unit_selection"></vue-select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <table class="table table-boredered table-hover table-stripped">
                                     <thead>
                                         <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <th>Product</th>
+                                            <th>Unit</th>
+                                            <th>Price</th>
+                                            <th>QTY</th>
+                                            <th>Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -103,6 +119,8 @@
                 title:'Quotations',
                 newQuotation:{},
                 quotations:[],
+                selected_product:null,
+                selected_unit:null,
                 quotationTable:{
                     columns: [
                         { label: 'Reference #', field: 'reference_no', filterable: true  },
@@ -118,6 +136,27 @@
             }
         },
         methods:{
+            addItem(product, unit){
+                let c = this.newQuotation.items.find((item)=>{
+                    return item.unit.id === unit.id && item.product.id === product.id;
+                });
+
+                if(c !== undefined){
+                    toastr.error("Already in the list.");
+                    return false;
+                }
+
+
+                let u = this;
+                axios.get('/api/product/getProduct/' + id)
+                    .then(function (response) {
+                        u.newQuotation.items.push({
+                            product:product,
+                            unit:unit,
+                            quantity:1,
+                        });
+                    });
+            },
             getQuotations(){
                 let u = this;
                 axios.get('/api/quotations/getQuotations')
@@ -130,7 +169,15 @@
             },
             showAddModal(){
                 this.newQuotation = {
-                    id:0
+                    id:0,
+                    client_name:'',
+                    client_address:'',
+                    client_mobile:'',
+                    client_company:'',
+                    reference_no:'',
+                    client_email:'',
+                    notes:'',
+                    items:[]
                 };
                 $("#add-quotation-modal").modal("show");
             },
@@ -141,6 +188,7 @@
         mounted:function(){
             this.$store.commit('updateTitle', this.title);
             this.getQuotations();
+            this.$store.dispatch('products/fetchProducts');
         },
         computed:{
             user(){
@@ -151,6 +199,31 @@
             },
             products(){
                 return this.$store.getters['products/activeProducts'];
+            },
+            product_selection(){
+                let d = [];
+                this.products.forEach((item)=>{
+                    d.push({ label:item.product_name, value: item.id, units:item.product_units });
+                });
+
+                return d;
+            },
+            unit_selection(){
+                let d = [];
+
+                if(this.selected_product !== null)
+                    this.selected_product.units.forEach((item)=>{
+                        d.push({ label:item.unit_name, value: item.id});
+                    });
+
+                return d;
+            }
+        },
+        watch:{
+            selected_product(){
+                this.selected_unit = null;
+                if(this.selected_product !== null)
+                    this.selected_unit = { label:this.selected_product.units[0].unit_name, value: this.selected_product.units[0].id}
             }
         }
     }
