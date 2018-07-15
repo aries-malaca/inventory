@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2018 at 04:51 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 7.1.11
+-- Generation Time: Jul 15, 2018 at 02:08 PM
+-- Server version: 10.1.34-MariaDB
+-- PHP Version: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -248,7 +248,14 @@ INSERT INTO `audits` (`id`, `user_id`, `event`, `auditable_type`, `auditable_id`
 (176, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzODEyODM1LCJleHAiOjE1Mjc0MTI4MzUsIm5iZiI6MTUyMzgxMjgzNSwianRpIjoiamJMV0QwSmhGdmpuYW1FOSJ9.inrqMJw0XS2Pu4HoTaVa_oQbLGTYQz4SQq7CANIIL0U', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-28 10:38:24', '2018-04-28 10:38:24'),
 (177, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzODEyODM1LCJleHAiOjE1Mjc0MTI4MzUsIm5iZiI6MTUyMzgxMjgzNSwianRpIjoiamJMV0QwSmhGdmpuYW1FOSJ9.inrqMJw0XS2Pu4HoTaVa_oQbLGTYQz4SQq7CANIIL0U', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-28 12:46:52', '2018-04-28 12:46:52'),
 (178, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzODEyODM1LCJleHAiOjE1Mjc0MTI4MzUsIm5iZiI6MTUyMzgxMjgzNSwianRpIjoiamJMV0QwSmhGdmpuYW1FOSJ9.inrqMJw0XS2Pu4HoTaVa_oQbLGTYQz4SQq7CANIIL0U', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-29 00:12:06', '2018-04-29 00:12:06'),
-(179, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzODEyODM1LCJleHAiOjE1Mjc0MTI4MzUsIm5iZiI6MTUyMzgxMjgzNSwianRpIjoiamJMV0QwSmhGdmpuYW1FOSJ9.inrqMJw0XS2Pu4HoTaVa_oQbLGTYQz4SQq7CANIIL0U', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-29 04:06:58', '2018-04-29 04:06:58');
+(179, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzODEyODM1LCJleHAiOjE1Mjc0MTI4MzUsIm5iZiI6MTUyMzgxMjgzNSwianRpIjoiamJMV0QwSmhGdmpuYW1FOSJ9.inrqMJw0XS2Pu4HoTaVa_oQbLGTYQz4SQq7CANIIL0U', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36', NULL, '2018-04-29 04:06:58', '2018-04-29 04:06:58'),
+(180, NULL, 'updated', 'App\\User', 1, '{\"last_login\":\"2018-04-07 20:59:00\"}', '{\"last_login\":\"2018-07-15 12:48\"}', 'http://localhost:8000/auth/login?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36', NULL, '2018-07-15 04:48:12', '2018-07-15 04:48:12'),
+(181, NULL, 'updated', 'App\\User', 5, '{\"last_login\":\"2018-04-15 21:20:00\"}', '{\"last_login\":\"2018-07-15 12:49\"}', 'http://localhost:8000/auth/login?', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36', NULL, '2018-07-15 04:49:02', '2018-07-15 04:49:02'),
+(182, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTMxNjQ0NTQwLCJleHAiOjE1MzUyNDQ1NDAsIm5iZiI6MTUzMTY0NDU0MCwianRpIjoiT2VhT1FuQld6MkVIc2sxQyJ9.2e-15R8jghty4FkQ6buRUIzpb7LLgCeTdReheEDuiI8', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36', NULL, '2018-07-15 04:50:28', '2018-07-15 04:50:28'),
+(183, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTMxNjQ0NTQwLCJleHAiOjE1MzUyNDQ1NDAsIm5iZiI6MTUzMTY0NDU0MCwianRpIjoiT2VhT1FuQld6MkVIc2sxQyJ9.2e-15R8jghty4FkQ6buRUIzpb7LLgCeTdReheEDuiI8', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36', NULL, '2018-07-15 05:05:42', '2018-07-15 05:05:42'),
+(184, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTMxNjQ0NTQwLCJleHAiOjE1MzUyNDQ1NDAsIm5iZiI6MTUzMTY0NDU0MCwianRpIjoiT2VhT1FuQld6MkVIc2sxQyJ9.2e-15R8jghty4FkQ6buRUIzpb7LLgCeTdReheEDuiI8', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36', NULL, '2018-07-15 05:26:20', '2018-07-15 05:26:20'),
+(185, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTMxNjQ0NTQwLCJleHAiOjE1MzUyNDQ1NDAsIm5iZiI6MTUzMTY0NDU0MCwianRpIjoiT2VhT1FuQld6MkVIc2sxQyJ9.2e-15R8jghty4FkQ6buRUIzpb7LLgCeTdReheEDuiI8', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36', NULL, '2018-07-15 05:33:06', '2018-07-15 05:33:06'),
+(186, 5, 'updated', 'App\\User', 5, '[]', '[]', 'http://localhost:8000/api/user/getUser?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTMxNjQ0NTQwLCJleHAiOjE1MzUyNDQ1NDAsIm5iZiI6MTUzMTY0NDU0MCwianRpIjoiT2VhT1FuQld6MkVIc2sxQyJ9.2e-15R8jghty4FkQ6buRUIzpb7LLgCeTdReheEDuiI8', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36', NULL, '2018-07-15 05:42:37', '2018-07-15 05:42:37');
 
 -- --------------------------------------------------------
 
@@ -463,7 +470,7 @@ CREATE TABLE `levels` (
 INSERT INTO `levels` (`id`, `level_name`, `level_description`, `is_default`, `is_active`, `created_at`, `updated_at`, `level_data`) VALUES
 (1, 'Super Admin', 'SuperAdmin', 1, 1, NULL, '2018-03-31 08:24:17', '{\"permissions\":{\"products\":[\"view\",\"add\",\"update\"],\"categories\":[\"view\",\"update\",\"add\"],\"prices\":[\"update\",\"view\",\"add\"],\"units\":[\"view\",\"add\",\"update\"],\"branches\":[\"update\",\"add\",\"view\"],\"accounts\":[\"view\",\"add\",\"update\"],\"payers\":[\"view\",\"add\",\"update\"],\"payees\":[\"view\",\"add\",\"update\"],\"incomes\":[\"view\",\"add\",\"update\"],\"expenses\":[\"view\",\"add\",\"update\"],\"settings\":[\"view\",\"update\"],\"users\":[\"update\",\"add\",\"view\"],\"database\":[\"view\",\"backup\",\"restore\"],\"reports\":[\"view\"]},\"reports\":[],\"system\":\"Product Inquiry\",\"dashboard\":\"ProductDashboard\"}'),
 (4, 'Administrator - Accounting', 'Accounting Admin', 0, 1, '2018-03-29 13:09:11', '2018-03-31 21:56:07', '{\"permissions\":{\"products\":[],\"categories\":[],\"prices\":[],\"units\":[],\"branches\":[\"view\",\"add\",\"update\"],\"accounts\":[\"view\",\"add\",\"update\"],\"payers\":[\"view\",\"add\",\"update\"],\"payees\":[\"view\",\"add\",\"update\"],\"incomes\":[\"view\",\"add\",\"update\"],\"expenses\":[\"view\",\"add\",\"update\"],\"settings\":[],\"users\":[],\"database\":[],\"reports\":[\"view\",\"product_reports\"]},\"reports\":[],\"system\":\"Accounting System\",\"dashboard\":\"AccountingDashboard\"}'),
-(5, 'Administrator - Products', 'Products', 0, 1, '2018-03-30 18:48:29', '2018-04-07 16:57:24', '{\"permissions\":{\"products\":[\"add\",\"view\",\"update\"],\"categories\":[\"view\",\"add\",\"update\"],\"prices\":[\"update\",\"add\",\"view\"],\"units\":[\"view\",\"add\",\"update\"],\"branches\":[],\"accounts\":[],\"payers\":[],\"payees\":[],\"incomes\":[],\"expenses\":[],\"settings\":[\"view\",\"update\"],\"users\":[],\"database\":[\"restore\",\"view\",\"backup\"],\"reports\":[\"product_reports\",\"view\"]},\"reports\":[],\"system\":\"Product Inquiry\",\"dashboard\":\"ProductDashboard\"}');
+(5, 'Administrator - Products', 'Products', 0, 1, '2018-03-30 18:48:29', '2018-07-15 04:48:43', '{\"permissions\":{\"products\":[\"add\",\"view\",\"update\"],\"categories\":[\"view\",\"add\",\"update\"],\"prices\":[\"update\",\"add\",\"view\"],\"units\":[\"view\",\"add\",\"update\"],\"branches\":[],\"accounts\":[],\"payers\":[],\"payees\":[],\"incomes\":[],\"expenses\":[],\"settings\":[\"view\",\"update\"],\"users\":[],\"database\":[\"restore\",\"view\",\"backup\"],\"quotations\":[\"add\",\"update\",\"view\"],\"reports\":[\"product_reports\",\"view\"]},\"reports\":[],\"system\":\"Product Inquiry\",\"dashboard\":\"ProductDashboard\"}');
 
 -- --------------------------------------------------------
 
@@ -516,7 +523,8 @@ INSERT INTO `menus` (`id`, `parent_id`, `menu_url`, `menu_title`, `menu_descript
 (7, 0, 'settings', 'Settings', '', 'fa-cog', 9, 1, NULL, NULL),
 (8, 0, 'accounts', 'Accounts', '', 'fa-money', 6, 1, NULL, NULL),
 (9, 0, 'incomes', 'Incomes', '', 'fa-money', 7, 1, NULL, NULL),
-(10, 0, 'expenses', 'Expenses', '', 'fa-money', 8, 1, NULL, NULL);
+(10, 0, 'expenses', 'Expenses', '', 'fa-money', 8, 1, NULL, NULL),
+(11, 0, 'quotations', 'Quotations', '', 'fa-money', 3, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -572,7 +580,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (45, '2018_04_01_071653_create_payers_table', 9),
 (46, '2018_04_01_071702_create_income_categories_table', 9),
 (47, '2018_04_01_071711_create_expense_categories_table', 9),
-(48, '2018_04_01_072007_create_fund_transfers_table', 9);
+(48, '2018_04_01_072007_create_fund_transfers_table', 9),
+(49, '2018_06_02_070503_create_quotations_table', 10),
+(50, '2018_06_02_122336_create_quotation_items_table', 10);
 
 -- --------------------------------------------------------
 
@@ -844,6 +854,49 @@ CREATE TABLE `purchase_items` (
   `received_quantity` int(11) NOT NULL,
   `unit_price` float NOT NULL,
   `discount` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quotations`
+--
+
+CREATE TABLE `quotations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `client_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `client_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `client_company` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `client_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `client_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reference_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `quotation_data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `quotation_items`
+--
+
+CREATE TABLE `quotation_items` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `quotation_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `unit_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `discount` double(8,2) NOT NULL,
+  `base_price` double(8,2) NOT NULL,
+  `selling_price` double(8,2) NOT NULL,
+  `last_price` double(8,2) NOT NULL,
+  `final_price` double(8,2) NOT NULL,
+  `quotation_item_data` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1124,9 +1177,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `address`, `mobile`, `photo`, `level`, `branch_id`, `is_active`, `remember_token`, `created_at`, `updated_at`, `last_login`, `device_data`, `user_data`, `last_activity`) VALUES
-(1, 'Admin', 'admin@test.com', '$2y$10$KeFh1WIxgFrJnJ6gtOAyuuXzdvZUSYQoBm5zHBtwFd670sNSumvUu', 'Las Pinas City, Philippines2', '0909111112222', '1_1522407836.jpg', 1, 1, 1, 'RZ4XEzNjeWKXCgfjpAuage6eLGpfnrnvCYSHRuAgK4LLrwuBlA5MUp9aiLhb', '2017-04-26 20:00:00', '2018-04-07 16:59:05', '2018-04-07 20:59:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzMTIwMzQyLCJleHAiOjE1MjY3MjAzNDIsIm5iZiI6MTUyMzEyMDM0MiwianRpIjoiZGRIN3JkMTRBMWJUUTZzSCJ9.EUGxwZw0GMZZ1eJjtQfHl2-5jyFteRJivAHr49z38YQ\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-04-07 20:59\",\"last_activity\":\"2018-04-07 20:59\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzMTIwMDYyLCJleHAiOjE1MjY3MjAwNjIsIm5iZiI6MTUyMzEyMDA2MiwianRpIjoidEpielUySVBxS3F0ZGg2TCJ9.gaSleGqRGa3XMKiIJxT-ButY6lYKFgHaKIcCMimCSEE\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-04-07 20:54\",\"last_activity\":\"2018-04-07 20:57\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-30 09:51\",\"last_activity\":\"2018-04-01 09:58\"}]', '{}', '2018-04-07 20:59:00'),
+(1, 'Admin', 'admin@test.com', '$2y$10$KeFh1WIxgFrJnJ6gtOAyuuXzdvZUSYQoBm5zHBtwFd670sNSumvUu', 'Las Pinas City, Philippines2', '0909111112222', '1_1522407836.jpg', 1, 1, 1, 'RZ4XEzNjeWKXCgfjpAuage6eLGpfnrnvCYSHRuAgK4LLrwuBlA5MUp9aiLhb', '2017-04-26 20:00:00', '2018-07-15 04:48:43', '2018-07-15 12:48:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTMxNjQ0NDkxLCJleHAiOjE1MzUyNDQ0OTEsIm5iZiI6MTUzMTY0NDQ5MSwianRpIjoid1lORzVwa0E0TWtvVDE4OCJ9.7IygdI4vLKO_gzAhZwu1-O82jqwR9VLfyCCpTEH9n5k\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"registered\":\"2018-07-15 12:48\",\"last_activity\":\"2018-07-15 12:48\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzMTIwMzQyLCJleHAiOjE1MjY3MjAzNDIsIm5iZiI6MTUyMzEyMDM0MiwianRpIjoiZGRIN3JkMTRBMWJUUTZzSCJ9.EUGxwZw0GMZZ1eJjtQfHl2-5jyFteRJivAHr49z38YQ\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-04-07 20:59\",\"last_activity\":\"2018-04-07 20:59\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzMTIwMDYyLCJleHAiOjE1MjY3MjAwNjIsIm5iZiI6MTUyMzEyMDA2MiwianRpIjoidEpielUySVBxS3F0ZGg2TCJ9.gaSleGqRGa3XMKiIJxT-ButY6lYKFgHaKIcCMimCSEE\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-04-07 20:54\",\"last_activity\":\"2018-04-07 20:57\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNDAzNDg3LCJleHAiOjE1MjYwMDM0ODcsIm5iZiI6MTUyMjQwMzQ4NywianRpIjoiR1hWR0R4TUFxY1pHaHNvSiJ9.JfJgnE8SWbGGdftgFSH4vUPJ6yzN8ynfISm6iE1rRgk\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-30 09:51\",\"last_activity\":\"2018-04-01 09:58\"}]', '{}', '2018-07-15 12:48:00'),
 (4, 'Accounting User', 'test@yes.com', '$2y$10$Oc/uOJcor9BzEi5LDl10y.h2kPiO33hm2kjw3uTONP6sPwUSTDpx2', 'test', '2552', 'default.jpg', 4, 1, 1, NULL, '2018-03-29 22:43:45', '2018-03-31 21:59:16', '2018-03-31 18:39:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIyNTA3MTQ2LCJleHAiOjE1MjYxMDcxNDYsIm5iZiI6MTUyMjUwNzE0NiwianRpIjoiOVhtb013MjlCWEg4Rm1hbyJ9.-fhK_y7ljTgDOWpYhJKXVZGqTe3FmX6RRmuGfzK1tYY\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-03-31 18:39\",\"last_activity\":\"2018-04-01 09:59\"}]', '{}', '2018-04-01 09:59:00'),
-(5, 'Product User', 'aaa@test.com', '$2y$10$KeFh1WIxgFrJnJ6gtOAyuuXzdvZUSYQoBm5zHBtwFd670sNSumvUu', 'asgasg', ';l;l', '5_1524914111.jpg', 5, 1, 1, NULL, '2018-03-29 22:47:45', '2018-04-29 04:06:58', '2018-04-15 21:20:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzODEyODM1LCJleHAiOjE1Mjc0MTI4MzUsIm5iZiI6MTUyMzgxMjgzNSwianRpIjoiamJMV0QwSmhGdmpuYW1FOSJ9.inrqMJw0XS2Pu4HoTaVa_oQbLGTYQz4SQq7CANIIL0U\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-04-15 21:20\",\"last_activity\":\"2018-04-29 12:06\"}]', '{}', '2018-04-29 12:06:00');
+(5, 'Product User', 'aaa@test.com', '$2y$10$KeFh1WIxgFrJnJ6gtOAyuuXzdvZUSYQoBm5zHBtwFd670sNSumvUu', 'asgasg', ';l;l', '5_1524914111.jpg', 5, 1, 1, NULL, '2018-03-29 22:47:45', '2018-07-15 05:42:36', '2018-07-15 12:49:00', '[{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTMxNjQ0NTQwLCJleHAiOjE1MzUyNDQ1NDAsIm5iZiI6MTUzMTY0NDU0MCwianRpIjoiT2VhT1FuQld6MkVIc2sxQyJ9.2e-15R8jghty4FkQ6buRUIzpb7LLgCeTdReheEDuiI8\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/67.0.3396.99 Safari\\/537.36\",\"registered\":\"2018-07-15 12:49\",\"last_activity\":\"2018-07-15 13:42\"},{\"token\":\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjUsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hdXRoL2xvZ2luIiwiaWF0IjoxNTIzODEyODM1LCJleHAiOjE1Mjc0MTI4MzUsIm5iZiI6MTUyMzgxMjgzNSwianRpIjoiamJMV0QwSmhGdmpuYW1FOSJ9.inrqMJw0XS2Pu4HoTaVa_oQbLGTYQz4SQq7CANIIL0U\",\"type\":\"WEB\",\"device_info\":\"Mozilla\\/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/65.0.3325.181 Safari\\/537.36\",\"registered\":\"2018-04-15 21:20\",\"last_activity\":\"2018-04-29 12:06\"}]', '{}', '2018-07-15 13:42:00');
 
 --
 -- Indexes for dumped tables
@@ -1289,6 +1342,18 @@ ALTER TABLE `purchase_items`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `quotations`
+--
+ALTER TABLE `quotations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `quotation_items`
+--
+ALTER TABLE `quotation_items`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `receives`
 --
 ALTER TABLE `receives`
@@ -1380,7 +1445,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `audits`
 --
 ALTER TABLE `audits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
 
 --
 -- AUTO_INCREMENT for table `branches`
@@ -1458,151 +1523,25 @@ ALTER TABLE `logs`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
--- AUTO_INCREMENT for table `payees`
+-- AUTO_INCREMENT for table `quotations`
 --
-ALTER TABLE `payees`
+ALTER TABLE `quotations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `payers`
+-- AUTO_INCREMENT for table `quotation_items`
 --
-ALTER TABLE `payers`
+ALTER TABLE `quotation_items`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `permissions`
---
-ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- AUTO_INCREMENT for table `price_categories`
---
-ALTER TABLE `price_categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `product_prices`
---
-ALTER TABLE `product_prices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-
---
--- AUTO_INCREMENT for table `product_selling_prices`
---
-ALTER TABLE `product_selling_prices`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
-
---
--- AUTO_INCREMENT for table `product_units`
---
-ALTER TABLE `product_units`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
---
--- AUTO_INCREMENT for table `purchases`
---
-ALTER TABLE `purchases`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `purchase_items`
---
-ALTER TABLE `purchase_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `receives`
---
-ALTER TABLE `receives`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `receive_items`
---
-ALTER TABLE `receive_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `reconciliations`
---
-ALTER TABLE `reconciliations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `reconciliation_items`
---
-ALTER TABLE `reconciliation_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sales`
---
-ALTER TABLE `sales`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `sale_items`
---
-ALTER TABLE `sale_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `settings`
---
-ALTER TABLE `settings`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `sub_categories`
---
-ALTER TABLE `sub_categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `suppliers`
---
-ALTER TABLE `suppliers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `transfers`
---
-ALTER TABLE `transfers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `transfer_items`
---
-ALTER TABLE `transfer_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `units`
---
-ALTER TABLE `units`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
