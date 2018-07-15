@@ -60,16 +60,32 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Input by:</label>
+                                            <select class="form-control" v-model="input_by">
+                                                <option value="name">Product Name</option>
+                                                <option value="barcode">Barcode</option>  
+                                            </select>
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-6" v-if="input_by==='name'">
                                         <div class="form-group">
                                             <label>Select Product</label>
                                             <vue-select v-model="selected_product" :options="product_selection"></vue-select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3" v-if="input_by==='name'">
                                         <div class="form-group">
                                             <label>Unit</label>
-                                            <vue-select v-model="selected_unit" :options="unit_selection"></vue-select>
+                                            <div class="input-group">
+                                                <select class="form-control" v-model="selected_unit">
+                                                    <option v-for="unit in unit_selection" v-bind:value="unit">{{ unit.unit_name }}</option>
+                                                </select>
+                                                <div class="input-group-btn">
+                                                    <button type="button" class="btn btn-success" @click="addItem(selected_product, selected_unit)">Add</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -121,6 +137,7 @@
                 quotations:[],
                 selected_product:null,
                 selected_unit:null,
+                input_by:'name',
                 quotationTable:{
                     columns: [
                         { label: 'Reference #', field: 'reference_no', filterable: true  },
@@ -146,9 +163,8 @@
                     return false;
                 }
 
-
                 let u = this;
-                axios.get('/api/product/getProduct/' + id)
+                axios.get('/api/product/getProduct/' + product.id)
                     .then(function (response) {
                         u.newQuotation.items.push({
                             product:product,
@@ -209,21 +225,17 @@
                 return d;
             },
             unit_selection(){
-                let d = [];
-
                 if(this.selected_product !== null)
-                    this.selected_product.units.forEach((item)=>{
-                        d.push({ label:item.unit_name, value: item.id});
-                    });
+                    return this.selected_product.units;
 
-                return d;
+                return [];
             }
         },
         watch:{
             selected_product(){
                 this.selected_unit = null;
                 if(this.selected_product !== null)
-                    this.selected_unit = { label:this.selected_product.units[0].unit_name, value: this.selected_product.units[0].id}
+                    this.selected_unit = this.selected_product.units[0];
             }
         }
     }
