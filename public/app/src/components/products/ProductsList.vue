@@ -40,7 +40,7 @@
                         </div>
                         <h4 class="modal-title" v-else>{{ productName }}</h4>
                     </div>
-                    <div class="modal-body" v-if="!is_viewing">
+                    <div class="modal-body" v-if="!is_viewing" @mouseover="addModalOpenClass">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs pull-right">
                                 <li class=""><a href="#units" data-toggle="tab" aria-expanded="true">Units & Pricing</a></li>
@@ -320,6 +320,9 @@
             }
         },
         methods:{
+            addModalOpenClass(){
+                $("body").addClass("modal-open");
+            },
             closeModal(){
                 if(confirm("Are you sure you want to discard this dialog's data?")){
                     axios.get('/api/product/deleteTemporaryPictures?token=' + this.token)
@@ -401,6 +404,7 @@
                 }
                 this.is_viewing = true;
                 this.getProduct(product.id);
+                this.addModalOpenClass();
             },
             getProduct(id){
                 let u = this;
@@ -575,7 +579,7 @@
                 return this.$store.state.settings;
             },
             productName(){
-                return (this.newProduct.product_code + ' ' + this.newProduct.brand_name +' '+ this.newProduct.product_description +' '+ this.newProduct.size).toUpperCase();
+                return (this.newProduct.brand_name +' '+ this.newProduct.product_description +' '+ this.newProduct.size + ' ' + this.newProduct.product_code ).toUpperCase();
             },
             last_uploaded(){
                 return this.$store.state.products.last_uploaded_file;
@@ -593,5 +597,8 @@
     }
     div#units{
         font-size:12px;
+    }
+    .modal-open {
+        overflow: scroll;
     }
 </style>
