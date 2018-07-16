@@ -155,7 +155,7 @@
         methods:{
             addItem(product, unit){
                 let c = this.newQuotation.items.find((item)=>{
-                    return item.unit.id === unit.id && item.product.id === product.id;
+                    return item.unit.id === unit.id && item.product.value === product.value;
                 });
 
                 if(c !== undefined){
@@ -164,7 +164,7 @@
                 }
 
                 let u = this;
-                axios.get('/api/product/getProduct/' + product.id)
+                axios.get('/api/product/getProduct/' + product.value)
                     .then(function (response) {
                         u.newQuotation.items.push({
                             product:product,
