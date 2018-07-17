@@ -197,7 +197,7 @@
                                                                     <div class="row">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
-                                                                                <label>Purchase Price</label>
+                                                                                <label>Cost Price</label>
                                                                                 <input type="number" class="form-control" v-model.number="newProduct.product_units[key].pricing[index].purchase_price"/>
                                                                                 <small style="color:red" v-if="key > 0 && unit.unit !== null">
                                                                                     <span v-if="p.purchase_price !== Number((newProduct.product_units[key -1].pricing[0].purchase_price/unit.quantity_per_parent).toFixed(2))">
@@ -215,7 +215,7 @@
                                                                     </div>
                                                                     <div class="row">
                                                                         <div class="col-md-12">
-                                                                            <button class="btn btn-warning btn-xs" @click="autoFillPurchasePrices(key, index)">Auto-fill Purchase Prices</button>
+                                                                            <button class="btn btn-warning btn-xs" @click="autoFillPurchasePrices(key, index)">Auto-fill Cost Prices</button>
                                                                             <button class="btn btn-info btn-xs" @click="applyDefaultMarkups(key, index)">Apply Default Markups</button>
                                                                         </div>
                                                                     </div>
@@ -366,7 +366,7 @@
             },
             removePurchasePrice(key, index){
                 if(this.newProduct.product_units[key].pricing.length === 1){
-                    toastr.error("Cannot delete all purchase price.");
+                    toastr.error("Cannot delete all cost price.");
                     return false;
                 }
                 this.newProduct.product_units[key].pricing.splice(index, 1);

@@ -154,10 +154,12 @@
         },
         methods:{
             addItem(product, unit){
-                let c = this.newQuotation.items.find((item)=>{
-                    return item.unit.id === unit.id && item.product.value === product.value;
+                var c = undefined;
+                this.newQuotation.items.forEach((item)=>{
+                    if(item.unit.id === unit.id && item.product.value === product.value)
+                        c = item;
                 });
-
+                
                 if(c !== undefined){
                     toastr.error("Already in the list.");
                     return false;
