@@ -52,7 +52,7 @@
                                 </span>
                                 <span v-else>Qty</span>
                             </th>   
-                            <th style="width:10%">Purchase Price</th>
+                            <th style="width:10%">Cost Price</th>
                             <th></th>
                         </tr>
                         <tr>

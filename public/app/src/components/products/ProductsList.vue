@@ -194,7 +194,6 @@
                                                                     <button class="btn btn-success btn-xs" @click="addPurchasePrice(key)" v-if="unit.pricing.length === (index+1)">+</button>
                                                                 </td-->
                                                                 <td style="width:340px;">
-                                                                    <div class="row">
                                                                         <div class="col-md-4">
                                                                             <div class="form-group">
                                                                                 <label>Cost Price</label>
