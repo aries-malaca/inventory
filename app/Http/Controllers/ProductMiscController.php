@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\PriceCategory;
 use App\Product;
+use App\ProductPrice;
+use App\ProductSellingPrice;
 use Validator;
 use App\Unit;
 
@@ -86,14 +88,13 @@ class ProductMiscController extends Controller{
             $category->save();
 
             //add inside the product data
-            $products = Product::get()->toArray();
+            $products = ProductPrice::get()->toArray();
             foreach($products as $key=>$value){
-                $data = json_decode($value['product_data'],true);
-                $percentage = $category->default_markup/100;
-                foreach($data['product_units'] as $k=>$unit){
-                    $data['product_units'][$k]['selling_price'][] = array("id"=>$category->id, "value"=> $data['product_units'][$k]['purchase_price'] + ($percentage * $data['product_units'][$k]['purchase_price']) );
-                }
-                Product::where('id', $value['id'])->update(['product_data'=>json_encode($data)]);
+                $price = new ProductSellingPrice;
+                $price->price_category_id = $category->id;
+                $price->product_price_id = $value['id'];
+                $price->selling_price = $value['purchase_price'] + ($value['purchase_price'] * ($category->default_markup/100));
+                $price->save();
             }
             return response()->json(['result'=>'success', 'message'=>'Successfully added price category.']);
         }

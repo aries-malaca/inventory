@@ -9,8 +9,10 @@ use Validator;
 class QuotationController extends Controller{
     function getQuotations(){
         $data = Quotation::get();
-        foreach($data as $key=>$value)
-            $data[$key]['items'] = $value->items();
+        foreach($data as $key=>$value){
+            $data[$key]['items'] = $value->items()->get();
+            $data[$key]['quotation_data'] = json_decode($value['quotation_data']);
+        }
 
         return response()->json($data->toArray());
     }
@@ -24,6 +26,9 @@ class QuotationController extends Controller{
         if ($validator->fails())
             return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
 
+        if (sizeof($request->input('items')) < 1)
+            return response()->json(['result'=>'failed', 'errors'=>"No items has been added."], 400);
+
         $api = $this->authenticateAPI();
         if($api['result'] === 'success') {
             $quotation = new Quotation;
@@ -31,29 +36,30 @@ class QuotationController extends Controller{
             $quotation->client_address = $request->input('client_address');
             $quotation->client_company = $request->input('client_company');
             $quotation->client_phone = $request->input('client_phone');
-            $quotation->client_mobile = $request->input('client_mobile');
             $quotation->client_email = $request->input('client_email');
             $quotation->reference_no = $request->input('reference_no');
             $quotation->notes = $request->input('notes');
-            $quotation->quotation_data = '{}';
+            $quotation->tax_number = $request->input('tax_number');
+            $quotation->quotation_data = json_encode($request->input('quotation_data'));
             $quotation->user_id = $api['user']['id'];
             $quotation->save();
 
             foreach($request->input('items') as $key=>$value){
                 $item = new QuotationItem;
-                $item->product_id = $value['product_id'];
+                $item->product_id = $value['product']['id'];
                 $item->quotation_id = $quotation->id;
+                $item->unit_id = $quotation->id;
                 $item->quantity = $value['quantity'];
-                $item->discount = $value['discount'];
+                $item->discount = 0;
                 $item->base_price = $value['base_price'];
                 $item->selling_price = $value['selling_price'];
-                $item->last_price = $value['last_price'];
-                $item->final_price = $value['final_price'];
+                $item->last_price = 0;
+                $item->final_price = 0;
                 $item->quotation_item_data = '{}';
                 $item->save();
             }
 
-            return response()->json(['result'=>'success', 'message'=>'Successfully added client.']);
+            return response()->json(['result'=>'success', 'message'=>'Successfully added quotation.']);
         }
 
         return response()->json($api, $api["status_code"]);
@@ -68,6 +74,9 @@ class QuotationController extends Controller{
         if ($validator->fails())
             return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
 
+        if (sizeof($request->input('items')) < 1)
+            return response()->json(['result'=>'failed', 'errors'=>"No items has been added."], 400);
+
         $api = $this->authenticateAPI();
         if($api['result'] === 'success') {
             $quotation = Quotation::find($request->input('id'));
@@ -75,11 +84,11 @@ class QuotationController extends Controller{
             $quotation->client_address = $request->input('client_address');
             $quotation->client_company = $request->input('client_company');
             $quotation->client_phone = $request->input('client_phone');
-            $quotation->client_mobile = $request->input('client_mobile');
             $quotation->client_email = $request->input('client_email');
             $quotation->reference_no = $request->input('reference_no');
             $quotation->notes = $request->input('notes');
-            $quotation->quotation_data = '{}';
+            $quotation->tax_number = $request->input('tax_number');
+            $quotation->quotation_data = json_encode($request->input('quotation_data'));
             $quotation->user_id = $api['user']['id'];
             $quotation->save();
 
@@ -88,18 +97,19 @@ class QuotationController extends Controller{
 
             foreach($request->input('items') as $key=>$value){
                 $item = new QuotationItem;
-                $item->product_id = $value['product_id'];
+                $item->product_id = $value['product']['id'];
                 $item->quotation_id = $quotation->id;
+                $item->unit_id = $quotation->id;
                 $item->quantity = $value['quantity'];
-                $item->discount = $value['discount'];
+                $item->discount = 0;
                 $item->base_price = $value['base_price'];
                 $item->selling_price = $value['selling_price'];
-                $item->last_price = $value['last_price'];
-                $item->final_price = $value['final_price'];
+                $item->last_price = 0;
+                $item->final_price = 0;
                 $item->quotation_item_data = '{}';
                 $item->save();
             }
-            return response()->json(['result'=>'success', 'message'=>'Successfully added client.']);
+            return response()->json(['result'=>'success', 'message'=>'Successfully updated quotation.']);
         }
 
         return response()->json($api, $api["status_code"]);

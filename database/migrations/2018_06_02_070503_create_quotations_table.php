@@ -22,6 +22,7 @@ class CreateQuotationsTable extends Migration
             $table->string('client_email')->nullable();
             $table->string('reference_no')->nullable();
             $table->string('notes')->nullable();
+            $table->string('tax_number')->nullable();
             $table->text('quotation_data');
             $table->integer('user_id');
             $table->timestamps();
