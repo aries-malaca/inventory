@@ -11,5 +11,6 @@
 */
 Route::get('/', 'HomeController@index');
 Route::post('/auth/login', 'UserController@login');
+Route::get('/quotations/printQuotation/{id}', 'QuotationController@printQuotation');
 Auth::routes();
 ?>

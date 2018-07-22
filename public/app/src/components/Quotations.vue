@@ -10,7 +10,7 @@
             <div class="box-body">
                 <data-table
                         :columns="quotationTable.columns"
-                        :rows="quotations"
+                        :rows="mappedQuotations"
                         :paginate="true"
                         :onClick="quotationTable.rowClicked"
                         styleClass="table table-bordered table-hover table-striped">
@@ -104,15 +104,46 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-9">
+                                        <table class="table table-bordered table-condensed table-hover table-stripped">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Product Name</th>
+                                                    <th>Unit</th>
+                                                    <th style="width:80px">QTY</th>
+                                                    <th style="width:90px">Price</th>
+                                                    <th style="width:100px">Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="item,x in newQuotation.items">
+                                                    <td>
+                                                        <button class="btn btn-danger btn-xs" @click="removeItem(x)">X</button>
+                                                    </td>
+                                                    <td>{{ item.product.product_name }}</td>
+                                                    <td>{{ item.unit.unit_name }}</td>
+                                                    <td>
+                                                        <input type="number" style="text-align:right" v-model.number="newQuotation.items[x].quantity" class="form-control"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" style="text-align:right" v-model.number="newQuotation.items[x].selling_price" class="form-control"/>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" disabled class="form-control" style="text-align:right"
+                                                            v-bind:value="(newQuotation.items[x].quantity * newQuotation.items[x].selling_price).toFixed(2)" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-3" v-if="newQuotation.quotation_data !== undefined">
                                         <div class="form-group">
                                             <label>Price Category</label>
                                             <select class="form-control" v-model="price_category">
                                                 <option v-for="price in prices" :value="price.id">{{ price.price_category_name }}</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>VAT Status</label>
                                             <select class="form-control" v-model="with_vat">
@@ -120,42 +151,37 @@
                                                 <option :value="false">W/O VAT</option>
                                             </select>
                                         </div>
-                                    </div>
-                                </div>
-                                <table class="table table-bordered table-condensed table-hover table-stripped">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Product</th>
-                                            <th>Unit</th>
-                                            <th style="width:80px">QTY</th>
-                                            <th style="width:100px">Price</th>
-                                            <th style="width:120px">Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="item,x in newQuotation.items">
-                                            <td>
-                                                <button class="btn btn-danger btn-xs" @click="removeItem(x)">X</button>
-                                            </td>
-                                            <td>{{ item.product.product_name }}</td>
-                                            <td>{{ item.unit.unit_name }}</td>
-                                            <td>
-                                                <input type="number" v-model="newQuotation.items[x].quantity" class="form-control"/>
-                                            </td>
-                                            <td>
-                                                <input type="number" v-model="newQuotation.items[x].selling_price" class="form-control"/>
-                                            </td>
-                                            <td>
-                                                <input type="number" disabled class="form-control"
-                                                    v-bind:value="(newQuotation.items[x].quantity * newQuotation.items[x].selling_price).toFixed(2)" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <h2 class="pull-right"> <strong style="color:red">Total: {{ total.toFixed(2) }} </strong> </h2>
+                                        <div class="form-group">
+                                            <label>With Image</label>
+                                            <select class="form-control" v-model="newQuotation.quotation_data.with_image">
+                                                <option :value="true">Yes</option>
+                                                <option :value="false">No</option>
+                                            </select>
+                                        </div>
+                                        <table class="table" style="font-size:16px;">
+                                            <tbody>
+                                                <tr>
+                                                    <td><strong>Total: </strong></td>
+                                                    <td style="text-align:right;width:100px"><strong>{{ total.toFixed(2) }} </strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Discount:</strong></td>
+                                                    <td><input type="number" style="text-align:right" v-model.number="newQuotation.quotation_data.discount" class="form-control" /> </td>
+                                                </tr>
+                                                <tr v-if="newQuotation.quotation_data.discount !== 0">
+                                                    <td><strong>Discounted Total:</strong></td>
+                                                    <td style="text-align:right"> <strong>{{ (discounted_total).toFixed(2) }}</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>V.A Tax:</strong></td>
+                                                    <td style="text-align:right"><strong>{{ newQuotation.quotation_data.vat.toFixed(2) }}</strong></td>
+                                                </tr>
+                                                <tr style="color:red">
+                                                    <td><strong>NET:  </strong></td>
+                                                    <td style="text-align:right"><strong>{{ net.toFixed(2) }} </strong></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +189,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn pull-left" data-dismiss="modal">Close</button>
-                        <button class="btn btn-info">Print</button>
+                        <a class="btn btn-info" target="_blank" :href="'../../quotations/printQuotation/' + newQuotation.id" v-if="saved">Print</a>
                         <button class="btn btn-success" v-if="newQuotation.id===0" @click="addQuotation">Save</button>
                         <button class="btn btn-success" v-else @click="updateQuotation">Save</button>
                     </div>
@@ -182,6 +208,7 @@
         components:{ DataTable, VueSelect },
         data(){
             return{
+                saved:true,
                 barcode:'',
                 barcode_result:undefined,
                 title:'Quotations',
@@ -198,7 +225,7 @@
                         { label: 'Client Name', field: 'client_name', filterable: true },
                         { label: 'Company', field: 'client_company', filterable: true },
                         { label: 'Date', field: 'quotation_date', filterable: true },
-                        { label: 'Total', field: 'total', filterable: true },
+                        { label: 'NET', field: 'total_formatted', filterable: true },
                         { label: 'Notes', field: 'notes', filterable: true },
                         { label: 'Quoted By', field: 'quoted_by_name', filterable: true },
                     ],
@@ -214,10 +241,8 @@
                 this.makeRequest(event, this.newQuotation, '/api/quotations/updateQuotation?token=' + this.token, "#add-quotation-modal");
             },
             makeRequest(event, data, url, modal){
-                this.newQuotation.quotation_data = {
-                    price_category:this.price_category,
-                    with_vat:this.with_vat
-                };
+                this.newQuotation.quotation_data.price_category = this.price_category;
+                this.newQuotation.quotation_data.with_vat = this.with_vat;
 
                 let u = this;
                 let $btn = $(event.target);
@@ -225,9 +250,9 @@
                 axios.post(url, data)
                     .then(function (response) {
                         toastr.success(response.data.message);
-                        $(modal).modal("hide");
                         u.getQuotations();
                         $btn.button('reset');
+                        u.saved = true;
                     })
                     .catch(function (error) {
                         $btn.button('reset');
@@ -297,12 +322,8 @@
                 product.product_units.forEach((unit)=>{
                     if(unit_id === unit.unit_id){
                         unit.pricing[0].selling.forEach((s)=>{
-                            if(s.price_category_id === u.price_category){
-                                if(u.with_vat)
-                                    price = s.selling_price + (s.selling_price * (u.settings.default_vat_percentage/100))
-                                else
-                                    price = s.selling_price;
-                            }    
+                            if(s.price_category_id === u.price_category)
+                                price = s.selling_price;
                         });
                     }
                 });
@@ -334,8 +355,13 @@
                     client_email:'',
                     notes:'',
                     items:[],
-                    quotation_data:{}
+                    quotation_data:{
+                        vat:0,
+                        discount:0,
+                        with_image:false
+                    }
                 };
+                this.saved = false;
                 $("#add-quotation-modal").modal("show");
             },
             viewQuotation(quotation){
@@ -353,7 +379,10 @@
                     items:[],
                     quotation_data:{
                         price_category:quotation.quotation_data.price_category,
-                        with_vat:quotation.quotation_data.with_vat
+                        with_vat:quotation.quotation_data.with_vat,
+                        vat:quotation.quotation_data.vat,
+                        discount:quotation.quotation_data.discount,
+                        with_image:quotation.quotation_data.with_image
                     }
                 };
                 this.price_category = quotation.quotation_data.price_category;
@@ -371,7 +400,9 @@
                         quantity:item.quantity,
                     });
                 });
-
+                setTimeout(()=>{ 
+                    this.saved = true;
+                },1000);
                 $("#add-quotation-modal").modal("show");
             }
         },
@@ -381,6 +412,24 @@
             this.$store.dispatch('products/fetchUnits');
         },
         computed:{
+            mappedQuotations(){
+                return this.quotations.map((quotation)=>{
+                    quotation.quotation_date = moment(quotation.created_at).format("MM/DD/YYYY");
+                    quotation.total = function(){
+                        var total = 0;
+                        quotation.items.forEach((item)=>{
+                            total += (item.quantity * item.selling_price);
+                        });
+
+                        total -= quotation.quotation_data.discount;
+                        total += quotation.quotation_data.vat;
+
+                        return total;
+                    }();
+                    quotation.total_formatted = quotation.total.toFixed(2);
+                    return quotation;
+                });
+            },
             settings(){
                 return this.$store.state.settings;
             },
@@ -419,11 +468,31 @@
 
                 return total;
             },
+            discounted_total(){
+                var total = this.total;
+                if(this.newQuotation.quotation_data !== undefined)
+                    total -= this.newQuotation.quotation_data.discount;
+
+                return total;
+            },
+            net(){
+                var total = this.discounted_total;     
+                if(this.newQuotation.quotation_data !== undefined)
+                    total += this.newQuotation.quotation_data.vat;
+
+                return total;
+            },
             units(){
                 return this.$store.state.products.units;
             },
         },
         watch:{
+            newQuotation:{
+                handler: function(newValue) {
+                    this.saved = false;
+                },
+                deep: true
+            },
             selected_product(){
                 this.selected_unit = null;
                 if(this.selected_product !== null)
@@ -431,6 +500,22 @@
             },
             barcode(){
                 this.barcode_result = undefined;
+            },
+            with_vat(){
+                if(this.newQuotation.quotation_data !== undefined){
+                    if(this.with_vat)
+                        this.newQuotation.quotation_data.vat = (this.discounted_total * (this.settings.default_vat_percentage/100));
+                    else
+                        this.newQuotation.quotation_data.vat = 0;
+                }
+            },
+            discounted_total(){
+                if(this.newQuotation.quotation_data !== undefined){
+                    if(this.with_vat)
+                        this.newQuotation.quotation_data.vat = (this.discounted_total * (this.settings.default_vat_percentage/100));
+                    else
+                        this.newQuotation.quotation_data.vat = 0;
+                }
             }
         }
     }
@@ -441,6 +526,6 @@
     }
     .form-control{
         height: 28px !important;
-        padding: 2px 10px;
+        padding: 2px 6px;
     }
 </style>
