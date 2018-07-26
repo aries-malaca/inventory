@@ -45,13 +45,22 @@ class ProductController extends Controller{
         $api = $this->authenticateAPI();
         if($api['result'] === 'success') {
             $validator = Validator::make($request->all(), [
-                'product_code' => 'required|unique:products,product_code|max:255',
                 'category.value' => 'required',
             ]);
 
             if ($validator->fails())
                 return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
             
+
+            if($request->input('product_code') !== null){
+                $validator = Validator::make($request->all(), [
+                    'product_code' => 'unique:products,product_code|max:255',
+                ]);
+
+                if ($validator->fails())
+                    return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
+            }
+
             if($errors = $this->evaluateUnits($request->input('product_units')))
                 return response()->json(['result'=>'failed', 'errors'=>$errors], 400);
             
@@ -121,9 +130,18 @@ class ProductController extends Controller{
         $api = $this->authenticateAPI();
         if($api['result'] === 'success') {
             $validator = Validator::make($request->all(), [
-                'product_code' => 'required|unique:products,product_code,'.$request->input('id').'|max:255',
                 'category.value' => 'required',
             ]);
+
+
+            if($request->input('product_code') !== null){
+                $validator = Validator::make($request->all(), [
+                    'product_code' => 'required|unique:products,product_code,'.$request->input('id').'|max:255',
+                ]);
+
+                if ($validator->fails())
+                    return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);
+            }
 
             if ($validator->fails())
                 return response()->json(['result'=>'failed', 'errors'=>$validator->errors()->all()], 400);

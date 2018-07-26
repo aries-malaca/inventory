@@ -111,7 +111,7 @@
             @else
                 <th colspan="4" style="border:0px;"></th>
             @endif
-            <th>V.A. Tax:</th>
+            <th>V.A.T. ({{ ($data->quotation_data->vat/($total - $data->quotation_data->discount))*100 }}%):</th>
             <th style="text-align:right"> {{ number_format($data->quotation_data->vat,2) }} </th>
         </tr>
         <tr>
