@@ -59,15 +59,15 @@
         <tr>
             <th style="width:5%">Serial</th>
             @if($data->quotation_data->with_image !== true)
-                <th style="width:55%">Description</th>
+                <th style="width:49%">Description</th>
             @else
                 <th style="width:10%">Image</th>
-                <th style="width:45%">Description</th>
+                <th style="width:39%">Description</th>
             @endif
             <th style="width:8%">Qty.</th>
-            <th style="width:10%">Unit</th>
-            <th style="width:10%">Unit Price</th>
-            <th style="width:12%">Amount</th>
+            <th style="width:12%">Unit</th>
+            <th style="width:12%">Unit Price</th>
+            <th style="width:14%">Amount</th>
         </tr>
         @foreach($data->items as $key=>$item)
         <tr>

@@ -52,7 +52,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Product Code</label>
-                                                <input type="text" placeholder="(Required,Unique)" class="form-control" v-model="newProduct.product_code"/>
+                                                <input type="text" placeholder="(Optional,Unique)" class="form-control" v-model="newProduct.product_code"/>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -579,7 +579,7 @@
                 return this.$store.state.settings;
             },
             productName(){
-                return (this.newProduct.brand_name +' '+ this.newProduct.product_description +' '+ this.newProduct.size + ' ' + this.newProduct.product_code ).toUpperCase();
+                return ( (this.newProduct.brand_name!==null?this.newProduct.brand_name:'') +' '+ (this.newProduct.product_description!==null?this.newProduct.product_description:'') +' '+ (this.newProduct.size!==null?this.newProduct.size:'') + ' ' + (this.newProduct.product_code!==null?this.newProduct.product_code:'') ).toUpperCase();
             },
             last_uploaded(){
                 return this.$store.state.products.last_uploaded_file;
