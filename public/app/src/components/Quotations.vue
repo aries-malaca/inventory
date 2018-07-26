@@ -173,7 +173,7 @@
                                                     <td style="text-align:right"> <strong>{{ (discounted_total).toFixed(2) }}</strong></td>
                                                 </tr>
                                                 <tr v-if="settings!==undefined">
-                                                    <td><strong>V.A.T. ({{ settings.default_vat_percentage }} %):</strong></td>
+                                                    <td><strong>V.A. Tax ({{ settings.default_vat_percentage }} %):</strong></td>
                                                     <td style="text-align:right"><strong>{{ newQuotation.quotation_data.vat.toFixed(2) }}</strong></td>
                                                 </tr>
                                                 <tr style="color:red">

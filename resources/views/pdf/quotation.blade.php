@@ -22,6 +22,7 @@
             <td style="width:70%;border:0px">
                 <p>
                     <b>VIP Xeroxing & Stationery</b> <br/>
+                    Tax No.: 123456789</b> <br/>
                     Tel.: 03-7669934		 <br/>	
                     Fax: 03-7669935			 <br/>
                     Al Ain – Al Takhtit St.		 <br/>
@@ -111,7 +112,7 @@
             @else
                 <th colspan="4" style="border:0px;"></th>
             @endif
-            <th>V.A.T. ({{ ($data->quotation_data->vat/($total - $data->quotation_data->discount))*100 }}%):</th>
+            <th>V.A. Tax ({{ ($data->quotation_data->vat/($total - $data->quotation_data->discount))*100 }}%):</th>
             <th style="text-align:right"> {{ number_format($data->quotation_data->vat,2) }} </th>
         </tr>
         <tr>
