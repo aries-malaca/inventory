@@ -75,9 +75,14 @@
             @if($data->quotation_data->with_image === true)
                 <td> <img src="{{ $item->image  }}" alt="" style="height:50px;"/></td>
             @endif
-            <td>{{ $item->product->product_name }}</td>
+            <td>
+                {{ $item->product->product_name }}<br/>
+                @if(isset($item->unit['info']) AND $item->unit['info'] != "")
+                    ({{ $item->unit['info'] }})
+                @endif
+            </td>
             <td style="text-align:center">{{ $item->quantity }}</td>
-            <td style="text-align:center">{{ $item->unit->unit_name }}</td>
+            <td style="text-align:center">{{ $item->unit['unit_name'] }}</td>
             <td style="text-align:right">{{ number_format($item->selling_price, 2) }}</td>
             <td style="text-align:right">{{ number_format( ($item->selling_price * $item->quantity ), 2) }}</td>
         </tr>

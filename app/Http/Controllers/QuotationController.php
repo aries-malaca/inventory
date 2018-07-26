@@ -6,6 +6,7 @@ use App\Quotation;
 use App\QuotationItem;
 use App\Product;
 use App\Unit;
+use App\ProductUnit;
 use Validator;
 use App\User;
 use PDF;
@@ -134,7 +135,9 @@ class QuotationController extends Controller{
 
         foreach($quotation->items as $key=>$item){
             $quotation->items[$key]->product = Product::find($item['product_id']);
-            $quotation->items[$key]->unit = Unit::find($item['unit_id']);
+            $quotation->items[$key]->unit = ProductUnit::leftJoin('units', 'product_units.unit_id', '=', 'units.id')
+                                                        ->where('unit_id', $item['unit_id'])
+                                                        ->where('product_id', $item['product_id'])->get()->first();
             $total += $item['quantity'] * $item['selling_price'];
             $quotation->items[$key]->image = json_decode($quotation->items[$key]->product->pictures_data);
 
